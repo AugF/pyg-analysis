@@ -264,3 +264,4 @@ if __name__ == '__main__':
             df[alg] = get_epoch_time(cur, outlier_file)
         pd.DataFrame(df).to_csv('epochs/' + data + '.csv')
 
+
