@@ -29,11 +29,14 @@ def pic_stages(label, columns, algorithms):
         file_name = file[:-4]
         df = pd.read_csv(label + "/" + file, index_col=0)
         labels = df.columns
+        print(file)
+        print("values", df.values)
         data = 100 * df.values / df.values.sum(axis=0)
+        print("data", data)
         fig, ax = survey(labels, data.T, columns)
         ax.set_title(algorithms[file_name], loc="right")
         ax.set_xlabel("%")
-        fig.savefig(label + "/" + file_name + ".png")
+        fig.savefig(file_name + ".png")
         plt.show()
         del ax
 
@@ -55,4 +58,4 @@ if __name__ == '__main__':
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
     # for label in dicts.keys():
     #     pic_stages(label, dicts[label], algorithms)
-    pic_epochs(datasets, algorithms)
+    pic_stages('layers', dicts['layers'], algorithms)
