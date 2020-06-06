@@ -22,6 +22,34 @@ def pic_epochs(datasets, algorithms):
         del ax
 
 
+def pic_averge_time():
+    from utils import datasets
+    dir_name = "epochs/"
+    all_data = {}
+    for data in datasets:
+        file_path = dir_name + data + '.csv'
+        out = pd.read_csv(file_path, index_col=0)
+        all_data[data] = out.mean(axis=0).values
+        print(data, all_data[data])
+
+    all_data = {d: all_data[d].tolist() for d in all_data.keys()}
+    all_data['coauthor-physics'].append(0.0)
+    df = pd.DataFrame(all_data)
+    algs = ['GCN', 'GGNN', 'GAT', 'GaAN']
+    df.index = algs
+    df_t = pd.DataFrame(df.values.T)
+    df_t.columns = df.index
+    df_t.index = df.columns
+    ax = plt.gca()
+    ax.set_xlabel('datasets')
+    ax.set_ylabel('ms')
+    ax.set_title('average epochs time contrast')
+    df_t.plot(kind='bar', rot=45, ax=ax)
+    plt.show()
+    df_t.to_csv("epochs/average_data.csv")
+    ax.get_figure().savefig("epochs/average_data.png")
+
+
 # 1. stages, layers, operators, edge-cal
 def pic_stages(label, columns, algorithms):
     for file in os.listdir(label):
@@ -29,10 +57,10 @@ def pic_stages(label, columns, algorithms):
         file_name = file[:-4]
         df = pd.read_csv(label + "/" + file, index_col=0)
         labels = df.columns
-        print(file)
-        print("values", df.values)
         data = 100 * df.values / df.values.sum(axis=0)
-        print("data", data)
+        print(labels)
+        print(data.T)
+        print(columns)
         fig, ax = survey(labels, data.T, columns)
         ax.set_title(algorithms[file_name], loc="right")
         ax.set_xlabel("%")

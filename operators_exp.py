@@ -56,8 +56,8 @@ def get_operators_time(cur, outliers):
 
 dir_name = r"C:\\Users\\hikk\\Desktop\\config_exp\\dir_sqlite"
 
-algs = ['gcn', 'ggnn', 'gat', 'gaan']
-datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
+algs = ['gaan']
+datasets = ['com-amazon']
 
 # if len(sys.argv) < 2 or sys.argv[1] not in algs:
 #     print("python operators_exp.py [alg]")
@@ -70,7 +70,7 @@ for alg in algs:
         file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
         if not os.path.exists(file_path):
             print("sqlite file not exisit!")
-            sys.exit(0)
+            continue
 
         cur = sqlite3.connect(file_path).cursor()
         print(data, alg)

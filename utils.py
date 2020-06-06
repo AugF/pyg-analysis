@@ -11,6 +11,16 @@ all_labels = {
     }
 
 
+datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
+algs = ['gcn', 'ggnn', 'gat', 'gaan']
+
+algorithms = {
+    'gcn': 'GCN',
+    'ggnn': 'GGNN',
+    'gat': 'GAT',
+    'gaan': 'GaAN'
+}
+
 def get_int(str):
     p = 0
     for i, c in enumerate(str[::-1]):
@@ -41,6 +51,10 @@ def get_real_time(x, cur): # 对应到cuda的获取真实时间
 
 
 def survey(labels, data, category_names): # stages, layers, steps，算子可以通用
+    for i, c in enumerate(category_names):
+        if c[0] == '_':
+            category_names[i] = c[1:]
+
     data_cum = data.cumsum(axis=1)
     category_colors = plt.get_cmap('RdYlGn')(
         np.linspace(0.15, 0.85, data.shape[1]))
@@ -60,7 +74,7 @@ def survey(labels, data, category_names): # stages, layers, steps，算子可以
         r, g, b, _ = color
         text_color = 'white' if r * g * b < 0.5 else 'darkgrey'
         for y, (x, c) in enumerate(zip(xcenters, widths)):
-            ax.text(x, y, str(int(c)), ha='center', va='center',
+            ax.text(x, y, '%.1f' % c, ha='center', va='center',
                     color=text_color)
     ax.legend(ncol=len(category_names), bbox_to_anchor=(0, 1),
               loc='lower left', fontsize='small')
