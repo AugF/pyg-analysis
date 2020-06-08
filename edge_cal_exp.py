@@ -4,8 +4,11 @@ import sys
 import sqlite3
 import numpy as np
 import pandas as pd
-from utils import get_real_time, get_int
+from utils import get_real_time, get_int, dir_name, dir_out, algs, datasets
 
+base_path = os.path.join(dir_out, "edge-cal")
+if not os.path.exists(base_path):
+    os.makedirs(base_path)
 
 def get_edge_time(cur, outliers, alg='gcn'):
     """
@@ -59,27 +62,24 @@ def get_edge_time(cur, outliers, alg='gcn'):
     return edge_times
 
 
-dir_name = r"C:\\Users\\hikk\\Desktop\\config_exp\\dir_sqlite"
+if len(sys.argv) < 2 or sys.argv[1] not in algs:
+    print("python edge-cal_exp.py gcn")
+    sys.exit(0)
 
-# if len(sys.argv) < 2 or sys.argv[1] not in ['gcn', 'ggnn', 'gat', 'gaan']:
-#     print("lack algorithm")
-#     sys.exit(0)
-#
-# alg = sys.argv[1]
+alg = sys.argv[1]
 
-for alg in ['gcn', 'ggnn', 'gat', 'gaan']:
-    df = {}
-    for data in ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']:
-        outlier_file = 'outliers/' + alg + '_' + data + '.txt'
-        file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
-        if not os.path.exists(file_path):
-            continue
-        cur = sqlite3.connect(file_path).cursor()
-        print(data, alg)
-        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
-        res = get_edge_time(cur, outliers, alg)
-        df[data] = res
-    pd.DataFrame(df).to_csv('edge-cal/' + alg + '.csv')
+df = {}
+for data in ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']:
+    outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
+    file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
+    if not os.path.exists(file_path):
+        continue
+    cur = sqlite3.connect(file_path).cursor()
+    print(data, alg)
+    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+    outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+    res = get_edge_time(cur, outliers, alg)
+    df[data] = res
+pd.DataFrame(df).to_csv(base_path + '/' + alg + '.csv')
 
 

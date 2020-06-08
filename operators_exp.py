@@ -4,8 +4,11 @@ import sys
 import sqlite3
 import numpy as np
 import json
-from utils import get_real_time
+from utils import get_real_time, dir_name, dir_out, algs, datasets
 
+base_path = os.path.join(dir_out, "operators")
+if not os.path.exists(base_path):
+    os.makedirs(base_path)
 
 def get_operators_time(cur, outliers):
     """
@@ -54,31 +57,25 @@ def get_operators_time(cur, outliers):
     return operators
 
 
-dir_name = r"C:\\Users\\hikk\\Desktop\\config_exp\\dir_sqlite"
+if len(sys.argv) < 2 or sys.argv[1] not in algs:
+    print("python operators_exp.py [alg]")
+    sys.exit(0)
 
-algs = ['gaan']
-datasets = ['com-amazon']
+alg = sys.argv[1]
+for data in datasets:
+    outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
+    file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
+    if not os.path.exists(file_path):
+        print("sqlite file not exisit!")
+        continue
 
-# if len(sys.argv) < 2 or sys.argv[1] not in algs:
-#     print("python operators_exp.py [alg]")
-#     sys.exit(0)
-#
-# alg = sys.argv[1]
-for alg in algs:
-    for data in datasets:
-        outlier_file = 'outliers/' + alg + '_' + data + '.txt'
-        file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
-        if not os.path.exists(file_path):
-            print("sqlite file not exisit!")
-            continue
+    cur = sqlite3.connect(file_path).cursor()
+    print(data, alg)
+    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+    outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+    res = get_operators_time(cur, outliers)
 
-        cur = sqlite3.connect(file_path).cursor()
-        print(data, alg)
-        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
-        res = get_operators_time(cur, outliers)
-
-        with open("operators/" + alg + '/' + data + ".json", "w") as f:
-            json.dump(res, f)
+    with open(base_path + "/" + alg + '/' + data + ".json", "w") as f:
+        json.dump(res, f)
 
 

@@ -3,7 +3,7 @@ import json
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from utils import survey, algs, datasets, algorithms
+from utils import survey, algs, dir_out, datasets, algorithms
 plt.style.use("ggplot")
 
 
@@ -14,24 +14,23 @@ def pic_epochs(datasets, algorithms):
         ax = plt.gca()
         ax.set_ylabel("ms")
         ax.set_xlabel("algorithm")
-        df = pd.read_csv("epochs/" + data + '.csv', index_col=0)
+        df = pd.read_csv(dir_out + "/epochs/" + data + '.csv', index_col=0)
         columns = [algorithms[i] for i in df.columns]
         df.columns = columns
         df.plot(kind='box', title=data, ax=ax)
-        plt.show()
+        # plt.show()
         fig = ax.get_figure()
-        fig.savefig("epochs/" + data + ".png")
+        fig.savefig(dir_out + "/epochs/" + data + ".png")
         del ax
 
 
 def pic_averge_time():
-    dir_name = "epochs/"
+    dir_name = dir_out + "/epochs/"
     all_data = {}
     for data in datasets:
         file_path = dir_name + data + '.csv'
         out = pd.read_csv(file_path, index_col=0)
         all_data[data] = out.mean(axis=0).values
-        print(data, all_data[data])
 
     all_data = {d: all_data[d].tolist() for d in all_data.keys()}
     all_data['coauthor-physics'].append(0.0)
@@ -46,9 +45,9 @@ def pic_averge_time():
     ax.set_ylabel('ms')
     ax.set_title('average epochs time contrast')
     df_t.plot(kind='bar', rot=45, ax=ax)
-    plt.show()
-    df_t.to_csv("epochs/average_data.csv")
-    ax.get_figure().savefig("epochs/average_data.png")
+    # plt.show()
+    df_t.to_csv(dir_out + "/epochs/average_data.csv")
+    ax.get_figure().savefig(dir_out + "/epochs/average_data.png")
 
 
 # 1. stages, layers, operators, edge-cal
@@ -62,8 +61,8 @@ def pic_stages(label, columns, algorithms):
         fig, ax = survey(labels, data.T, columns)
         ax.set_title(algorithms[file_name], loc="right")
         ax.set_xlabel("%")
-        fig.savefig(label + "/" + file_name + ".png")
-        plt.show()
+        fig.savefig(dir_out + "/" + label + "/" + file_name + ".png")
+        # plt.show()
         del ax
 
 
@@ -101,14 +100,14 @@ def pic_operators():
             df[k].append(100 - sum(df[k]))
 
         df = pd.DataFrame(df)
-        df.to_csv("operators/" + alg + ".csv")
+        df.to_csv(dir_out + "/operators/" + alg + ".csv")
         columns.append('others')
 
         fig, ax = survey(df.columns, df.values.T, columns)
         ax.set_title(algorithms[alg], loc="right")
         ax.set_xlabel("%")
-        fig.savefig("operators/" + alg + ".png")
-        plt.show()
+        fig.savefig(dir_out + "/operators/" + alg + ".png")
+        # plt.show()
         del ax
 
 
@@ -132,11 +131,14 @@ def run_stages():
     pic_stages('layers', dicts['layers'], algorithms)
 
 
-def pic_memory():
+def pic_memory(dir_name):
+    base_path = os.path.join(dir_out, "memory")
+    if not os.path.exists(base_path):
+        os.makedirs(base_path)
+
     time_labels = ['Data\nLoad', 'Warm\nUp', 'Forward\nLayer0', 'Forward\nLayer1', 'Forward\nEnd', 'Backward\nEnd',
                    'Eval\nLayer0', 'Eval\nLayer1', 'Eval\nEnd']
 
-    dir_name = "C:\\Users\\hikk\\Desktop\\config_exp\\dir_json\\"
     for data in datasets:
         allocated_current = {}
         for alg in algs:
@@ -172,5 +174,6 @@ def pic_memory():
             allocated_current[c].plot(ax=ax, color=colors[i], marker=markers[i], linestyle=lines[i], label=c, rot=45)
         ax.legend()
         plt.show()
-        ax.get_figure().savefig("memory/" + data + ".png")
+        ax.get_figure().savefig(base_path + "/" + data + ".png")
+
 

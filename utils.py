@@ -21,6 +21,9 @@ algorithms = {
     'gaan': 'GaAN'
 }
 
+dir_name = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/config_exp/dir_sqlite"
+dir_out = r"config_exp"
+
 def get_int(str):
     p = 0
     for i, c in enumerate(str[::-1]):

@@ -4,8 +4,11 @@ import sys
 import math
 import sqlite3
 import pandas as pd
-from utils import get_real_time
+from utils import get_real_time, dir_name, dir_out, algs, datasets
 
+base_path = os.path.join(dir_out, "epochs")
+if not os.path.exists(base_path):
+    os.makedirs(base_path)
 
 # 1. epochs, outliers保存为outlier文件
 def get_epoch_time(cur, outlier_file):
@@ -45,21 +48,23 @@ def get_epoch_time(cur, outlier_file):
 
     return epoch_times
 
+if len(sys.argv) < 2 or sys.argv[1] not in datasets:
+    print("python epochs_exp.py flickr")
+    sys.exit(0)
 
-dir_name = r"C:\\Users\\hikk\\Desktop\\config_exp\\dir_sqlite"
+data = sys.argv[1]
 
-for data in ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']:
-    df = {}
-    for alg in ['gcn', 'ggnn', 'gat', 'gaan']:
-        outlier_file = 'outliers/' + alg + '_' + data + '.txt'
-        file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
-        if not os.path.exists(file_path):
-            continue
-        cur = sqlite3.connect(file_path).cursor()
-        print(data, alg)
-        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        res = get_epoch_time(cur, outlier_file)
-        df[alg] = res
-    pd.DataFrame(df).to_csv('epochs/' + data + '.csv')
+df = {}
+for alg in algs:
+    outlier_file = base_path + '/' + alg + '_' + data + '_outliers.txt'
+    file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
+    if not os.path.exists(file_path):
+        continue
+    cur = sqlite3.connect(file_path).cursor()
+    print(data, alg)
+    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+    res = get_epoch_time(cur, outlier_file)
+    df[alg] = res
+pd.DataFrame(df).to_csv(base_path + '/' + data + '.csv')
 
 

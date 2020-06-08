@@ -4,8 +4,11 @@ import sys
 import sqlite3
 import numpy as np
 import pandas as pd
-from utils import get_real_time, get_int
+from utils import get_real_time, get_int, dir_name, dir_out, algs, datasets
 
+base_path = os.path.join(dir_out, "layers")
+if not os.path.exists(base_path):
+    os.makedirs(base_path)
 
 def get_layers_time(cur, outliers):
     labels = ['layer0', 'layer1', 'loss', 'other']
@@ -118,19 +121,15 @@ def get_layers_time(cur, outliers):
     return layers_time
 
 
-dir_name = r"C:\\Users\\hikk\\Desktop\\config_exp\\dir_sqlite"
+if len(sys.argv) < 2 or sys.argv[1] not in algs:
+    print("python layers_exp.py gcn")
+    sys.exit(0)
 
-# if len(sys.argv) < 2 or sys.argv[1] not in ['gcn', 'ggnn', 'gat', 'gaan']:
-#     print("lack algorithm")
-#     sys.exit(0)
-#
-# alg = sys.argv[1]
-
-alg = 'gcn'
+alg = sys.argv[1]
 
 df = {}
-for data in ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']:
-    outlier_file = 'outliers/' + alg + '_' + data + '.txt'
+for data in datasets:
+    outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
     file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
     if not os.path.exists(file_path):
         continue
@@ -140,6 +139,6 @@ for data in ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', '
     outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
     res = get_layers_time(cur, outliers)
     df[data] = res
-pd.DataFrame(df).to_csv('layers/' + alg + '.csv')
+pd.DataFrame(df).to_csv(base_path + '/' + alg + '.csv')
 
 
