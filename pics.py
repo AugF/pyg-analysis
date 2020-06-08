@@ -68,7 +68,7 @@ def run_stages():
         'calculations': ['Vertex-cal', 'Edge-cal'],
         'edge-cal': ['Collect', 'Message', 'Aggregate', 'Update']
     }
-    for label in dicts.keys():
+    for label in ['calculations', 'edge-cal']:
         pic_stages(label, dicts[label])
 
 
@@ -160,5 +160,3 @@ def pic_memory(dir_name):
         ax.legend()
         # plt.show()
         fig.savefig(base_path + "/" + data + ".png")
-
-run_operators()

@@ -4,7 +4,7 @@ import sys
 import sqlite3
 import numpy as np
 import json
-from utils import get_real_time, dir_name, dir_out, algs, datasets
+from utils import get_real_time, dir_name, dir_out, algs, datasets, hds
 
 base_path = os.path.join(dir_out, "operators")
 if not os.path.exists(base_path):
@@ -63,19 +63,19 @@ if len(sys.argv) < 2 or sys.argv[1] not in algs:
 
 alg = sys.argv[1]
 for data in datasets:
-    outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
-    file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
-    if not os.path.exists(file_path):
-        print("sqlite file not exisit!")
-        continue
+    for hd in hds:
+        outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_' + str(hd) + '_outliers.txt'
+        file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '.sqlite'
+        if not os.path.exists(file_path):
+            continue
+        print(file_path)
+        cur = sqlite3.connect(file_path).cursor()
+        print(data, alg)
+        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+        outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+        res = get_operators_time(cur, outliers)
 
-    cur = sqlite3.connect(file_path).cursor()
-    print(data, alg)
-    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-    outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
-    res = get_operators_time(cur, outliers)
-
-    with open(base_path + "/" + alg + '_' + data + ".json", "w") as f:
-        json.dump(res, f)
+        with open(base_path + "/" + alg + '_' + data + '_' + str(hd) + ".json", "w") as f:
+            json.dump(res, f)
 
 

@@ -4,7 +4,7 @@ import sys
 import sqlite3
 import numpy as np
 import pandas as pd
-from utils import get_real_time, get_int, dir_name, dir_out, algs, datasets
+from utils import get_real_time, get_int, dir_name, dir_out, algs, datasets, hds
 
 base_path = os.path.join(dir_out, "edge-cal")
 if not os.path.exists(base_path):
@@ -68,18 +68,20 @@ if len(sys.argv) < 2 or sys.argv[1] not in algs:
 
 alg = sys.argv[1]
 
-df = {}
-for data in ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']:
-    outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
-    file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
-    if not os.path.exists(file_path):
-        continue
-    cur = sqlite3.connect(file_path).cursor()
-    print(data, alg)
-    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-    outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
-    res = get_edge_time(cur, outliers, alg)
-    df[data] = res
-pd.DataFrame(df).to_csv(base_path + '/' + alg + '.csv')
+for data in datasets:
+    df = {}
+    for hd in hds:
+        outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_' + str(hd) + '_outliers.txt'
+        file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '.sqlite'
+        if not os.path.exists(file_path):
+            continue
+        print(file_path)
+        cur = sqlite3.connect(file_path).cursor()
+        print(data, alg)
+        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+        outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+        res = get_edge_time(cur, outliers, alg)
+        df[hd] = res
+    pd.DataFrame(df).to_csv(base_path + '/' + alg + '_' + data + '.csv')
 
 

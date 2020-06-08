@@ -4,7 +4,7 @@ import sys
 import math
 import sqlite3
 import pandas as pd
-from utils import get_real_time, dir_name, dir_out, algs, datasets
+from utils import get_real_time, dir_name, dir_out, algs, datasets, hds
 
 base_path = os.path.join(dir_out, "epochs")
 if not os.path.exists(base_path):
@@ -54,17 +54,19 @@ if len(sys.argv) < 2 or sys.argv[1] not in datasets:
 
 data = sys.argv[1]
 
-df = {}
 for alg in algs:
-    outlier_file = base_path + '/' + alg + '_' + data + '_outliers.txt'
-    file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
-    if not os.path.exists(file_path):
-        continue
-    cur = sqlite3.connect(file_path).cursor()
-    print(data, alg)
-    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-    res = get_epoch_time(cur, outlier_file)
-    df[alg] = res
-pd.DataFrame(df).to_csv(base_path + '/' + data + '.csv')
+    df = {}
+    for hd in hds:
+        outlier_file = base_path + '/' + alg + '_' + data + '_' + str(hd) + '_outliers.txt'
+        file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '.sqlite'
+        if not os.path.exists(file_path):
+            continue
+        cur = sqlite3.connect(file_path).cursor()
+        print(file_path)
+        print(data, alg, hd)
+        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+        res = get_epoch_time(cur, outlier_file)
+        df[hd] = res
+    pd.DataFrame(df).to_csv(base_path + '/' + alg + '_' + data + '.csv')
 
 
