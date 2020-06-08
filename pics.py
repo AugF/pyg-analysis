@@ -3,7 +3,7 @@ import json
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from utils import survey, algs, dir_out, datasets, algorithms
+from utils import survey, algs, dir_out, datasets, algorithms, hds
 plt.style.use("ggplot")
 
 
@@ -51,14 +51,16 @@ def pic_stages(label, columns):
     for file in os.listdir(dir_path):
         if not file.endswith('.csv'): continue
         file_name = file[:-4]
-        df = pd.read_csv(dir_path + "/" + file, index_col=0)
-        labels = df.columns
-        data = 100 * df.values / df.values.sum(axis=0)
-        fig, ax = survey(labels, data.T, columns)
-        ax.set_title(algorithms[file_name], loc="right")
-        ax.set_xlabel("%")
+        df = pd.read_csv(dir_path + "/" + file, index_col=0).T
+        df = pd.DataFrame(np.log(df.values), index=df.index, columns=columns)
+
+        fig, ax = plt.subplots()
+        ax.set_title(file_name)
+        ax.set_xlabel("hidden dims")
+        df.plot(kind="line", ax=ax, marker='*', rot=0)
         fig.savefig(dir_path + "/" + file_name + ".png")
         # plt.show()
+        plt.close()
 
 
 def run_stages():
@@ -79,44 +81,61 @@ def run_operators():
         res = {}
         cnt = 0
         for data in datasets:
-            file_path = dir_path + data + '.json'
-            if not os.path.exists(file_path):
-                continue
-            cnt += 1
-            with open(file_path) as f:
-                ops = json.load(f)
-                s = sum(ops.values())
-                percent_ops = {k: 100.0 * ops[k] / s for k in ops.keys()}  # 先算比例
-                all_percent_ops[data] = percent_ops
-                if res == {}:
-                    res = percent_ops.copy()
-                else:
-                    for k in res.keys():
-                        res[k] += percent_ops[k]
-
+            all_percent_ops[data] = {}
+            for hd in hds:
+                file_path = dir_path + data + '_' + str(hd) + '.json'
+                if not os.path.exists(file_path):
+                    continue
+                cnt += 1
+                with open(file_path) as f:
+                    ops = json.load(f)
+                    s = sum(ops.values())
+                    all_percent_ops[str(hd)] = ops
+                    percent_ops = {k: 100.0 * ops[k] / s for k in ops.keys()}  # 先算比例
+                    if res == {}:
+                        res = percent_ops.copy()
+                    else:
+                        for k in res.keys():
+                            res[k] += percent_ops[k]
+        if cnt == 0:
+            continue
         res = {k: res[k] / cnt for k in res.keys()}  # 对数据集求平均
         res_sort = sorted(res.items(), key=lambda x: x[1], reverse=True)  # 排序，选择topk算子
         columns = [i[0] for i in res_sort[:5]]
+        columns.append('other')
+        for data in datasets:
+            df = {}
+            for k in all_percent_ops[data].keys():
+                df[k] = []
+                for c in columns[:-1]: # 排除掉最后一个元素
+                    df[k].append(all_percent_ops[data][k][c])
+                df[k].append(sum(all_percent_ops[data][k].values()) - sum(df[k]))
 
-        df = {}  # 获取实际百分比
-        for k in all_percent_ops.keys():
-            df[k] = []
-            for c in columns:
-                df[k].append(all_percent_ops[k][c])
-            df[k].append(100 - sum(df[k]))
+            df = pd.DataFrame(df).T
+            df.columns = columns
 
-        df = pd.DataFrame(df)
-        df.to_csv(dir_out + "/operators/" + alg + ".csv")
-        columns.append('others')
+            for i, c in enumerate(columns):
+                if c[0] == '_':
+                    df.columns[i] = columns[i][1:]
 
-        fig, ax = survey(df.columns, df.values.T, columns)
-        ax.set_title(algorithms[alg], loc="right")
-        ax.set_xlabel("%")
-        fig.savefig(dir_out + "/operators/" + alg + ".png")
-        # plt.show()
+            df.to_csv(dir_out + "/operators/" + alg + '_' + data + ".csv")
+            columns.append('others')
+
+            fig, ax = plt.subplots()
+            ax.set_title(algorithms[alg] + ' ' + data)
+            ax.set_ylabel('ms')
+            ax.set_xlabel("Hidden Dims")
+            markers = 'oD^sdp'
+            for i, c in enumerate(df.columns):
+                df[c].plot(ax=ax, marker=markers[i], label=c, rot=45)
+            ax.legend()
+            df.plot(kind="line", ax=ax, marker='*', rot=0) # todo 修改marker, 设置对数轴
+            fig.savefig(dir_out + "/operators/" + alg + '_' + data + ".png")
+            plt.close()
 
 
-def pic_memory(dir_name):
+def run_memory():
+    dir_name = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/hidden_dims_exp/dir_json"
     base_path = os.path.join(dir_out, "memory")
     if not os.path.exists(base_path):
         os.makedirs(base_path)
@@ -124,39 +143,38 @@ def pic_memory(dir_name):
     time_labels = ['Data\nLoad', 'Warm\nUp', 'Forward\nLayer0', 'Forward\nLayer1', 'Forward\nEnd', 'Backward\nEnd',
                    'Eval\nLayer0', 'Eval\nLayer1', 'Eval\nEnd']
 
-    for data in datasets:
-        allocated_current = {}
-        for alg in algs:
-            file_path = dir_name + 'config0_' + alg + '_' + data + '.json'
-            if not os.path.exists(file_path):
-                continue
-            with open(file_path) as f:
-                res = json.load(f)
-                dataload_end = np.array(res['forward_start'][0])
-                warmup_end = np.array(res['forward_start'][1:]).mean(axis=0)
-                layer0_forward = np.array(res['layer0'][1::2]).mean(axis=0)
-                layer0_eval = np.array(res['layer0'][2::2]).mean(axis=0)
-                layer1_forward = np.array(res['layer1'][1::2]).mean(axis=0)
-                layer1_eval = np.array(res['layer1'][2::2]).mean(axis=0)
-                forward_end = np.array(res['forward_end'][1:]).mean(axis=0)
-                backward_end = np.array(res['backward_end'][1:]).mean(axis=0)
-                eval_end = np.array(res['eval_end']).mean(axis=0)
-                all_data = np.array([dataload_end, warmup_end, layer0_forward, layer1_forward, forward_end,
-                                     backward_end, layer0_eval, layer1_eval, eval_end])
-                all_data /= 1024 * 1024
-                all_data = all_data.T  # 得到所有的數據
 
-                allocated_current[algorithms[alg]] = all_data[0]
+    for alg in ['gcn', 'ggnn']:
+        df = {}
+        for data in datasets:
+            df[data] = []
+            for hd in hds:
+                file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '.json'
+                if not os.path.exists(file_path):
+                    df[data].append(0)
+                    continue
+                with open(file_path) as f:
+                    res = json.load(f)
+                    dataload_end = np.array(res['forward_start'][0])
+                    warmup_end = np.array(res['forward_start'][1:]).mean(axis=0)
+                    layer0_forward = np.array(res['layer0'][1::2]).mean(axis=0)
+                    layer0_eval = np.array(res['layer0'][2::2]).mean(axis=0)
+                    layer1_forward = np.array(res['layer1'][1::2]).mean(axis=0)
+                    layer1_eval = np.array(res['layer1'][2::2]).mean(axis=0)
+                    forward_end = np.array(res['forward_end'][1:]).mean(axis=0)
+                    backward_end = np.array(res['backward_end'][1:]).mean(axis=0)
+                    eval_end = np.array(res['eval_end']).mean(axis=0)
+                    all_data = np.array([dataload_end, warmup_end, layer0_forward, layer1_forward, forward_end,
+                                        backward_end, layer0_eval, layer1_eval, eval_end])
+                    all_data /= 1024 * 1024
+                    all_data = all_data.T  # 得到所有的數據
+                    
+                df[data].append(np.log(max(all_data[0])))
 
-        allocated_current = pd.DataFrame(allocated_current, index=time_labels)
+        df = pd.DataFrame(df, index=[str(i) for i in hds])
         fig, ax = plt.subplots()
-        ax.set_ylabel("GPU Memory Usage (MB)")
-        ax.set_title(data)
-        colors = 'rgbm'
-        markers = 'oD^s'
-        lines = ['-', '--', '-.', ':']
-        for i, c in enumerate(allocated_current.columns):
-            allocated_current[c].plot(ax=ax, color=colors[i], marker=markers[i], linestyle=lines[i], label=c, rot=45)
-        ax.legend()
-        # plt.show()
-        fig.savefig(base_path + "/" + data + ".png")
+        ax.set_ylabel("GPU Memory Usage")
+        ax.set_title(alg)
+        df.plot(kind='line', ax=ax)
+        fig.savefig(base_path + "/" + alg + ".png")
+        plt.close()
