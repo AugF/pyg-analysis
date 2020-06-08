@@ -7,21 +7,16 @@ from utils import survey, algs, dir_out, datasets, algorithms
 plt.style.use("ggplot")
 
 
-def pic_epochs(datasets, algorithms):
-    # 0. pic epochs box
-
-    for i, data in enumerate(datasets):
-        ax = plt.gca()
+def run_epochs():
+    for data in datasets:
+        fig, ax = plt.subplots()
         ax.set_ylabel("ms")
         ax.set_xlabel("algorithm")
         df = pd.read_csv(dir_out + "/epochs/" + data + '.csv', index_col=0)
         columns = [algorithms[i] for i in df.columns]
         df.columns = columns
         df.plot(kind='box', title=data, ax=ax)
-        # plt.show()
-        fig = ax.get_figure()
         fig.savefig(dir_out + "/epochs/" + data + ".png")
-        del ax
 
 
 def pic_averge_time():
@@ -40,35 +35,46 @@ def pic_averge_time():
     df_t = pd.DataFrame(df.values.T)
     df_t.columns = df.index
     df_t.index = df.columns
-    ax = plt.gca()
+    fig, ax = plt.subplots()
     ax.set_xlabel('datasets')
     ax.set_ylabel('ms')
     ax.set_title('average epochs time contrast')
     df_t.plot(kind='bar', rot=45, ax=ax)
     # plt.show()
     df_t.to_csv(dir_out + "/epochs/average_data.csv")
-    ax.get_figure().savefig(dir_out + "/epochs/average_data.png")
+    fig.savefig(dir_out + "/epochs/average_data.png")
 
 
 # 1. stages, layers, operators, edge-cal
-def pic_stages(label, columns, algorithms):
-    for file in os.listdir(label):
+def pic_stages(label, columns):
+    dir_path = dir_out + '/' + label
+    for file in os.listdir(dir_path):
         if not file.endswith('.csv'): continue
         file_name = file[:-4]
-        df = pd.read_csv(label + "/" + file, index_col=0)
+        df = pd.read_csv(dir_path + "/" + file, index_col=0)
         labels = df.columns
         data = 100 * df.values / df.values.sum(axis=0)
         fig, ax = survey(labels, data.T, columns)
         ax.set_title(algorithms[file_name], loc="right")
         ax.set_xlabel("%")
-        fig.savefig(dir_out + "/" + label + "/" + file_name + ".png")
+        fig.savefig(dir_path + "/" + file_name + ".png")
         # plt.show()
-        del ax
 
 
-def pic_operators():
-    for alg in ['gcn', 'ggnn', 'gat', 'gaan']:
-        dir_path = '/operators/' + alg + '/'
+def run_stages():
+    dicts = {
+        'stages': ['Forward', 'Backward', 'Eval'],
+        'layers': ['Layer0', 'Layer1', 'Loss', 'Other'],
+        'calculations': ['Vertex-cal', 'Edge-cal'],
+        'edge-cal': ['Collect', 'Message', 'Aggregate', 'Update']
+    }
+    for label in dicts.keys():
+        pic_stages(label, dicts[label])
+
+
+def run_operators():
+    for alg in algs:
+        dir_path = dir_out + '/operators/' + alg + '_'
         all_percent_ops = {}  # 总的percent ops
         res = {}
         cnt = 0
@@ -108,27 +114,6 @@ def pic_operators():
         ax.set_xlabel("%")
         fig.savefig(dir_out + "/operators/" + alg + ".png")
         # plt.show()
-        del ax
-
-
-def run_stages():
-    dicts = {
-        'stages': ['Forward', 'Backward', 'Eval'],
-        'layers': ['Layer0', 'Layer1', 'Loss', 'Other'],
-        'calculations': ['Vertex-cal', 'Edge-cal'],
-        'edge-cal': ['Collect', 'Message', 'Aggregate', 'Update']
-    }
-    algorithms = {
-        'gcn': 'GCN',
-        'ggnn': 'GGNN',
-        'gat': 'GAT',
-        'gaan': 'GaAN'
-    }
-
-    datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
-    # for label in dicts.keys():
-    #     pic_stages(label, dicts[label], algorithms)
-    pic_stages('layers', dicts['layers'], algorithms)
 
 
 def pic_memory(dir_name):
@@ -164,7 +149,7 @@ def pic_memory(dir_name):
                 allocated_current[algorithms[alg]] = all_data[0]
 
         allocated_current = pd.DataFrame(allocated_current, index=time_labels)
-        ax = plt.gca()
+        fig, ax = plt.subplots()
         ax.set_ylabel("GPU Memory Usage (MB)")
         ax.set_title(data)
         colors = 'rgbm'
@@ -173,7 +158,7 @@ def pic_memory(dir_name):
         for i, c in enumerate(allocated_current.columns):
             allocated_current[c].plot(ax=ax, color=colors[i], marker=markers[i], linestyle=lines[i], label=c, rot=45)
         ax.legend()
-        plt.show()
-        ax.get_figure().savefig(base_path + "/" + data + ".png")
+        # plt.show()
+        fig.savefig(base_path + "/" + data + ".png")
 
-
+run_operators()

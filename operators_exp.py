@@ -75,7 +75,7 @@ for data in datasets:
     outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
     res = get_operators_time(cur, outliers)
 
-    with open(base_path + "/" + alg + '/' + data + ".json", "w") as f:
+    with open(base_path + "/" + alg + '_' + data + ".json", "w") as f:
         json.dump(res, f)
 
 

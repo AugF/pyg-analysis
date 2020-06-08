@@ -2,3 +2,4 @@ test/*
 *exp/*
 .idea/*
 __p*/*
+*.log
