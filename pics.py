@@ -19,48 +19,29 @@ def run_epochs():
         fig.savefig(dir_out + "/epochs/" + data + ".png")
 
 
-def pic_averge_time():
-    dir_name = dir_out + "/epochs/"
-    all_data = {}
-    for data in datasets:
-        file_path = dir_name + data + '.csv'
-        out = pd.read_csv(file_path, index_col=0)
-        all_data[data] = out.mean(axis=0).values
-
-    all_data = {d: all_data[d].tolist() for d in all_data.keys()}
-    all_data['coauthor-physics'].append(0.0)
-    df = pd.DataFrame(all_data)
-    algs = ['GCN', 'GGNN', 'GAT', 'GaAN']
-    df.index = algs
-    df_t = pd.DataFrame(df.values.T)
-    df_t.columns = df.index
-    df_t.index = df.columns
-    fig, ax = plt.subplots()
-    ax.set_xlabel('datasets')
-    ax.set_ylabel('ms')
-    ax.set_title('average epochs time contrast')
-    df_t.plot(kind='bar', rot=45, ax=ax)
-    # plt.show()
-    df_t.to_csv(dir_out + "/epochs/average_data.csv")
-    fig.savefig(dir_out + "/epochs/average_data.png")
-
-
 # 1. stages, layers, operators, edge-cal
 def pic_stages(label, columns):
-    dir_path = dir_out + '/' + label
-    for file in os.listdir(dir_path):
-        if not file.endswith('.csv'): continue
-        file_name = file[:-4]
-        df = pd.read_csv(dir_path + "/" + file, index_col=0).T
-        df = pd.DataFrame(np.log(df.values), index=df.index, columns=columns)
-
+    dir_path = dir_out + '/' + label #todo 修改标签
+    for alg in algs:
         fig, ax = plt.subplots()
-        ax.set_title(file_name)
-        ax.set_xlabel("hidden dims")
-        df.plot(kind="line", ax=ax, marker='*', rot=0)
-        fig.savefig(dir_path + "/" + file_name + ".png")
-        # plt.show()
-        plt.close()
+        for data in datasets:
+            file_path = dir_path + '/' + alg + '_' + data + '.csv'
+            if not os.path.exists(file_path):
+                continue
+            df = pd.read_csv(file_path, index_col=0).T
+            df.columns = columns
+
+            ax.set_title(algorithms[alg] + ' ' + data)
+            ax.set_yscale("symlog", basey=2)
+            ax.set_ylabel('ms')
+            ax.set_xlabel("Hidden Dims")
+            markers = 'oD^sdp'
+            for i, c in enumerate(df.columns):
+                df[c].plot(ax=ax, marker=markers[i], label=c, rot=0)
+            ax.legend()
+            fig.savefig(dir_path + "/" + alg + '_' + data + ".png")
+            # plt.show()
+            plt.close()
 
 
 def run_stages():
@@ -73,15 +54,14 @@ def run_stages():
     for label in ['calculations', 'edge-cal']:
         pic_stages(label, dicts[label])
 
-
 def run_operators():
     for alg in algs:
         dir_path = dir_out + '/operators/' + alg + '_'
-        all_percent_ops = {}  # 总的percent ops
+        all_ops = {}  # 总的percent ops
         res = {}
         cnt = 0
         for data in datasets:
-            all_percent_ops[data] = {}
+            all_ops[data] = {}
             for hd in hds:
                 file_path = dir_path + data + '_' + str(hd) + '.json'
                 if not os.path.exists(file_path):
@@ -90,7 +70,7 @@ def run_operators():
                 with open(file_path) as f:
                     ops = json.load(f)
                     s = sum(ops.values())
-                    all_percent_ops[str(hd)] = ops
+                    all_ops[data][str(hd)] = ops
                     percent_ops = {k: 100.0 * ops[k] / s for k in ops.keys()}  # 先算比例
                     if res == {}:
                         res = percent_ops.copy()
@@ -102,40 +82,34 @@ def run_operators():
         res = {k: res[k] / cnt for k in res.keys()}  # 对数据集求平均
         res_sort = sorted(res.items(), key=lambda x: x[1], reverse=True)  # 排序，选择topk算子
         columns = [i[0] for i in res_sort[:5]]
-        columns.append('other')
         for data in datasets:
             df = {}
-            for k in all_percent_ops[data].keys():
+            for k in all_ops[data].keys():
                 df[k] = []
-                for c in columns[:-1]: # 排除掉最后一个元素
-                    df[k].append(all_percent_ops[data][k][c])
-                df[k].append(sum(all_percent_ops[data][k].values()) - sum(df[k]))
+                for c in columns: # 排除掉最后一个元素
+                    df[k].append(all_ops[data][k][c])
+                df[k].append(sum(all_ops[data][k].values()) - sum(df[k]))
 
             df = pd.DataFrame(df).T
-            df.columns = columns
-
-            for i, c in enumerate(columns):
-                if c[0] == '_':
-                    df.columns[i] = columns[i][1:]
+            df.columns = [i[1:] if i[0] == '_' else i for i in columns] + ['other']
 
             df.to_csv(dir_out + "/operators/" + alg + '_' + data + ".csv")
-            columns.append('others')
 
             fig, ax = plt.subplots()
             ax.set_title(algorithms[alg] + ' ' + data)
+            ax.set_yscale("symlog", basey=2)
             ax.set_ylabel('ms')
             ax.set_xlabel("Hidden Dims")
             markers = 'oD^sdp'
             for i, c in enumerate(df.columns):
-                df[c].plot(ax=ax, marker=markers[i], label=c, rot=45)
+                df[c].plot(ax=ax, marker=markers[i], label=c, rot=0)
             ax.legend()
-            df.plot(kind="line", ax=ax, marker='*', rot=0) # todo 修改marker, 设置对数轴
             fig.savefig(dir_out + "/operators/" + alg + '_' + data + ".png")
             plt.close()
 
 
 def run_memory():
-    dir_name = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/hidden_dims_exp/dir_json"
+    dir_name = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/hidden_dims_exp/dir_json" # todo修改标签
     base_path = os.path.join(dir_out, "memory")
     if not os.path.exists(base_path):
         os.makedirs(base_path)
@@ -151,7 +125,7 @@ def run_memory():
             for hd in hds:
                 file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '.json'
                 if not os.path.exists(file_path):
-                    df[data].append(0)
+                    df[data].append(None)
                     continue
                 with open(file_path) as f:
                     res = json.load(f)
@@ -169,12 +143,20 @@ def run_memory():
                     all_data /= 1024 * 1024
                     all_data = all_data.T  # 得到所有的數據
                     
-                df[data].append(np.log(max(all_data[0])))
+                df[data].append(max(all_data[0]))
 
         df = pd.DataFrame(df, index=[str(i) for i in hds])
         fig, ax = plt.subplots()
-        ax.set_ylabel("GPU Memory Usage")
-        ax.set_title(alg)
-        df.plot(kind='line', ax=ax)
+        ax.set_title(algorithms[alg])
+        ax.set_yscale("symlog", basey=2)
+        ax.set_ylabel("GPU Memory Usage(MB)")
+        ax.set_xlabel("Hidden Dims")
+        markers = 'oD^sdp'
+        for i, c in enumerate(df.columns):
+            df[c].plot(ax=ax, marker=markers[i], label=c, rot=0)
+        ax.legend()
         fig.savefig(base_path + "/" + alg + ".png")
         plt.close()
+
+
+run_memory()

@@ -54,7 +54,7 @@ if len(sys.argv) < 2 or sys.argv[1] not in datasets:
 
 data = sys.argv[1]
 
-for alg in algs:
+for alg in ['gcn', 'ggnn']:
     df = {}
     for hd in hds:
         outlier_file = base_path + '/' + alg + '_' + data + '_' + str(hd) + '_outliers.txt'
