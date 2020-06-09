@@ -23,14 +23,14 @@ def run_epochs():
 def pic_stages(label, columns):
     dir_path = dir_out + '/' + label #todo 修改标签
     for alg in algs:
-        fig, ax = plt.subplots()
         for data in datasets:
             file_path = dir_path + '/' + alg + '_' + data + '.csv'
             if not os.path.exists(file_path):
                 continue
             df = pd.read_csv(file_path, index_col=0).T
             df.columns = columns
-
+            
+            fig, ax = plt.subplots()
             ax.set_title(algorithms[alg] + ' ' + data)
             ax.set_yscale("symlog", basey=2)
             ax.set_ylabel('ms')
