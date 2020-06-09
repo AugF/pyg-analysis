@@ -23,14 +23,17 @@ def run_epochs():
 def pic_stages(label, columns):
     dir_path = dir_out + '/' + label #todo 修改标签
     for alg in algs:
-        for data in datasets:
+        plt.figure(figsize=(12, 8))
+        plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
+        fig = plt.figure(1)
+        for i, data in enumerate(datasets):
             file_path = dir_path + '/' + alg + '_' + data + '.csv'
             if not os.path.exists(file_path):
                 continue
             df = pd.read_csv(file_path, index_col=0).T
             df.columns = columns
-            
-            fig, ax = plt.subplots()
+
+            ax = plt.subplot(2, 3, i + 1)
             ax.set_title(algorithms[alg] + ' ' + data)
             ax.set_yscale("symlog", basey=2)
             ax.set_ylabel('ms')
@@ -39,9 +42,10 @@ def pic_stages(label, columns):
             for i, c in enumerate(df.columns):
                 df[c].plot(ax=ax, marker=markers[i], label=c, rot=0)
             ax.legend()
-            fig.savefig(dir_path + "/" + alg + '_' + data + ".png")
+        fig.tight_layout() # 防止重叠
+        fig.savefig(dir_path + "/" + alg + ".png")
             # plt.show()
-            plt.close()
+        plt.close()
 
 
 def run_stages():
@@ -159,4 +163,4 @@ def run_memory():
         plt.close()
 
 
-run_memory()
+run_stages()
