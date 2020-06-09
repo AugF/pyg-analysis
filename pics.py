@@ -20,7 +20,7 @@ def run_epochs():
 
 
 # 1. stages, layers, operators, edge-cal
-def pic_stages(label, columns):
+def pic_stages(label, columns, algs):
     dir_path = dir_out + '/' + label #todo 修改标签
     for alg in algs:
         plt.figure(figsize=(12, 8))
@@ -38,6 +38,8 @@ def pic_stages(label, columns):
             ax.set_yscale("symlog", basey=2)
             ax.set_ylabel('ms')
             ax.set_xlabel("Hidden Dims")
+            ax.set_xticks(list(range(len(df.index))))
+            ax.set_xticklabels(list(df.index))
             markers = 'oD^sdp'
             for i, c in enumerate(df.columns):
                 df[c].plot(ax=ax, marker=markers[i], label=c, rot=0)
@@ -56,7 +58,7 @@ def run_stages():
         'edge-cal': ['Collect', 'Message', 'Aggregate', 'Update']
     }
     for label in ['calculations', 'edge-cal']:
-        pic_stages(label, dicts[label])
+        pic_stages(label, dicts[label], algs=["gcn", "ggnn"])
 
 def run_operators():
     for alg in algs:
@@ -86,7 +88,11 @@ def run_operators():
         res = {k: res[k] / cnt for k in res.keys()}  # 对数据集求平均
         res_sort = sorted(res.items(), key=lambda x: x[1], reverse=True)  # 排序，选择topk算子
         columns = [i[0] for i in res_sort[:5]]
-        for data in datasets:
+
+        plt.figure(figsize=(12, 8))
+        plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
+        fig = plt.figure(1)
+        for i, data in enumerate(datasets):
             df = {}
             for k in all_ops[data].keys():
                 df[k] = []
@@ -99,17 +105,22 @@ def run_operators():
 
             df.to_csv(dir_out + "/operators/" + alg + '_' + data + ".csv")
 
-            fig, ax = plt.subplots()
+
+            ax = plt.subplot(2, 3, i + 1)
             ax.set_title(algorithms[alg] + ' ' + data)
             ax.set_yscale("symlog", basey=2)
             ax.set_ylabel('ms')
             ax.set_xlabel("Hidden Dims")
+            ax.set_xticks(list(range(len(df.index))))
+            ax.set_xticklabels(list(df.index))
             markers = 'oD^sdp'
-            for i, c in enumerate(df.columns):
-                df[c].plot(ax=ax, marker=markers[i], label=c, rot=0)
+            for j, c in enumerate(df.columns):
+                df[c].plot(ax=ax, marker=markers[j], label=c, rot=0)
             ax.legend()
-            fig.savefig(dir_out + "/operators/" + alg + '_' + data + ".png")
-            plt.close()
+
+        fig.tight_layout() # 防止重叠
+        fig.savefig(dir_out + "/operators/" + alg + ".png")
+        plt.close()
 
 
 def run_memory():
@@ -149,12 +160,14 @@ def run_memory():
                     
                 df[data].append(max(all_data[0]))
 
-        df = pd.DataFrame(df, index=[str(i) for i in hds])
+        df = pd.DataFrame(df)
         fig, ax = plt.subplots()
         ax.set_title(algorithms[alg])
         ax.set_yscale("symlog", basey=2)
         ax.set_ylabel("GPU Memory Usage(MB)")
         ax.set_xlabel("Hidden Dims")
+        ax.set_xticks(list(range(len(hds))))
+        ax.set_xticklabels([str(i) for i in hds])
         markers = 'oD^sdp'
         for i, c in enumerate(df.columns):
             df[c].plot(ax=ax, marker=markers[i], label=c, rot=0)
@@ -162,5 +175,5 @@ def run_memory():
         fig.savefig(base_path + "/" + alg + ".png")
         plt.close()
 
-
-run_stages()
+ 
+run_memory()
