@@ -54,11 +54,11 @@ if len(sys.argv) < 2 or sys.argv[1] not in datasets:
 
 data = sys.argv[1]
 
-for alg in ['gcn', 'ggnn']:
+for alg in ['gat', 'gaan']:
     df = {}
     for hd in hds:
-        outlier_file = base_path + '/' + alg + '_' + data + '_' + str(hd) + '_outliers.txt'
-        file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '.sqlite'
+        outlier_file = base_path + '/' + alg + '_' + data + '_' + str(hd) + '_32_outliers.txt'
+        file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '_32.sqlite'
         if not os.path.exists(file_path):
             continue
         cur = sqlite3.connect(file_path).cursor()

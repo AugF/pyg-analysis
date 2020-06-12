@@ -64,8 +64,8 @@ if len(sys.argv) < 2 or sys.argv[1] not in algs:
 alg = sys.argv[1]
 for data in datasets:
     for hd in hds:
-        outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_' + str(hd) + '_outliers.txt'
-        file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '.sqlite'
+        outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_' + str(hd) + '_32_outliers.txt'
+        file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '_32.sqlite'
         if not os.path.exists(file_path):
             continue
         print(file_path)
@@ -75,7 +75,7 @@ for data in datasets:
         outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
         res = get_operators_time(cur, outliers)
 
-        with open(base_path + "/" + alg + '_' + data + '_' + str(hd) + ".json", "w") as f:
+        with open(base_path + "/" + alg + '_' + data + '_' + str(hd) + "_32.json", "w") as f:
             json.dump(res, f)
 
 

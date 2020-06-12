@@ -60,8 +60,8 @@ alg = sys.argv[1]
 for data in datasets:
     df = {}
     for hd in hds:
-        outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_' + str(hd) + '_outliers.txt'
-        file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '.sqlite'
+        outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_' + str(hd) + '_32_outliers.txt'
+        file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '_32.sqlite'
         if not os.path.exists(file_path):
             continue
         print(file_path)

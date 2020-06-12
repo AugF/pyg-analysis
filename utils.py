@@ -21,9 +21,9 @@ algorithms = {
     'gaan': 'GaAN'
 }
 
-dir_name = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/hidden_dims_exp/dir_sqlite"
-dir_out = r"hidden_dims_exp"
-hds = [16, 32, 64, 128, 256, 512, 1024, 2048]
+dir_name = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/hidden_dims_exp/dir_head_sqlite"
+dir_out = r"hidden_dims_head_dims_exp"
+hds = [1, 2, 4, 8, 16]
 
 def get_int(str):
     p = 0

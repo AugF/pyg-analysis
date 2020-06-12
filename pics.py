@@ -58,10 +58,10 @@ def run_stages():
         'edge-cal': ['Collect', 'Message', 'Aggregate', 'Update']
     }
     for label in ['calculations', 'edge-cal']:
-        pic_stages(label, dicts[label], algs=["gcn", "ggnn"])
+        pic_stages(label, dicts[label], algs=["gat", "gaan"])
 
 def run_operators():
-    for alg in algs:
+    for alg in ['gat', 'gaan']:
         dir_path = dir_out + '/operators/' + alg + '_'
         all_ops = {}  # 总的percent ops
         res = {}
@@ -69,7 +69,7 @@ def run_operators():
         for data in datasets:
             all_ops[data] = {}
             for hd in hds:
-                file_path = dir_path + data + '_' + str(hd) + '.json'
+                file_path = dir_path + data + '_' + str(hd) + '_32.json'
                 if not os.path.exists(file_path):
                     continue
                 cnt += 1
@@ -124,7 +124,7 @@ def run_operators():
 
 
 def run_memory():
-    dir_name = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/hidden_dims_exp/dir_json" # todo修改标签
+    dir_name = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/hidden_dims_exp/dir_head_json" # todo修改标签
     base_path = os.path.join(dir_out, "memory")
     if not os.path.exists(base_path):
         os.makedirs(base_path)
@@ -133,12 +133,12 @@ def run_memory():
                    'Eval\nLayer0', 'Eval\nLayer1', 'Eval\nEnd']
 
 
-    for alg in ['gcn', 'ggnn']:
+    for alg in ['gat', 'gaan']:
         df = {}
         for data in datasets:
             df[data] = []
             for hd in hds:
-                file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '.json'
+                file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '_32.json'
                 if not os.path.exists(file_path):
                     df[data].append(None)
                     continue
@@ -159,6 +159,8 @@ def run_memory():
                     all_data = all_data.T  # 得到所有的數據
                     
                 df[data].append(max(all_data[0]))
+            if df[data] == [None] * (len(hds)):
+                del df[data]
 
         df = pd.DataFrame(df)
         fig, ax = plt.subplots()
