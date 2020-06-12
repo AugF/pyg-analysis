@@ -26,14 +26,17 @@ def pic_stages(label, columns, algs):
         plt.figure(figsize=(12, 8))
         plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
         fig = plt.figure(1)
-        for i, data in enumerate(datasets):
+        i = 1
+        for data in datasets:
             file_path = dir_path + '/' + alg + '_' + data + '.csv'
             if not os.path.exists(file_path):
                 continue
             df = pd.read_csv(file_path, index_col=0).T
+            if df.empty:
+                continue
             df.columns = columns
 
-            ax = plt.subplot(2, 3, i + 1)
+            ax = plt.subplot(2, 3, i)
             ax.set_title(algorithms[alg] + ' ' + data)
             ax.set_yscale("symlog", basey=2)
             ax.set_ylabel('ms')
@@ -41,9 +44,10 @@ def pic_stages(label, columns, algs):
             ax.set_xticks(list(range(len(df.index))))
             ax.set_xticklabels(list(df.index))
             markers = 'oD^sdp'
-            for i, c in enumerate(df.columns):
-                df[c].plot(ax=ax, marker=markers[i], label=c, rot=0)
+            for j, c in enumerate(df.columns):
+                df[c].plot(ax=ax, marker=markers[j], label=c, rot=0)
             ax.legend()
+            i += 1
         fig.tight_layout() # 防止重叠
         fig.savefig(dir_path + "/" + alg + ".png")
             # plt.show()
@@ -59,6 +63,8 @@ def run_stages():
     }
     for label in ['calculations', 'edge-cal']:
         pic_stages(label, dicts[label], algs=["gat", "gaan"])
+
+run_stages()
 
 def run_operators():
     for alg in ['gat', 'gaan']:
@@ -92,7 +98,8 @@ def run_operators():
         plt.figure(figsize=(12, 8))
         plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
         fig = plt.figure(1)
-        for i, data in enumerate(datasets):
+        i = 1
+        for data in datasets:
             df = {}
             for k in all_ops[data].keys():
                 df[k] = []
@@ -100,23 +107,25 @@ def run_operators():
                     df[k].append(all_ops[data][k][c])
                 df[k].append(sum(all_ops[data][k].values()) - sum(df[k]))
 
+            if df == {}:
+                continue
             df = pd.DataFrame(df).T
             df.columns = [i[1:] if i[0] == '_' else i for i in columns] + ['other']
 
             df.to_csv(dir_out + "/operators/" + alg + '_' + data + ".csv")
 
-
-            ax = plt.subplot(2, 3, i + 1)
+            ax = plt.subplot(2, 3, i)
             ax.set_title(algorithms[alg] + ' ' + data)
             ax.set_yscale("symlog", basey=2)
             ax.set_ylabel('ms')
-            ax.set_xlabel("Hidden Dims")
+            ax.set_xlabel("Heads")
             ax.set_xticks(list(range(len(df.index))))
             ax.set_xticklabels(list(df.index))
             markers = 'oD^sdp'
             for j, c in enumerate(df.columns):
                 df[c].plot(ax=ax, marker=markers[j], label=c, rot=0)
             ax.legend()
+            i += 1
 
         fig.tight_layout() # 防止重叠
         fig.savefig(dir_out + "/operators/" + alg + ".png")
@@ -177,5 +186,3 @@ def run_memory():
         fig.savefig(base_path + "/" + alg + ".png")
         plt.close()
 
- 
-run_memory()
