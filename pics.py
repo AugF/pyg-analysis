@@ -116,7 +116,8 @@ def run_operators():
         # plt.show()
 
 
-def pic_memory(dir_name):
+def pic_memory():
+    dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/config_exp/dir_json/"
     base_path = os.path.join(dir_out, "memory")
     if not os.path.exists(base_path):
         os.makedirs(base_path)
@@ -149,7 +150,7 @@ def pic_memory(dir_name):
                 allocated_current[algorithms[alg]] = all_data[0]
 
         allocated_current = pd.DataFrame(allocated_current, index=time_labels)
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(9, 6))
         ax.set_ylabel("GPU Memory Usage (MB)")
         ax.set_title(data)
         colors = 'rgbm'
@@ -161,4 +162,4 @@ def pic_memory(dir_name):
         # plt.show()
         fig.savefig(base_path + "/" + data + ".png")
 
-run_operators()
+pic_memory()
