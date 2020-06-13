@@ -28,7 +28,6 @@ def get_operators_time(cur, outliers):
         ope_sql = 'select text from nvtx_events where start > {} and end < {}'
         for r in seq_res:
             t = cur.execute(ope_sql.format(r[0], r[1])).fetchall()
-            print(t)
             if len(t) == 1 and t[0] == ('__stop_profile',):
                 oper = r[2].split(',')[0]
                 if oper in operators_times.keys():
@@ -36,7 +35,6 @@ def get_operators_time(cur, outliers):
                 else:
                     operators_times[oper] = [r]
 
-        print("operators", operators_times)
         cuda_times = {}  # 基本算子在cuda上运行的时间
         times = 0
         for k in operators_times.keys():
@@ -45,7 +43,6 @@ def get_operators_time(cur, outliers):
                 cuda_times[k] += get_real_time(x, cur)[0]
             times += cuda_times[k]
 
-        print("cuda", cuda_times)
         if operators == {}:  # 第一轮时，算子结果还未知
             operators = cuda_times
         else:
@@ -72,6 +69,9 @@ def run_operators_exp(params):
     for alg in algs:
         for data in datasets:
             for var in variables:
+                out_json_path = base_path + "/" + alg + '_' + data + file_prefix + str(var) + file_suffix + ".json"
+                if os.path.exists(out_json_path):
+                    continue
                 outlier_file = dir_out + '/epochs/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
                 file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
                 if not os.path.exists(file_path):
@@ -83,16 +83,18 @@ def run_operators_exp(params):
                 outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
                 res = get_operators_time(cur, outliers)
 
-                with open(base_path + "/" + alg + '_' + data + file_prefix + str(var) + file_suffix + ".json", "w") as f:
+                with open(out_json_path, "w") as f:
                     json.dump(res, f)
 
 
-def run_one_operator(params):
+def run_one_operator():
+    import yaml
+    params = yaml.load(open('cfg_file/hidden_dims_3_exp.yaml'))
     dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
     variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
     
     base_path = os.path.join(dir_out, "operators")
-    alg, data, var = 'gat', 'amazon-photo', 16
+    alg, data, var = 'gcn', 'amazon-photo', 16
     outlier_file = dir_out + '/epochs/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
     file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
     if not os.path.exists(file_path):
@@ -103,6 +105,7 @@ def run_one_operator(params):
     print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
     outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
     res = get_operators_time(cur, outliers)
+    print(res)
 
-    with open(base_path + "/" + alg + '_' + data + file_prefix + str(var) + file_suffix + ".json", "w") as f:
-        json.dump(res, f)
+    # with open(base_path + "/" + alg + '_' + data + file_prefix + str(var) + file_suffix + ".json", "w") as f:
+    #     json.dump(res, f)

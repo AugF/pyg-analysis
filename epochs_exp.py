@@ -85,3 +85,20 @@ def run_epochs_exp(params):
             pd.DataFrame(df).to_csv(csv_path)
 
 
+def run_one_file():
+    import yaml
+    params = yaml.load(open('cfg_file/hds_heads_exp.yaml'))
+    dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
+    variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
+
+    alg, data, var = 'gcn', 'amazon-photo', 16
+    csv_path = base_path + '/' + alg + '_' + data + '.csv'
+    outlier_file = base_path + '/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
+    file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
+    if os.path.exists(file_path):
+        cur = sqlite3.connect(file_path).cursor()
+        print(file_path)
+        print(data, alg, var)
+        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+        res = get_epoch_time(cur, outlier_file)
+        print(res)
