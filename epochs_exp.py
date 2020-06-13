@@ -1,19 +1,20 @@
 import time
 import os
 import sys
+import yaml
 import math
 import sqlite3
 import pandas as pd
-from utils import get_real_time, dir_name, dir_out, algs, datasets, hds
+from utils import get_real_time
 
-base_path = os.path.join(dir_out, "epochs")
-if not os.path.exists(base_path):
-    os.makedirs(base_path)
 
 # 1. epochs, outliers保存为outlier文件
 def get_epoch_time(cur, outlier_file):
     sql = "select start, end, text from nvtx_events where text like 'epochs%'"
     res = cur.execute(sql).fetchall()  # 所有epochs的结果
+    if len(res) < 50: # 过滤掉运行异常的sqlite文件
+        return None
+
     epoch_times = [get_real_time(x, cur)[0] for x in res] # 需要单独保存
     tables = {x: i for i, x in enumerate(epoch_times)}
 
@@ -48,25 +49,39 @@ def get_epoch_time(cur, outlier_file):
 
     return epoch_times
 
-if len(sys.argv) < 2 or sys.argv[1] not in datasets:
-    print("python epochs_exp.py flickr")
-    sys.exit(0)
+# if len(sys.argv) < 2 or sys.argv[1] not in datasets:
+#     print("python epochs_exp.py flickr")
+#     sys.exit(0)
 
-data = sys.argv[1]
+# data = sys.argv[1]
 
-for alg in ['gat', 'gaan']:
-    df = {}
-    for hd in hds:
-        outlier_file = base_path + '/' + alg + '_' + data + '_' + str(hd) + '_32_outliers.txt'
-        file_path = dir_name + '/config0_' + alg + '_' + data + '_' + str(hd) + '_32.sqlite'
-        if not os.path.exists(file_path):
-            continue
-        cur = sqlite3.connect(file_path).cursor()
-        print(file_path)
-        print(data, alg, hd)
-        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        res = get_epoch_time(cur, outlier_file)
-        df[hd] = res
-    pd.DataFrame(df).to_csv(base_path + '/' + alg + '_' + data + '.csv')
+def run_epochs_exp(params):
+    dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
+    variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
+
+    base_path = os.path.join(dir_out, "epochs")
+    if not os.path.exists(base_path):
+        os.makedirs(base_path)
+
+    for data in datasets:
+        for alg in algs:
+            csv_path = base_path + '/' + alg + '_' + data + '.csv'
+            if os.path.exists(csv_path): # 断点续传
+                continue
+            df = {}
+            for var in variables:
+                outlier_file = base_path + '/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
+                file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
+                if not os.path.exists(file_path):
+                    continue
+                cur = sqlite3.connect(file_path).cursor()
+                print(file_path)
+                print(data, alg, var)
+                print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+                res = get_epoch_time(cur, outlier_file)
+                if res == None:
+                    continue
+                df[var] = res
+            pd.DataFrame(df).to_csv(csv_path)
 
 
