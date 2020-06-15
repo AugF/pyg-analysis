@@ -74,7 +74,7 @@ def run_operators_exp(params):
                     continue
                 outlier_file = dir_out + '/epochs/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
                 file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
-                if not os.path.exists(file_path):
+                if not os.path.exists(file_path) or not os.path.exists(outlier_file):
                     continue
                 print(file_path)
                 cur = sqlite3.connect(file_path).cursor()

@@ -80,6 +80,7 @@ def run_epochs_exp(params):
                 print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
                 res = get_epoch_time(cur, outlier_file)
                 if res == None:
+                    print("res is None")
                     continue
                 df[var] = res
             pd.DataFrame(df).to_csv(csv_path)

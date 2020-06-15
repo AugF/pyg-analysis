@@ -23,6 +23,10 @@ def run_epochs():
 def pic_stages(label, columns, params):
     dir_out, algs, datasets, xlabel = params['dir_out'], params['algs'], params['datasets'], params['xlabel']
 
+    if 'graph' in dir_out: # 为了graph和其他数据集做区分
+        rows, cols = 1, 1
+    else:
+        rows, cols = 2, 3
     dir_path = dir_out + '/' + label #todo 修改标签
     for alg in algs:
         plt.figure(figsize=(12, 8))
@@ -38,7 +42,7 @@ def pic_stages(label, columns, params):
                 continue
             df.columns = columns
 
-            ax = plt.subplot(2, 3, i)
+            ax = plt.subplot(rows, cols, i)
             ax.set_title(algorithms[alg] + ' ' + data)
             ax.set_yscale("symlog", basey=2)
             ax.set_ylabel('ms')
@@ -71,6 +75,11 @@ def run_operators(params):
     dir_out, algs, datasets = params['dir_out'], params['algs'], params['datasets']
     variables, file_prefix, file_suffix, xlabel = params['variables'], params['file_prefix'], params['file_suffix'], params['xlabel']
 
+    if 'graph' in dir_out: # 为了graph和其他数据集做区分
+        rows, cols = 1, 1
+    else:
+        rows, cols = 2, 3
+        
     for alg in algs:
         dir_path = dir_out + '/operators/' + alg + '_'
         all_ops = {}  # 总的percent ops
@@ -121,10 +130,10 @@ def run_operators(params):
 
             df.to_csv(dir_out + "/operators/" + alg + '_' + data + ".csv")
 
-            ax = plt.subplot(2, 3, i)
+            ax = plt.subplot(rows, cols, i)
             ax.set_title(algorithms[alg] + ' ' + data)
             ax.set_yscale("symlog", basey=2)
-            ax.set_ylabel('ms')
+            ax.set_ylabel('Time (ms)')
             ax.set_xlabel(xlabel)
             ax.set_xticks(list(range(len(df.index))))
             ax.set_xticklabels(list(df.index))
@@ -142,7 +151,7 @@ def run_operators(params):
 def run_memory(params):
     dir_memory, dir_out, algs, datasets = params['dir_memory'], params['dir_out'], params['algs'], params['datasets']
     variables, file_prefix, file_suffix, xlabel = params['variables'], params['file_prefix'], params['file_suffix'], params['xlabel']
-
+    
     base_path = os.path.join(dir_out, "memory")
     if not os.path.exists(base_path):
         os.makedirs(base_path)
@@ -161,6 +170,8 @@ def run_memory(params):
                     continue
                 with open(file_path) as f:
                     res = json.load(f)
+                    # print(file_path)
+                    # print(res.keys())
                     dataload_end = np.array(res['forward_start'][0])
                     warmup_end = np.array(res['forward_start'][1:]).mean(axis=0)
                     layer0_forward = np.array(res['layer0'][1::2]).mean(axis=0)
@@ -193,3 +204,11 @@ def run_memory(params):
         ax.legend()
         fig.savefig(base_path + "/memory_" + alg + ".png")
         plt.close()
+
+
+def run():
+    import yaml
+    params = yaml.load(open('cfg_file/hds_heads_exp.yaml'))
+    run_stages(params)
+    run_operators(params)
+    run_memory(params)
