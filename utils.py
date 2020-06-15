@@ -10,10 +10,6 @@ all_labels = {
         'gaan': ['vertex-cal', 'edge-cal_attentions', 'edge-cal_gateMax', 'edge-cal_gateMean']
     }
 
-
-datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
-algs = ['gcn', 'ggnn', 'gat', 'gaan']
-
 algorithms = {
     'gcn': 'GCN',
     'ggnn': 'GGNN',
@@ -21,8 +17,19 @@ algorithms = {
     'gaan': 'GaAN'
 }
 
-dir_name = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/config_exp/dir_sqlite"
-dir_out = r"config_exp"
+
+
+# 这里将config实验除外，因为只涉及到两个参数
+# hds_heads_exp 参数
+dir_out = r"hds_heads_exp"
+dir_name = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/hidden_dims_exp/dir_head_sqlite"
+dir_memory = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/hidden_dims_exp/dir_head_json"
+variables = [1, 2, 4, 8, 16]
+file_prefix = "_" # default _
+file_suffix = "_32" # defaulti " "
+xlabel = "Heads"
+
+
 
 def get_int(str):
     p = 0
@@ -83,7 +90,6 @@ def survey(labels, data, category_names): # stages, layers, steps，算子可以
               loc='lower left', fontsize='small')
 
     return fig, ax
-
 
 
 

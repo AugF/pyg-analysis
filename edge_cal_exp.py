@@ -4,13 +4,10 @@ import sys
 import sqlite3
 import numpy as np
 import pandas as pd
-from utils import get_real_time, get_int, dir_name, dir_out, algs, datasets
+from utils import get_real_time, get_int
 
-base_path = os.path.join(dir_out, "edge-cal")
-if not os.path.exists(base_path):
-    os.makedirs(base_path)
 
-def get_edge_time(cur, outliers, alg='gcn'):
+def get_edge_time(cur, outliers, alg='gcn', layer=2):
     """
     获取edge-cal细分下的各算子的用时
     :param cur: sqlite的cursor对象
@@ -20,7 +17,7 @@ def get_edge_time(cur, outliers, alg='gcn'):
     labels = ['collect', 'message', 'aggregate', 'update']
     edge_times = []
     for label in labels:
-        step = 6 if alg == 'gaan' else 2
+        step = layer * 3 if alg == 'gaan' else layer
         sql = "select start, end, text from nvtx_events where text == '{}'".format(label)
         res = cur.execute(sql).fetchall()[step:]  # 过滤掉warm-up中forward阶段的结果
         cost_time = 0
@@ -57,29 +54,66 @@ def get_edge_time(cur, outliers, alg='gcn'):
                 cost_time += backward_time
 
         cost_time /= 50 - len(outliers) # 基于epochs的平均
-        print(label, cost_time)
+        # print(label, cost_time)
         edge_times.append(cost_time)
     return edge_times
 
 
-if len(sys.argv) < 2 or sys.argv[1] not in algs:
-    print("python edge-cal_exp.py gcn")
-    sys.exit(0)
+# if len(sys.argv) < 2 or sys.argv[1] not in algs:
+#     print("python edge-cal_exp.py gcn")
+#     sys.exit(0)
 
-alg = sys.argv[1]
+# alg = sys.argv[1]
 
-df = {}
-for data in ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']:
-    outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
-    file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
-    if not os.path.exists(file_path):
-        continue
-    cur = sqlite3.connect(file_path).cursor()
-    print(data, alg)
-    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-    outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
-    res = get_edge_time(cur, outliers, alg)
-    df[data] = res
-pd.DataFrame(df).to_csv(base_path + '/' + alg + '.csv')
+def run_edge_cal_exp(params):
+    dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
+    variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
+    
+    layer_var_flag = params['dir_out'] == 'layer_exp'
+    base_path = os.path.join(dir_out, "edge-cal")
+    if not os.path.exists(base_path):
+        os.makedirs(base_path)
 
+    for alg in algs:
+        for data in datasets:
+            out_path = base_path + '/' + alg + '_' + data + '.csv'
+            if os.path.exists(out_path):
+                continue
+            df = {}
+            for var in variables:
+                outlier_file = dir_out + '/epochs/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
+                file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
+                if not os.path.exists(file_path) or not os.path.exists(outlier_file):
+                    continue
+                print(file_path)
+                cur = sqlite3.connect(file_path).cursor()
+                print(data, alg)
+                print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+                outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+                if layer_var_flag:
+                    layer = var
+                else: layer = params['layer']
+                res = get_edge_time(cur, outliers, alg, layer=layer)
+                df[var] = res
+            pd.DataFrame(df).to_csv(out_path)
+
+
+def run_one_file():
+    import yaml
+    params = yaml.load(open('cfg_file/hidden_dims_3_exp.yaml'))
+    dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
+    variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
+
+    alg, data, var = 'gcn', 'amazon-photo', 16
+    base_path = os.path.join(dir_out, "calculations")
+    csv_path = base_path + '/' + alg + '_' + data + '.csv'
+    outlier_file = dir_out + '/epochs/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
+    file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
+    if os.path.exists(file_path):
+        cur = sqlite3.connect(file_path).cursor()
+        print(data, alg)
+        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+        outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+        res = get_edge_time(cur, outliers, alg, 3)
+        print(res)
 
