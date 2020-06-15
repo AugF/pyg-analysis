@@ -31,7 +31,8 @@ def pic_stages(label, columns, params):
     for alg in algs:
         if not 'graph' in dir_out:
             plt.figure(figsize=(12, 8))
-        plt.figure()
+        else:
+            plt.figure()
         plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
         fig = plt.figure(1)
         i = 1
@@ -116,7 +117,8 @@ def run_operators(params):
 
         if not 'graph' in dir_out:
             plt.figure(figsize=(12, 8))
-        plt.figure()
+        else:
+            plt.figure()
         plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
         fig = plt.figure(1)
         i = 1
@@ -216,6 +218,8 @@ def run_memory(params):
 def run():
     import yaml
     params = yaml.load(open('cfg_file/layer_exp.yaml'))
+    run_stages(params)
     run_operators(params)
+    run_memory(params)
 
 run()
