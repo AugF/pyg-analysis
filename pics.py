@@ -21,7 +21,7 @@ def run_epochs():
 
 # 1. stages, layers, operators, edge-cal
 def pic_stages(label, columns, params):
-    dir_out, algs, datasets, xlabel = params['dir_out'], params['algs'], params['datasets'], params['xlabel']
+    dir_out, algs, datasets, xlabel, log_y = params['dir_out'], params['algs'], params['datasets'], params['xlabel'], params['log_y']
 
     if 'graph' in dir_out: # 为了graph和其他数据集做区分
         rows, cols = 1, 1
@@ -29,7 +29,9 @@ def pic_stages(label, columns, params):
         rows, cols = 2, 3
     dir_path = dir_out + '/' + label #todo 修改标签
     for alg in algs:
-        plt.figure(figsize=(12, 8))
+        if not 'graph' in dir_out:
+            plt.figure(figsize=(12, 8))
+        plt.figure()
         plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
         fig = plt.figure(1)
         i = 1
@@ -44,8 +46,9 @@ def pic_stages(label, columns, params):
 
             ax = plt.subplot(rows, cols, i)
             ax.set_title(algorithms[alg] + ' ' + data)
-            ax.set_yscale("symlog", basey=2)
-            ax.set_ylabel('ms')
+            if log_y:
+                ax.set_yscale("symlog", basey=2)
+            ax.set_ylabel('Time (ms)')
             ax.set_xlabel(xlabel)
             ax.set_xticks(list(range(len(df.index))))
             ax.set_xticklabels(list(df.index))
@@ -73,7 +76,7 @@ def run_stages(params):
 
 def run_operators(params):
     dir_out, algs, datasets = params['dir_out'], params['algs'], params['datasets']
-    variables, file_prefix, file_suffix, xlabel = params['variables'], params['file_prefix'], params['file_suffix'], params['xlabel']
+    variables, file_prefix, file_suffix, xlabel, log_y = params['variables'], params['file_prefix'], params['file_suffix'], params['xlabel'], params['log_y']
 
     if 'graph' in dir_out: # 为了graph和其他数据集做区分
         rows, cols = 1, 1
@@ -111,7 +114,9 @@ def run_operators(params):
         res_sort = sorted(res.items(), key=lambda x: x[1], reverse=True)  # 排序，选择topk算子
         columns = [i[0] for i in res_sort[:5]]
 
-        plt.figure(figsize=(12, 8))
+        if not 'graph' in dir_out:
+            plt.figure(figsize=(12, 8))
+        plt.figure()
         plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
         fig = plt.figure(1)
         i = 1
@@ -132,7 +137,8 @@ def run_operators(params):
 
             ax = plt.subplot(rows, cols, i)
             ax.set_title(algorithms[alg] + ' ' + data)
-            ax.set_yscale("symlog", basey=2)
+            if log_y:
+                ax.set_yscale("symlog", basey=2)
             ax.set_ylabel('Time (ms)')
             ax.set_xlabel(xlabel)
             ax.set_xticks(list(range(len(df.index))))
@@ -150,7 +156,7 @@ def run_operators(params):
 
 def run_memory(params):
     dir_memory, dir_out, algs, datasets = params['dir_memory'], params['dir_out'], params['algs'], params['datasets']
-    variables, file_prefix, file_suffix, xlabel = params['variables'], params['file_prefix'], params['file_suffix'], params['xlabel']
+    variables, file_prefix, file_suffix, xlabel, log_y = params['variables'], params['file_prefix'], params['file_suffix'], params['xlabel'], params['log_y']
     
     base_path = os.path.join(dir_out, "memory")
     if not os.path.exists(base_path):
@@ -193,7 +199,8 @@ def run_memory(params):
         df = pd.DataFrame(df)
         fig, ax = plt.subplots()
         ax.set_title(algorithms[alg])
-        ax.set_yscale("symlog", basey=2)
+        if log_y:
+            ax.set_yscale("symlog", basey=2)
         ax.set_ylabel("GPU Memory Usage(MB)")
         ax.set_xlabel(xlabel)
         ax.set_xticks(list(range(len(variables))))
@@ -208,7 +215,7 @@ def run_memory(params):
 
 def run():
     import yaml
-    params = yaml.load(open('cfg_file/hds_heads_exp.yaml'))
-    run_stages(params)
+    params = yaml.load(open('cfg_file/layer_exp.yaml'))
     run_operators(params)
-    run_memory(params)
+
+run()
