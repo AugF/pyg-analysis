@@ -194,7 +194,7 @@ def run_memory(params):
                     all_data /= 1024 * 1024
                     all_data = all_data.T  # 得到所有的數據
                     
-                df[data].append(max(all_data[0]))
+                df[data].append(max(all_data[1])) # 这里记录allocated_bytes.all.max
             if df[data] == [None] * (len(variables)):
                 del df[data]
 
