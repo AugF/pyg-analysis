@@ -17,7 +17,10 @@ algorithms = {
     'gaan': 'GaAN'
 }
 
-
+sampling_modes = {
+    'graphsage': 'GraphSAGE',
+    'cluster': 'Cluster-GCN'
+}
 
 # 这里将config实验除外，因为只涉及到两个参数
 # hds_heads_exp 参数
