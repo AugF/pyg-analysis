@@ -96,6 +96,7 @@ def run_layer_time():
         pd.DataFrame(df).to_csv(layers_path + '/' + alg + '.csv')
 
 
+run_layer_time()
 
 # less run_time
 def run_stages_time():
@@ -169,44 +170,15 @@ def run_memory():
 
 
 def pic_stages():
-    dir_out, algs, datasets, xlabel, log_y = params['dir_out'], params['algs'], params['datasets'], params['xlabel'], params['log_y']
+    for mode in ['graphsage', 'cluster']:
+        for alg in algs:
+            file_path = 'sampling_exp/stages/' + mode + '_' + alg + '.csv'
+            df = pd.read_csv(file_path, index_col=0)
+            labels = df.columns
+            data = 100 * df.values / df.values.sum(axis=0)
+            fig, ax = survey(labels, data.T, ['Sampling', 'Train'])
+            ax.set_title(sampling_modes[mode] + ' ' + algorithms[alg], loc="right")
+            ax.set_xlabel("%")
+            fig.savefig('sampling_exp/stages/' + mode + '_' + alg + '.png')
+            plt.show()
 
-    if 'graph' in dir_out: # 为了graph和其他数据集做区分
-        rows, cols = 1, 1
-    else:
-        rows, cols = 2, 3
-    dir_path = dir_out + '/' + label #todo 修改标签
-    for alg in algs:
-        if not 'graph' in dir_out:
-            plt.figure(figsize=(12, 8))
-        else:
-            plt.figure()
-        plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
-        fig = plt.figure(1)
-        i = 1
-        for data in datasets:
-            file_path = dir_path + '/' + alg + '_' + data + '.csv' # 这里只与alg和data相关
-            if not os.path.exists(file_path):
-                continue
-            df = pd.read_csv(file_path, index_col=0).T
-            if df.empty:
-                continue
-            df.columns = columns
-
-            ax = plt.subplot(rows, cols, i)
-            ax.set_title(algorithms[alg] + ' ' + data)
-            if log_y:
-                ax.set_yscale("symlog", basey=2)
-            ax.set_ylabel('Time (ms)')
-            ax.set_xlabel(xlabel)
-            ax.set_xticks(list(range(len(df.index)))) # df index是行
-            ax.set_xticklabels(list(df.index))
-            markers = 'oD^sdp'
-            for j, c in enumerate(df.columns):
-                df[c].plot(ax=ax, marker=markers[j], label=c, rot=0)
-            ax.legend()
-            i += 1
-        fig.tight_layout() # 防止重叠
-        fig.savefig(dir_path + "/" + label + "_" + alg + ".png")
-            # plt.show()
-        plt.close()
