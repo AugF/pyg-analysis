@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -8,15 +9,17 @@ plt.style.use("ggplot")
 
 
 def run_epochs():
+    plt.rcParams["font.size"] = 12
     for data in datasets:
         fig, ax = plt.subplots()
-        ax.set_ylabel("ms")
-        ax.set_xlabel("algorithm")
+        ax.set_ylabel("Training Time / Epoch (ms)")
+        ax.set_xlabel("Algorithm")
         df = pd.read_csv(dir_out + "/epochs/" + data + '.csv', index_col=0)
         columns = [algorithms[i] for i in df.columns]
         df.columns = columns
         df.plot(kind='box', title=data, ax=ax)
-        fig.savefig(dir_out + "/epochs/" + data + ".png")
+        plt.tight_layout()
+        fig.savefig(dir_out + "/exp_absolute_training_time_comparison_" + data + ".png")
 
 
 # 1. stages, layers, operators, edge-cal
@@ -155,7 +158,6 @@ def run_operators(params):
         fig.savefig(dir_out + "/operators/operators_" + alg + ".png")
         plt.close()
 
-
 def run_memory(params):
     dir_memory, dir_out, algs, datasets = params['dir_memory'], params['dir_out'], params['algs'], params['datasets']
     variables, file_prefix, file_suffix, xlabel, log_y = params['variables'], params['file_prefix'], params['file_suffix'], params['xlabel'], params['log_y']
@@ -222,4 +224,3 @@ def run():
     run_operators(params)
     run_memory(params)
 
-run()
