@@ -10,6 +10,8 @@ plt.style.use("ggplot")
 
 def run_epochs():
     plt.rcParams["font.size"] = 12
+    datasets = []
+    dir_out = ""
     for data in datasets:
         fig, ax = plt.subplots()
         ax.set_ylabel("Training Time / Epoch (ms)")

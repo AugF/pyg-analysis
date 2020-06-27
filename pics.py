@@ -10,6 +10,8 @@ plt.style.use("ggplot")
 
 def run_epochs():
     plt.rcParams["font.size"] = 12
+    datasets = []
+    dir_out = ""
     for data in datasets:
         fig, ax = plt.subplots()
         ax.set_ylabel("Training Time / Epoch (ms)")
@@ -195,8 +197,8 @@ def run_memory(params):
                                         backward_end, layer0_eval, layer1_eval, eval_end])
                     all_data /= (1024 * 1024)
                     df[data].append(max(all_data[:, 1]) - all_data[1, 1]) # 这里记录allocated_bytes.all.max
-            if df[data] == [None] * (len(variables)):
-                del df[data]
+            # if df[data] == [None] * (len(variables)):
+            #     del df[data]
 
         df = pd.DataFrame(df)
         fig, ax = plt.subplots()
@@ -218,8 +220,6 @@ def run_memory(params):
 def run():
     import yaml
     params = yaml.load(open('cfg_file/layer_exp.yaml'))
-    # run_stages(params)
-    # run_operators(params)
+    run_stages(params)
+    run_operators(params)
     run_memory(params)
-
-run()
