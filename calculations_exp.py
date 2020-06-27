@@ -131,5 +131,3 @@ def run_config_exp():
             res = get_calculations_time(cur, outliers, alg, 2)
             df[data] = res
         pd.DataFrame(df).to_csv(out_path)
-
-run_config_exp()

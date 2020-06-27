@@ -146,6 +146,5 @@ def run_config_exp():
         pd.DataFrame(df).to_csv(out_path)
 
 
-run_config_exp()
 
 

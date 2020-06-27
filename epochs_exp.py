@@ -133,5 +133,3 @@ def run_config_exp():
                 continue
             df[alg] = res
         pd.DataFrame(df).to_csv(csv_path)
-
-run_config_exp()
