@@ -30,7 +30,7 @@ def pic_stages(label, columns, params):
         rows, cols = 1, 1
     else:
         rows, cols = 2, 3
-    dir_path = dir_out + '/' + label #todo 修改标签
+    dir_path = dir_out + '/' + label #todo 修改标签  
     for alg in algs:
         if not 'graph' in dir_out:
             plt.figure(figsize=(12, 8))
@@ -193,10 +193,8 @@ def run_memory(params):
                     eval_end = np.array(res['eval_end']).mean(axis=0)
                     all_data = np.array([dataload_end, warmup_end, layer0_forward, layer1_forward, forward_end,
                                         backward_end, layer0_eval, layer1_eval, eval_end])
-                    all_data /= 1024 * 1024
-                    all_data = all_data.T  # 得到所有的數據
-                    
-                df[data].append(max(all_data[1])) # 这里记录allocated_bytes.all.max
+                    all_data /= (1024 * 1024)
+                    df[data].append(max(all_data[:, 1]) - all_data[1, 1]) # 这里记录allocated_bytes.all.max
             if df[data] == [None] * (len(variables)):
                 del df[data]
 
@@ -220,7 +218,8 @@ def run_memory(params):
 def run():
     import yaml
     params = yaml.load(open('cfg_file/layer_exp.yaml'))
-    run_stages(params)
-    run_operators(params)
+    # run_stages(params)
+    # run_operators(params)
     run_memory(params)
 
+run()
