@@ -88,6 +88,7 @@ def run_epochs_exp(params):
 
 def run_one_file():
     import yaml
+    base_path = ""
     params = yaml.load(open('cfg_file/hds_heads_exp.yaml'))
     dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
     variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
