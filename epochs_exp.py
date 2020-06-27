@@ -103,3 +103,35 @@ def run_one_file():
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
         res = get_epoch_time(cur, outlier_file)
         print(res)
+        
+
+def run_config_exp():
+    dir_out = "config_exp"
+    datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
+    algs = ['gcn', 'ggnn', 'gat', 'gaan']
+    dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/config_exp/dir_sqlite"
+    base_path = os.path.join(dir_out, "epochs")
+    if not os.path.exists(base_path):
+        os.makedirs(base_path)
+
+    for data in datasets:
+        csv_path = base_path + '/' + data + '.csv'
+        if os.path.exists(csv_path): # 断点续传
+            continue
+        df = {}
+        for alg in algs:
+            outlier_file = base_path + '/' + alg + '_' + data + '_outliers.txt'
+            file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
+            if not os.path.exists(file_path):
+                continue
+            cur = sqlite3.connect(file_path).cursor()
+            print(file_path)
+            print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+            res = get_epoch_time(cur, outlier_file)
+            if res == None:
+                print("res is None")
+                continue
+            df[alg] = res
+        pd.DataFrame(df).to_csv(csv_path)
+
+run_config_exp()

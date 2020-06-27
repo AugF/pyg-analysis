@@ -4,13 +4,10 @@ import sys
 import sqlite3
 import numpy as np
 import pandas as pd
-from utils import get_real_time, get_int, dir_name, dir_out, algs, datasets
+from utils import get_real_time, get_int
 
-base_path = os.path.join(dir_out, "layers")
-if not os.path.exists(base_path):
-    os.makedirs(base_path)
 
-def get_layers_time(cur, outliers):
+def get_layers_time(cur, outliers, alg):
     labels = ['layer0', 'layer1', 'loss', 'other']
     layers_time = []
 
@@ -121,24 +118,34 @@ def get_layers_time(cur, outliers):
     return layers_time
 
 
-if len(sys.argv) < 2 or sys.argv[1] not in algs:
-    print("python layers_exp.py gcn")
-    sys.exit(0)
+def run_config_exp():
+    dir_out = "config_exp"
+    datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
+    algs = ['gcn', 'ggnn', 'gat', 'gaan']
+    dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/config_exp/dir_sqlite"
+    base_path = os.path.join(dir_out, "layers")
+    if not os.path.exists(base_path):
+        os.makedirs(base_path)
+        
+    for alg in algs:
+        df = {}
+        out_path = base_path + '/' + alg + '.csv'
+        if os.path.exists(out_path):
+            continue
+        for data in datasets:
+            outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
+            file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
+            if not os.path.exists(file_path) or not os.path.exists(outlier_file):
+                continue
+            cur = sqlite3.connect(file_path).cursor()
+            print(data, alg)
+            print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+            outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+            res = get_layers_time(cur, outliers, alg)
+            df[data] = res
+        pd.DataFrame(df).to_csv(out_path)
 
-alg = sys.argv[1]
 
-df = {}
-for data in datasets:
-    outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
-    file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
-    if not os.path.exists(file_path):
-        continue
-    cur = sqlite3.connect(file_path).cursor()
-    print(data, alg)
-    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-    outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
-    res = get_layers_time(cur, outliers)
-    df[data] = res
-pd.DataFrame(df).to_csv(base_path + '/' + alg + '.csv')
+run_config_exp()
 
 

@@ -107,5 +107,33 @@ def run_one_operator():
     res = get_operators_time(cur, outliers)
     print(res)
 
-    # with open(base_path + "/" + alg + '_' + data + file_prefix + str(var) + file_suffix + ".json", "w") as f:
-    #     json.dump(res, f)
+
+def run_config_exp():
+    dir_out = "config_exp"
+    datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
+    algs = ['gcn', 'ggnn', 'gat', 'gaan']
+    dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/config_exp/dir_sqlite"
+    base_path = os.path.join(dir_out, "operators")
+    if not os.path.exists(base_path):
+        os.makedirs(base_path)
+        
+    for alg in algs:
+        df = {}
+        out_path = base_path + '/' + alg + '.csv'
+        if os.path.exists(out_path):
+            continue
+        for data in datasets:
+            outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
+            file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
+            if not os.path.exists(file_path) or not os.path.exists(outlier_file):
+                continue
+            cur = sqlite3.connect(file_path).cursor()
+            print(data, alg)
+            print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+            outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+            res = get_operators_time(cur, outliers)
+            df[data] = res
+        pd.DataFrame(df).to_csv(out_path)
+
+
+run_config_exp()
