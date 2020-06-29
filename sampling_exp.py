@@ -8,7 +8,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from utils import get_real_time, get_int, algorithms, sampling_modes, survey
 
-dir_name = "/data/wangzhaokang/wangyunpan/sampling_exp"
+dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/sampling_exp/dir_path"
 dir_out = "sampling_exp"
 modes = ['graphsage']
 algs = ['gcn', 'ggnn', 'gat', 'gaan']
@@ -95,7 +95,6 @@ def run_layer_time():
             df[data] = [layer0_time, layer1_time]
         pd.DataFrame(df).to_csv(layers_path + '/' + alg + '.csv')
 
-
 run_layer_time()
 
 # less run_time
@@ -149,10 +148,15 @@ def run_memory():
                     continue
                 with open(file_path) as f:
                     res = json.load(f)
-                    max_val = 0
-                    for key in res.keys():
-                        max_val = max(max_val, np.array(res[key]).mean(axis=0)[1] / (1024 * 1024))
-                df[alg].append(max_val)
+                    warmup_end = np.array(res['warmup end']).mean(axis=0)
+                    layer0 = np.array(res['layer0'][1:]).mean(axis=0)
+                    layer1 = np.array(res['layer1'][1:]).mean(axis=0)
+                    forward_end = np.array(res['forward_end'][1:]).mean(axis=0)
+                    backward_end = np.array(res['backward_end'][1:]).mean(axis=0)
+                    all_data = np.array([warmup_end, layer0, layer1, forward_end,
+                                        backward_end])
+                    all_data /= (1024 * 1024)
+                    df[alg].append(max(all_data[:, 1]) - all_data[0, 1]) # 这里记录allocated_bytes.all.max
         df = pd.DataFrame(df)
         df.to_csv(memory_path + '/memory_' + mode + '.csv')
         fig, ax = plt.subplots()

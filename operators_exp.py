@@ -3,6 +3,7 @@ import time
 import sys
 import sqlite3
 import numpy as np
+import pandas as pd
 import json
 from utils import get_real_time
 
@@ -119,10 +120,10 @@ def run_config_exp():
         
     for alg in algs:
         df = {}
-        out_path = base_path + '/' + alg + '.csv'
-        if os.path.exists(out_path):
-            continue
         for data in datasets:
+            out_path = base_path + '/' + alg + '_' + data + '.json'
+            if os.path.exists(out_path):
+                continue
             outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
             file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
             if not os.path.exists(file_path) or not os.path.exists(outlier_file):
@@ -132,7 +133,7 @@ def run_config_exp():
             print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
             outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
             res = get_operators_time(cur, outliers)
-            df[data] = res
-        pd.DataFrame(df).to_csv(out_path)
+            with open(out_path, "w") as f:
+                json.dump(res, f)
 
-
+run_config_exp()

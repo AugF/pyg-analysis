@@ -43,7 +43,10 @@ def get_edge_time(cur, outliers, alg='gcn', layer=2):
 
                 seq_backward_sql = "select start, end, text from nvtx_events where text like '%Backward%seq = {0}' or text like '%ScatterMax%seq = {0}'"
                 end_time = cur.execute(seq_backward_sql.format(min_seq)).fetchone()
-
+                
+                if end_time is None:
+                    end_time = cur.execute(seq_backward_sql.format(min_seq - 1)).fetchone()
+                    
                 # 2.3 为了将空格时间考虑进去，这里在左边时间进行延伸
                 start_time = cur.execute(seq_backward_sql.format(max_seq + 1)).fetchone()
                 if start_time:
@@ -100,7 +103,7 @@ def run_edge_cal_exp(params):
 
 def run_one_file():
     import yaml
-    params = yaml.load(open('cfg_file/hds_head_dims_exp.yaml'))
+    params = yaml.load(open('cfg_file/config_exp.yaml'))
     dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
     variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
 
