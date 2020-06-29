@@ -1,0 +1,15 @@
+python: can't open file 'joba': [Errno 2] No such file or directory
+operators_exp.py:134: UserWarning: genfromtxt: Empty input file: "config_exp/epochs/gcn_amazon-photo_outliers.txt"
+  outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+amazon-photo gcn
+2020-06-29 11:24:34
+Traceback (most recent call last):
+  File "operators_exp.py", line 139, in <module>
+    run_config_exp()
+  File "operators_exp.py", line 135, in run_config_exp
+    res = get_operators_time(cur, outliers)
+  File "operators_exp.py", line 44, in get_operators_time
+    cuda_times[k] += get_real_time(x, cur)[0]
+  File "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/utils.py", line 50, in get_real_time
+    event_ids = cur.execute(sql_runtime).fetchall()
+KeyboardInterrupt
