@@ -4,8 +4,13 @@ import time
 import sqlite3
 import numpy as np
 import pandas as pd
-from utils import get_real_time, dir_name, dir_out, algs, datasets
+import matplotlib.pyplot as plt
+from utils import get_real_time, get_int, survey, algorithms, datasets_maps, datasets, dicts
+plt.style.use("ggplot")
+plt.rcParams["font.size"] = 12
 
+dir_out = "config_exp"
+dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/config_exp/dir_sqlite"
 base_path = os.path.join(dir_out, "stages")
 if not os.path.exists(base_path):
     os.makedirs(base_path)
@@ -26,27 +31,20 @@ def get_stage_time(cur, outliers):
         stages_times.append(cost_time / (50 - len(outliers)))
     return stages_times
 
-if len(sys.argv) < 2 or sys.argv[1] not in algs:
-    print("python stages_exp.py gcn")
-    sys.exit(0)
-
-alg = sys.argv[1]
-
-df = {}
-for data in datasets:
-    outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
-    file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
-    if not os.path.exists(file_path):
-        continue
-    cur = sqlite3.connect(file_path).cursor()
-    print(data, alg)
-    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-    outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
-    res = get_stage_time(cur, outliers)
-    df[data] = res
-pd.DataFrame(df).to_csv(base_path + '/' + alg + '.csv')
-
-
-
-
-
+def run_config_exp():
+    for alg in ['gaan']:
+        df = {}
+        for data in datasets:
+            outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
+            file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
+            if not os.path.exists(file_path) or not os.path.exists(outlier_file):
+                continue
+            cur = sqlite3.connect(file_path).cursor()
+            print(data, alg)
+            print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+            outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+            res = get_stage_time(cur, outliers)
+            df[data] = res
+        pd.DataFrame(df).to_csv(base_path + '/' + alg + '.csv')
+    
+run_config_exp()

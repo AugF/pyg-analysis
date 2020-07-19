@@ -5,7 +5,7 @@ from epochs_exp import run_epochs_exp
 from calculations_exp import run_calculations_exp
 from edge_cal_exp import run_edge_cal_exp
 from operators_exp import run_operators_exp
-from pics import run_stages, run_operators, run_memory
+from pics_vars import run_pics_others, pics_operators, pics_memory
 
 
 parser = argparse.ArgumentParser()
@@ -25,8 +25,8 @@ run_operators_exp(params)
 
 # run_one_operator(params)
 print("pic stages ...")
-run_stages(params)
+run_pics_others(params)
 print("pic operators ...")
-run_operators(params)
-print("pic memory ...")
-run_memory(params)
+pics_operators(params)
+#print("pic memory ...")
+#pics_memory(params)

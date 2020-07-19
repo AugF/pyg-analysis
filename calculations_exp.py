@@ -4,8 +4,10 @@ import sys
 import sqlite3
 import numpy as np
 import pandas as pd
-from utils import get_real_time, get_int, all_labels
-
+import matplotlib.pyplot as plt
+from utils import get_real_time, get_int, all_labels, survey, algorithms, datasets_maps
+plt.style.use("ggplot")
+plt.rcParams["font.size"] = 12
 
 def get_calculations_time(cur, outliers, alg, layer=2):
     labels = all_labels[alg]
@@ -55,6 +57,7 @@ def get_calculations_time(cur, outliers, alg, layer=2):
 # alg = sys.argv[1]
 
 def run_calculations_exp(params):
+    print(params)
     dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
     variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
 
@@ -131,3 +134,15 @@ def run_config_exp():
             res = get_calculations_time(cur, outliers, alg, 2)
             df[data] = res
         pd.DataFrame(df).to_csv(out_path)
+
+run_config_exp()
+if __name__ == '__main__':
+    import yaml
+    if len(sys.argv) < 2:
+        print("python pics_var.py [yaml_file_path, config_exp]")
+        sys.exit(0)
+    if sys.argv[1] == 'config_exp':
+        run_config_exp()
+    else:
+        params = yaml.load(open(sys.argv[1]))
+        run_calculations_exp(params) 

@@ -73,7 +73,7 @@ def run_edge_cal_exp(params):
     variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
     
     layer_var_flag = params['dir_out'] == 'layer_exp'
-    base_path = os.path.join(dir_out, "edge-cal")
+    base_path = os.path.join(dir_out, "edge_cal")
     if not os.path.exists(base_path):
         os.makedirs(base_path)
 
@@ -147,3 +147,15 @@ def run_config_exp():
             res = get_edge_time(cur, outliers, alg, 2)
             df[data] = res
         pd.DataFrame(df).to_csv(out_path)
+
+run_config_exp()
+if __name__ == '__main__':
+    import yaml
+    if len(sys.argv) < 2:
+        print("python pics_var.py [yaml_file_path]")
+        sys.exit(0)
+    if sys.argv[1] == 'config_exp':
+        run_config_exp()
+    else:
+        params = yaml.load(open(sys.argv[1]))
+        run_edge_cal_exp(params) 

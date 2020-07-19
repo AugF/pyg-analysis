@@ -1,7 +1,6 @@
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-plt.style.use('ggplot')
 
 all_labels = {
         'gcn': ['vertex-cal', 'edge-cal'],
@@ -22,6 +21,21 @@ sampling_modes = {
     'cluster': 'Cluster-GCN'
 }
 
+datasets_maps = {
+    'amazon-photo': 'amp',
+    'pubmed': 'pub',
+    'amazon-computers': 'amc',
+    'coauthor-physics': 'cph',
+    'flickr': 'fli',
+    'com-amazon': 'cam'
+}
+
+dicts = {
+        'stages': ['Forward', 'Backward', 'Eval'],
+        'layers': ['Layer0', 'Layer1', 'Loss', 'Other'],
+        'calculations': ['Vertex Calculation', 'Edge Calculation'],
+        'edge_cal': ['Collect', 'Message', 'Aggregate', 'Update']
+    }
 # 这里将config实验除外，因为只涉及到两个参数
 # hds_heads_exp 参数
 datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
@@ -64,19 +78,24 @@ def get_real_time(x, cur): # 对应到cuda的获取真实时间
     return (end_time - start_time) / 1e6, start_time, end_time
 
 
-def survey(labels, data, category_names): # stages, layers, steps，算子可以通用
+def survey(labels, data, category_names, ax=None): # stages, layers, steps，算子可以通用
     for i, c in enumerate(category_names):
         if c[0] == '_':
             category_names[i] = c[1:]
 
     data_cum = data.cumsum(axis=1)
     category_colors = plt.get_cmap('RdYlGn')(
+    # category_colors = plt.get_cmap('Dark2')(
         np.linspace(0.15, 0.85, data.shape[1]))
-
-    fig, ax = plt.subplots(figsize=(9.2, 5))
+    
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(9.2, 5))
+    else:
+        fig = None
     ax.invert_yaxis()
-    ax.xaxis.set_visible(False)
+    #ax.xaxis.set_visible(False)
     ax.set_xlim(0, np.sum(data, axis=1).max())
+    ax.set_xlabel("Proportion (%)")
 
     for i, (colname, color) in enumerate(zip(category_names, category_colors)):
         widths = data[:, i]
@@ -95,6 +114,22 @@ def survey(labels, data, category_names): # stages, layers, steps，算子可以
 
     return fig, ax
 
+
+# added for pic exp_memory_expansion_ratio;
+def autolabel(rects, ax):
+    """Attach a text label above each bar in *rects*, displaying its height."""
+    for rect in rects:
+        height = rect.get_height()
+        if str(height) == 'nan':
+            continue
+        #ax.annotate('{}'.format(height),
+        #            xy=(rect.get_x() + rect.get_width() / 2, height),
+        #           xytext=(0, 3),  # 3 points vertical offset
+        #           textcoords="offset points",
+        #            ha='center', va='bottom')
+        # ax.text(rect.get_x() , height + 1, int(height), fontsize=8)
+        ax.text(rect.get_x() , height + 0.1, int(height), fontsize=4.5)
+    return ax
 
 
 

@@ -12,6 +12,7 @@ from utils import get_real_time
 def get_epoch_time(cur, outlier_file):
     sql = "select start, end, text from nvtx_events where text like 'epochs%'"
     res = cur.execute(sql).fetchall()  # 所有epochs的结果
+    print(len(res))
     if len(res) < 50: # 过滤掉运行异常的sqlite文件
         return None
 
@@ -67,12 +68,12 @@ def run_epochs_exp(params):
         for alg in algs:
             csv_path = base_path + '/' + alg + '_' + data + '.csv'
             if os.path.exists(csv_path): # 断点续传
-                continue
+               continue
             df = {}
             for var in variables:
                 outlier_file = base_path + '/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
                 file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
-                if not os.path.exists(file_path):
+                if not os.path.exists(file_path) or os.path.exists(outlier_file):
                     continue
                 cur = sqlite3.connect(file_path).cursor()
                 print(file_path)
@@ -120,11 +121,11 @@ def run_config_exp():
         if os.path.exists(csv_path): # 断点续传
             continue
         df = {}
+        print(csv_path)
         for alg in algs:
             outlier_file = base_path + '/' + alg + '_' + data + '_outliers.txt'
             file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
-            if not os.path.exists(file_path):
-                continue
+            print(file_path)
             cur = sqlite3.connect(file_path).cursor()
             print(file_path)
             print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
@@ -134,3 +135,14 @@ def run_config_exp():
                 continue
             df[alg] = res
         pd.DataFrame(df).to_csv(csv_path)
+
+if __name__ == '__main__':
+    import yaml
+    if len(sys.argv) < 2:
+        print("python pics_var.py [yaml_file_path, config_exp]")
+        sys.exit(0)
+    if sys.argv[1] == 'config_exp':
+        run_config_exp()
+    else:
+        params = yaml.load(open(sys.argv[1]))
+        run_epochs_exp(params) 

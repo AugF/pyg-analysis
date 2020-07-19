@@ -8,8 +8,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from utils import get_real_time, get_int, algorithms, sampling_modes, survey
 
-dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/sampling_exp/dir_path"
-dir_out = "sampling_exp"
+dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/sampling_exp/basic_exp/dir_path"
+dir_out = "sampling_exp/basic_exp"
 modes = ['graphsage']
 algs = ['gcn', 'ggnn', 'gat', 'gaan']
 datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
@@ -28,6 +28,8 @@ if not os.path.exists(memory_path):
 
 def run_layer_time():
     for alg in algs:
+        if os.path.exists(layers_path + '/' + alg + '.csv'):
+            continue
         df = {}
         for data in datasets:
             file_path = os.path.join(dir_name, alg + '_' + data + '_graphsage.sqlite')
@@ -95,7 +97,6 @@ def run_layer_time():
             df[data] = [layer0_time, layer1_time]
         pd.DataFrame(df).to_csv(layers_path + '/' + alg + '.csv')
 
-run_layer_time()
 
 # less run_time
 def run_stages_time():
@@ -136,7 +137,7 @@ def run_stages_time():
 
 # memory experiment
 def run_memory():
-    dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/sampling_exp/dir_json"
+    dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/sampling_exp/basic_exp/dir_json"
     for mode in ['cluster', 'graphsage']:
         df = {}
         for alg in algs:
@@ -174,15 +175,16 @@ def run_memory():
 
 
 def pic_stages():
-    for mode in ['graphsage', 'cluster']:
-        for alg in algs:
-            file_path = 'sampling_exp/stages/' + mode + '_' + alg + '.csv'
-            df = pd.read_csv(file_path, index_col=0)
-            labels = df.columns
-            data = 100 * df.values / df.values.sum(axis=0)
-            fig, ax = survey(labels, data.T, ['Sampling', 'Train'])
-            ax.set_title(sampling_modes[mode] + ' ' + algorithms[alg], loc="right")
-            ax.set_xlabel("%")
-            fig.savefig('sampling_exp/stages/' + mode + '_' + alg + '.png')
-            plt.show()
+    for alg in algs:
+        file_path = 'sampling_exp/basic_exp/layers/' + alg + '.csv'
+        df = pd.read_csv(file_path, index_col=0)
+        labels = df.columns
+        data = 100 * df.values / df.values.sum(axis=0)
+        fig, ax = survey(labels, data.T, ['Layer0', 'Layer1'])
+        ax.set_title('graphsage_' + algorithms[alg], loc="right")
+        ax.set_xlabel("%")
+        fig.savefig('sampling_exp/basic_exp/layers/graphsage_' + alg + '.png')
+        plt.show()
 
+
+run_memory()
