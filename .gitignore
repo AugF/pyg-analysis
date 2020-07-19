@@ -3,4 +3,8 @@ cfg_file/*
 *exp/*
 .idea/*
 __p*/*
-*.log
+*/*pdf
+*/*png
+*log
+*/*csv
+*/*txt
