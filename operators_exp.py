@@ -115,7 +115,7 @@ def run_config_exp(params):
     base_path = os.path.join(dir_out, "operators")
     if not os.path.exists(base_path):
         os.makedirs(base_path)
-        
+    
     for alg in algs:
         df = {}
         for data in datasets:

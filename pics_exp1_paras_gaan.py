@@ -18,7 +18,7 @@ def pic_calculations_gaan(file_type="png"):
 
     file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_"
     xticklabels = [['16', '32', '64', '128', '256', '512', '1024', '2048'], ['8', '16', '32', '64', '128', '256'], ['1', '2', '4', '8', '16']]
-    xlabel = [r"Hidden Vector Dimension $dim(\boldsymbol{h}^1)$ (#Head=4, $d_a=d_v=d_m$=32)", r"$d_a, d_v, d_m$(#Head=4, $dim(\boldsymbol{h}^1)$=64)",  r"#Head ($dim(\boldsymbol{h}^1)$=4, $d_a=d_v=d_m$=32)"]
+    xlabel = [r"Hidden Vector Dimension $dim(\mathbf{h}^1)$ (#Head=4, $d_a=d_v=d_m$=32)", r"$d_a, d_v, d_m$(#Head=4, $dim(\mathbf{h}^1)$=64)",  r"#Head ($dim(\mathbf{h}^1)$=64, $d_a=d_v=d_m$=32)"]
     dir_paths = ["hds", "hds_d", "hds_head"]
     dir_in = "paper_exp1_super_parameters"
     dir_out = "paper_exp1_super_parameters"
@@ -72,11 +72,11 @@ def run_memory_gaan(file_type="png"):
     log_y = True
 
     xticklabels = [['16', '32', '64', '128', '256', '512', '1024', '2048'], ['8', '16', '32', '64', '128', '256'], ['1', '2', '4', '8', '16']]
-    xlabel = [r"Hidden Vector Dimension $dim(\boldsymbol{h}^1)$ (#Head=4, $d_a=d_v=d_m$=32)", r"$d_a, d_v, d_m$(#Head=4, $dim(\boldsymbol{h}^1)$=64)",  r"#Head ($dim(\boldsymbol{h}^1)$=4, $d_a=d_v=d_m$=32)"]
+    xlabel = [r"Hidden Vector Dimension $dim(\mathbf{h}^1)$ (#Head=4, $d_a=d_v=d_m$=32)", r"$d_a, d_v, d_m$(#Head=4, $dim(\mathbf{h}^1)$=64)",  r"#Head ($dim(\mathbf{h}^1)$=64, $d_a=d_v=d_m$=32)"]
     
     dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json"
     dir_out = "paper_exp1_super_parameters"
-    dir_paths = ["hds_exp", "hds_d_exp", "hds_head_exp"]
+    dir_paths = ["hds", "hds_d", "hds_head"]
     
     file_prefix = ['_4_32_', '_4_', '_']
     file_suffix = ['', '_64', '_32_64']

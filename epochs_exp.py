@@ -20,6 +20,7 @@ def get_epoch_time(cur, outlier_file):
     tables = {x: i for i, x in enumerate(epoch_times)}
 
     epoch_times.sort()
+    print(epoch_times)
     n = len(epoch_times)
     x, y = (n + 1) * 0.25, (n + 1) * 0.75
     tx, ty = math.floor(x), math.floor(y)
@@ -44,17 +45,13 @@ def get_epoch_time(cur, outlier_file):
         if x < min_val or x > max_val:
             outliers.append(tables[x])
 
+    print(outlier_file)
     with open(outlier_file, 'w') as f:
         for i in outliers:
             f.write(str(i) + ' ')
 
     return epoch_times
 
-# if len(sys.argv) < 2 or sys.argv[1] not in datasets:
-#     print("python epochs_exp.py flickr")
-#     sys.exit(0)
-
-# data = sys.argv[1]
 
 def run_epochs_exp(params):
     dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
@@ -73,7 +70,7 @@ def run_epochs_exp(params):
             for var in variables:
                 outlier_file = base_path + '/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
                 file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
-                if not os.path.exists(file_path) or os.path.exists(outlier_file):
+                if not os.path.exists(file_path):
                     continue
                 cur = sqlite3.connect(file_path).cursor()
                 print(file_path)
@@ -90,12 +87,12 @@ def run_epochs_exp(params):
 def run_one_file():
     import yaml
     base_path = ""
-    params = yaml.load(open('cfg_file/hds_heads_exp.yaml'))
+    params = yaml.load(open('cfg_file/gaan_exp_hds_d.yaml'))
     dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
     variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
 
-    alg, data, var = 'gcn', 'amazon-photo', 16
-    csv_path = base_path + '/' + alg + '_' + data + '.csv'
+    alg, data, var = 'gaan', 'pubmed', 256
+    base_path = dir_out + "/epochs"
     outlier_file = base_path + '/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
     file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
     if os.path.exists(file_path):
@@ -135,6 +132,7 @@ def run_config_exp(params):
         pd.DataFrame(df).to_csv(csv_path)
 
 if __name__ == '__main__':
+    run_one_file()
     import yaml
     if len(sys.argv) < 2:
         print("python epochs_exp.py [yaml_file_path, config_exp]")

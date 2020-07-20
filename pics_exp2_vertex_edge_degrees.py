@@ -9,7 +9,7 @@ def pic_calculations_avg_degree(file_type="png"):
     file_prefix = "exp_avg_degree_on_vertex_edge_cal_time_"
     xticklabels = [3, 6, 10, 15, 20, 25, 30, 50]
     xlabel = "Average Vertex Degree"
-    algs = ['gcn', 'ggnn', 'gat', 'gaan']
+    algs = ['gaan']
     labels = ['Vertex Calculation', 'Edge Calculation']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
     

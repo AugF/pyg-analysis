@@ -78,16 +78,19 @@ def get_real_time(x, cur): # 对应到cuda的获取真实时间
     return (end_time - start_time) / 1e6, start_time, end_time
 
 
-def survey(labels, data, category_names, ax=None): # stages, layers, steps，算子可以通用
+def survey(labels, data, category_names, ax=None, color_dark2=False): # stages, layers, steps，算子可以通用
     for i, c in enumerate(category_names):
         if c[0] == '_':
             category_names[i] = c[1:]
 
     data_cum = data.cumsum(axis=1)
-    category_colors = plt.get_cmap('RdYlGn')(
-    # category_colors = plt.get_cmap('Dark2')(
-        np.linspace(0.15, 0.85, data.shape[1]))
-    
+    if color_dark2:
+        category_colors = plt.get_cmap('Dark2')(
+            np.linspace(0.15, 0.85, data.shape[1]))
+    else:
+        category_colors = plt.get_cmap('RdYlGn')(
+            np.linspace(0.15, 0.85, data.shape[1]))       
+        
     if ax is None:
         fig, ax = plt.subplots(figsize=(9.2, 5))
     else:
@@ -116,7 +119,7 @@ def survey(labels, data, category_names, ax=None): # stages, layers, steps，算
 
 
 # added for pic exp_memory_expansion_ratio;
-def autolabel(rects, ax):
+def autolabel(rects, ax, memory_ratio_flag=False):
     """Attach a text label above each bar in *rects*, displaying its height."""
     for rect in rects:
         height = rect.get_height()
@@ -127,8 +130,10 @@ def autolabel(rects, ax):
         #           xytext=(0, 3),  # 3 points vertical offset
         #           textcoords="offset points",
         #            ha='center', va='bottom')
-        # ax.text(rect.get_x() , height + 1, int(height), fontsize=8)
-        ax.text(rect.get_x() , height + 0.1, int(height), fontsize=4.5)
+        if memory_ratio_flag:
+            ax.text(rect.get_x() , height + 1, int(height), fontsize=8)
+        else:
+            ax.text(rect.get_x() , height + 0.1, int(height), fontsize=4.5)
     return ax
 
 

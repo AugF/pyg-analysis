@@ -1,0 +1,407 @@
+calculations_exp.py:137: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  params = yaml.load(open(sys.argv[1]))
+calculations_exp.py:78: UserWarning: genfromtxt: Empty input file: "paper_exp1_super_parameters/gaan_exp/hds_head/epochs/gaan_amazon-photo_16_32_64_outliers.txt"
+  outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+calculations_exp.py:78: UserWarning: genfromtxt: Empty input file: "paper_exp1_super_parameters/gaan_exp/hds_head/epochs/gaan_amazon-computers_8_32_64_outliers.txt"
+  outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+calculations_exp.py:78: UserWarning: genfromtxt: Empty input file: "paper_exp1_super_parameters/gaan_exp/hds_head/epochs/gaan_flickr_4_32_64_outliers.txt"
+  outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+{'datasets': ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon'], 'algs': ['gaan'], 'dir_out': 'paper_exp1_super_parameters/gaan_exp/hds_head', 'dir_name': '/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite', 'dir_memory': '/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json', 'variables': [1, 2, 4, 8, 16], 'file_prefix': '_', 'file_suffix': '_32_64', 'xlabel': 'r"#Head (#$h^1_{in}$=4, $d_a=d_v=d_m$=32)"', 'log_y': True, 'layer': 2}
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_2_32_64.sqlite
+amazon-photo gaan
+2020-07-20 17:19:10
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_32_64.sqlite
+amazon-photo gaan
+2020-07-20 17:21:04
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_8_32_64.sqlite
+amazon-photo gaan
+2020-07-20 17:22:59
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_16_32_64.sqlite
+amazon-photo gaan
+2020-07-20 17:24:51
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_1_32_64.sqlite
+pubmed gaan
+2020-07-20 17:26:50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_2_32_64.sqlite
+pubmed gaan
+2020-07-20 17:28:36
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_32_64.sqlite
+pubmed gaan
+2020-07-20 17:30:27
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_8_32_64.sqlite
+pubmed gaan
+2020-07-20 17:32:16
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_1_32_64.sqlite
+amazon-computers gaan
+2020-07-20 17:34:01
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_2_32_64.sqlite
+amazon-computers gaan
+2020-07-20 17:35:54
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_4_32_64.sqlite
+amazon-computers gaan
+2020-07-20 17:37:48
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_8_32_64.sqlite
+amazon-computers gaan
+2020-07-20 17:39:43
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_1_32_64.sqlite
+flickr gaan
+2020-07-20 17:41:41
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_2_32_64.sqlite
+flickr gaan
+2020-07-20 17:43:37
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_4_32_64.sqlite
+flickr gaan
+2020-07-20 17:45:39
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_1_32_64.sqlite
+com-amazon gaan
+2020-07-20 17:47:43
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_2_32_64.sqlite
+com-amazon gaan
+2020-07-20 17:49:44
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_4_32_64.sqlite
+com-amazon gaan
+2020-07-20 17:51:44
+epochs_exp.py:142: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  params = yaml.load(open(sys.argv[1]))
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_1_32_64.sqlite
+amazon-photo gaan 1
+2020-07-20 17:04:26
+6
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_2_32_64.sqlite
+amazon-photo gaan 2
+2020-07-20 17:04:26
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_32_64.sqlite
+amazon-photo gaan 4
+2020-07-20 17:07:19
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_8_32_64.sqlite
+amazon-photo gaan 8
+2020-07-20 17:10:12
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_16_32_64.sqlite
+amazon-photo gaan 16
+2020-07-20 17:13:03
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_1_32_64.sqlite
+pubmed gaan 1
+2020-07-20 17:15:54
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_2_32_64.sqlite
+pubmed gaan 2
+2020-07-20 17:18:35
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_32_64.sqlite
+pubmed gaan 4
+2020-07-20 17:21:33
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_8_32_64.sqlite
+pubmed gaan 8
+2020-07-20 17:24:33
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_16_32_64.sqlite
+pubmed gaan 16
+2020-07-20 17:27:31
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_1_32_64.sqlite
+amazon-computers gaan 1
+2020-07-20 17:27:31
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_2_32_64.sqlite
+amazon-computers gaan 2
+2020-07-20 17:30:32
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_4_32_64.sqlite
+amazon-computers gaan 4
+2020-07-20 17:33:35
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_8_32_64.sqlite
+amazon-computers gaan 8
+2020-07-20 17:36:41
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_16_32_64.sqlite
+amazon-computers gaan 16
+2020-07-20 17:39:43
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_coauthor-physics_4_32_64.sqlite
+coauthor-physics gaan 4
+2020-07-20 17:39:43
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_1_32_64.sqlite
+flickr gaan 1
+2020-07-20 17:39:43
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_2_32_64.sqlite
+flickr gaan 2
+2020-07-20 17:42:49
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_4_32_64.sqlite
+flickr gaan 4
+2020-07-20 17:46:00
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_8_32_64.sqlite
+flickr gaan 8
+2020-07-20 17:49:08
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_16_32_64.sqlite
+flickr gaan 16
+2020-07-20 17:49:08
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_1_32_64.sqlite
+com-amazon gaan 1
+2020-07-20 17:49:08
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_2_32_64.sqlite
+com-amazon gaan 2
+2020-07-20 17:52:18
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_4_32_64.sqlite
+com-amazon gaan 4
+2020-07-20 17:55:26
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_8_32_64.sqlite
+com-amazon gaan 8
+2020-07-20 17:58:33
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_16_32_64.sqlite
+com-amazon gaan 16
+2020-07-20 17:58:33
+0
+res is None
+calculations_exp.py:137: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  params = yaml.load(open(sys.argv[1]))
+calculations_exp.py:78: UserWarning: genfromtxt: Empty input file: "paper_exp1_super_parameters/gaan_exp/hds_d/epochs/gaan_amazon-photo_4_128_64_outliers.txt"
+  outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+calculations_exp.py:78: UserWarning: genfromtxt: Empty input file: "paper_exp1_super_parameters/gaan_exp/hds_d/epochs/gaan_amazon-photo_4_256_64_outliers.txt"
+  outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+calculations_exp.py:78: UserWarning: genfromtxt: Empty input file: "paper_exp1_super_parameters/gaan_exp/hds_d/epochs/gaan_amazon-computers_4_64_64_outliers.txt"
+  outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+calculations_exp.py:78: UserWarning: genfromtxt: Empty input file: "paper_exp1_super_parameters/gaan_exp/hds_d/epochs/gaan_flickr_4_32_64_outliers.txt"
+  outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+{'datasets': ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon'], 'algs': ['gaan'], 'dir_out': 'paper_exp1_super_parameters/gaan_exp/hds_d', 'dir_name': '/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite', 'dir_memory': '/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json', 'variables': [8, 16, 32, 64, 128, 256], 'file_prefix': '_4_', 'file_suffix': '_64', 'xlabel': 'r"$d_a, d_v, d_m$(#Head=4, $h^1_{in}$=64)"', 'log_y': True, 'layer': 2}
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_8_64.sqlite
+amazon-photo gaan
+2020-07-20 17:19:05
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_16_64.sqlite
+amazon-photo gaan
+2020-07-20 17:20:54
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_32_64.sqlite
+amazon-photo gaan
+2020-07-20 17:22:51
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_64_64.sqlite
+amazon-photo gaan
+2020-07-20 17:24:49
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_128_64.sqlite
+amazon-photo gaan
+2020-07-20 17:26:45
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_256_64.sqlite
+amazon-photo gaan
+2020-07-20 17:28:48
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_8_64.sqlite
+pubmed gaan
+2020-07-20 17:30:51
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_16_64.sqlite
+pubmed gaan
+2020-07-20 17:32:39
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_32_64.sqlite
+pubmed gaan
+2020-07-20 17:34:31
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_64_64.sqlite
+pubmed gaan
+2020-07-20 17:36:21
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_128_64.sqlite
+pubmed gaan
+2020-07-20 17:38:08
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_4_8_64.sqlite
+amazon-computers gaan
+2020-07-20 17:40:00
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_4_16_64.sqlite
+amazon-computers gaan
+2020-07-20 17:41:50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_4_32_64.sqlite
+amazon-computers gaan
+2020-07-20 17:43:42
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_4_64_64.sqlite
+amazon-computers gaan
+2020-07-20 17:45:39
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_4_8_64.sqlite
+flickr gaan
+2020-07-20 17:47:40
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_4_16_64.sqlite
+flickr gaan
+2020-07-20 17:49:38
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_4_32_64.sqlite
+flickr gaan
+2020-07-20 17:51:40
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_4_8_64.sqlite
+com-amazon gaan
+2020-07-20 17:53:45
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_4_16_64.sqlite
+com-amazon gaan
+2020-07-20 17:55:42
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_4_32_64.sqlite
+com-amazon gaan
+2020-07-20 17:57:42
+epochs_exp.py:142: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  params = yaml.load(open(sys.argv[1]))
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_8_64.sqlite
+amazon-photo gaan 8
+2020-07-20 17:04:21
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_16_64.sqlite
+amazon-photo gaan 16
+2020-07-20 17:07:08
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_32_64.sqlite
+amazon-photo gaan 32
+2020-07-20 17:09:53
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_64_64.sqlite
+amazon-photo gaan 64
+2020-07-20 17:12:39
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_128_64.sqlite
+amazon-photo gaan 128
+2020-07-20 17:15:23
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-photo_4_256_64.sqlite
+amazon-photo gaan 256
+2020-07-20 17:18:08
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_8_64.sqlite
+pubmed gaan 8
+2020-07-20 17:21:01
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_16_64.sqlite
+pubmed gaan 16
+2020-07-20 17:23:48
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_32_64.sqlite
+pubmed gaan 32
+2020-07-20 17:26:38
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_64_64.sqlite
+pubmed gaan 64
+2020-07-20 17:29:29
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_128_64.sqlite
+pubmed gaan 128
+2020-07-20 17:32:22
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_pubmed_4_256_64.sqlite
+pubmed gaan 256
+2020-07-20 17:35:14
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_4_8_64.sqlite
+amazon-computers gaan 8
+2020-07-20 17:35:14
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_4_16_64.sqlite
+amazon-computers gaan 16
+2020-07-20 17:38:07
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_4_32_64.sqlite
+amazon-computers gaan 32
+2020-07-20 17:41:04
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_4_64_64.sqlite
+amazon-computers gaan 64
+2020-07-20 17:44:04
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_4_128_64.sqlite
+amazon-computers gaan 128
+2020-07-20 17:47:05
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_amazon-computers_4_256_64.sqlite
+amazon-computers gaan 256
+2020-07-20 17:47:05
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_coauthor-physics_4_8_64.sqlite
+coauthor-physics gaan 8
+2020-07-20 17:47:05
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_coauthor-physics_4_16_64.sqlite
+coauthor-physics gaan 16
+2020-07-20 17:47:05
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_coauthor-physics_4_32_64.sqlite
+coauthor-physics gaan 32
+2020-07-20 17:47:05
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_coauthor-physics_4_64_64.sqlite
+coauthor-physics gaan 64
+2020-07-20 17:47:05
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_coauthor-physics_4_128_64.sqlite
+coauthor-physics gaan 128
+2020-07-20 17:47:05
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_4_8_64.sqlite
+flickr gaan 8
+2020-07-20 17:47:05
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_4_16_64.sqlite
+flickr gaan 16
+2020-07-20 17:50:12
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_4_32_64.sqlite
+flickr gaan 32
+2020-07-20 17:53:20
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_4_64_64.sqlite
+flickr gaan 64
+2020-07-20 17:56:19
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_4_128_64.sqlite
+flickr gaan 128
+2020-07-20 17:56:19
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_flickr_4_256_64.sqlite
+flickr gaan 256
+2020-07-20 17:56:19
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_4_8_64.sqlite
+com-amazon gaan 8
+2020-07-20 17:56:19
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_4_16_64.sqlite
+com-amazon gaan 16
+2020-07-20 17:59:18
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_4_32_64.sqlite
+com-amazon gaan 32
+2020-07-20 18:02:04
+50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_4_64_64.sqlite
+com-amazon gaan 64
+2020-07-20 18:04:51
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_4_128_64.sqlite
+com-amazon gaan 128
+2020-07-20 18:04:51
+0
+res is None
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite/config0_gaan_com-amazon_4_256_64.sqlite
+com-amazon gaan 256
+2020-07-20 18:04:51
+0
+res is None
