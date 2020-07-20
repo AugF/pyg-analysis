@@ -1,0 +1,13 @@
+datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
+algs: ['gcn', 'ggnn', 'gat', 'gaan']
+
+dir_out: feats_exp/dense_feats
+dir_name: /data/wangzhaokang/wangyunpan/pyg-gnns/dense_feats_exp/dir_qdrep
+dir_memory: /data/wangzhaokang/wangyunpan/pyg-gnns/dense_feats_exp/dir_json
+
+variables: [16, 32, 64, 128, 256, 512]
+file_prefix: '_'
+file_suffix: ''
+xlabel: Dense Feats Dims
+log_y: true
+layer: 2

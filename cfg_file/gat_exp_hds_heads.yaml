@@ -1,0 +1,13 @@
+datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
+algs: ['gat']
+
+dir_out: hidden_dims_exp/gat_exp/hds_heads_exp
+dir_name: /data/wangzhaokang/wangyunpan/pyg-gnns/hidden_dims_exp/dir_head_sqlite
+dir_memory: /data/wangzhaokang/wangyunpan/pyg-gnns/hidden_dims_exp/dir_head_json
+
+variables: [1, 2, 4, 8, 16]
+file_prefix: _
+file_suffix: _32
+xlabel: r"$d_a, d_v, d_m$(#Head=4, $h^1_{in}$=64)"
+log_y: true
+layer: 2

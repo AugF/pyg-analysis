@@ -1,0 +1,13 @@
+datasets: ['graph']
+algs: ['gcn', 'ggnn', 'gat', 'gaan']
+
+dir_out: graph_exp/nodes_exp
+dir_name: /data/wangzhaokang/wangyunpan/pyg-gnns/graph_nodes_exp/dir_sqlite
+dir_memory: /data/wangzhaokang/wangyunpan/pyg-gnns/graph_nodes_exp/dir_json
+
+variables: [1, 25, 50, 75, 100]
+file_prefix: '_'
+file_suffix: 'k_25'
+xlabel: Graph Nodes(k)
+log_y: false
+layer: 2

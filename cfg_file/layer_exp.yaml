@@ -1,0 +1,13 @@
+datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
+algs: ['gcn', 'ggnn', 'gat', 'gaan']
+
+dir_out: layer_exp
+dir_name: /data/wangzhaokang/wangyunpan/pyg-gnns/layer_exp/dir_sqlite
+dir_memory: /data/wangzhaokang/wangyunpan/pyg-gnns/layer_exp/dir_json
+
+variables: [2, 3, 4, 5, 6, 7]
+file_prefix: '_'
+file_suffix: ''
+xlabel: Layers
+log_y: false
+layer: 2

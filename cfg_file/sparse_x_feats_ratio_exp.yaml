@@ -1,0 +1,13 @@
+datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
+algs: ['gaan', 'ggnn', 'gat', 'gcn']
+
+dir_out: x_sparse_feats_ratio_exp
+dir_name: /data/wangzhaokang/wangyunpan/pyg-gnns/sparse_x_exp/dir_ratio_exp
+dir_memory: /data/wangzhaokang/wangyunpan/pyg-gnns/sparse_x_exp/dir_ratio_exp
+
+variables: [5, 10, 20, 50]
+file_prefix: '_500_'
+file_suffix: ''
+xlabel: Sparse Feats Percent
+log_y: false
+layer: 2
