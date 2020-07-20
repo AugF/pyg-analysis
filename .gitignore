@@ -2,8 +2,4 @@ test/*
 *exp/*
 .idea/*
 __p*/*
-*/*pdf
-*/*png
 *log
-*/*csv
-*/*txt
