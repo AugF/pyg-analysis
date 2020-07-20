@@ -51,11 +51,6 @@ def get_layers_calculations_time(cur, outliers, alg, layer=2):
                 layers_cal_times[2 * j + 1] += layers_times[j] / (50 - len(outliers))
     return layers_cal_times
 
-# if len(sys.argv) < 2 or sys.argv[1] not in algs:
-#     print("python calculations_exp.py gcn")
-#     sys.exit(0)
-
-# alg = sys.argv[1]
 
 def run_layers_calculations_exp(params):
     dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
@@ -89,30 +84,11 @@ def run_layers_calculations_exp(params):
             pd.DataFrame(df).to_csv(out_path)
 
 
-def run_one_file():
-    import yaml
-    params = yaml.load(open('cfg_file/hidden_dims_3_exp.yaml'))
-    dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
-    variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
-
-    alg, data, var = 'gcn', 'amazon-photo', 16
-    base_path = os.path.join(dir_out, "calculations")
-    csv_path = base_path + '/' + alg + '_' + data + '.csv'
-    outlier_file = dir_out + '/epochs/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
-    file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
-    if os.path.exists(file_path):
-        cur = sqlite3.connect(file_path).cursor()
-        print(data, alg)
-        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
-        res = get_layes_calculations_time(cur, outliers, alg, 3)
-        print(res)
-
 def run_config_exp():
-    dir_out = "config_exp"
-    datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
-    algs = ['gcn', 'ggnn', 'gat', 'gaan']
-    dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/config_exp/dir_sqlite"
+    import yaml
+    params = yaml.load(open("cfg_file/config_exp.yaml"))
+    dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
+
     base_path = os.path.join(dir_out, "layers_calculations")
     if not os.path.exists(base_path):
         os.makedirs(base_path)
@@ -123,7 +99,7 @@ def run_config_exp():
         if os.path.exists(out_path):
             continue
         for data in datasets:
-            outlier_file = 'config_exp/epochs/' + alg + '_' + data + '_outliers.txt'
+            outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'
             file_path = dir_name + '/config0_' + alg + '_' + data + '.sqlite'
             if not os.path.exists(file_path) or not os.path.exists(outlier_file):
                 continue
@@ -134,63 +110,5 @@ def run_config_exp():
             res = get_layers_calculations_time(cur, outliers, alg)
             df[data] = res
         pd.DataFrame(df).to_csv(out_path)
-
-
-def run_layer_exp_layer3():
-    dir_out = "config_exp"
-    datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
-    algs = ['gcn', 'ggnn', 'gat', 'gaan']
-    dir_name = "/data/wangzhaokang/wangyunpan/pyg-gnns/layer_exp/dir_sqlite"
-    base_path = os.path.join(dir_out, "layers_calculations")
-    if not os.path.exists(base_path):
-        os.makedirs(base_path)
         
-    for alg in algs:
-        df = {}
-        out_path = base_path + '/' + alg + '_3.csv'
-        if os.path.exists(out_path):
-            continue
-        for data in datasets:
-            outlier_file = 'layer_exp/epochs/' + alg + '_' + data + '_3_outliers.txt'
-            file_path = dir_name + '/config0_' + alg + '_' + data + '_3.sqlite'
-            if not os.path.exists(file_path) or not os.path.exists(outlier_file):
-                continue
-            cur = sqlite3.connect(file_path).cursor()
-            print(data, alg)
-            print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-            outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
-            res = get_layers_calculations_time(cur, outliers, alg, 3)
-            df[data] = res
-        pd.DataFrame(df).to_csv(out_path)
-
-def pic_config_exp_layer2(file_type="png"):
-    algs = ['gcn', 'ggnn', 'gat', 'gaan']
-    columns = ['Layer0-Vertex', 'Layer0-Edge', 'Layer1-Vertex', 'Layer1-Edge']
-    for alg in algs:
-        file_path = "config_exp/layers_calculations/" + alg + ".csv"
-        df = pd.read_csv(file_path, index_col=0)
-        data = 100 * df.values / df.values.sum(axis=0)
-        fig, ax = survey([datasets_maps[i] for i in df.columns], data.T, columns)
-        ax.set_title(algorithms[alg], loc="right")
-        ax.set_xlabel("Proportion (%)")
-        ax.set_ylabel("Dataset")
-        plt.tight_layout()
-        fig.savefig("config_exp/layers_calculations/exp_layer_time_proportion_" + alg + "." + file_type) 
-
-
-def pic_config_exp_layer3():
-    algs = ['gcn', 'ggnn', 'gat', 'gaan']
-    columns = ['Layer0-V', 'Layer0-E', 'Layer1-V', 'Layer1-E', 'Layer2-V', 'Layer2-E']
-    for alg in algs:
-        file_path = "config_exp/layers_calculations/" + alg + "_3.csv"
-        df = pd.read_csv(file_path, index_col=0)
-        data = 100 * df.values / df.values.sum(axis=0)
-        fig, ax = survey([datasets_maps[i] for i in df.columns], data.T, columns)
-        ax.set_title(algorithms[alg], loc="right")
-        ax.set_xlabel("Proportion (%)")
-        ax.set_ylabel("Dataset")
-        plt.tight_layout()
-        fig.savefig("config_exp/layers_calculations/exp_layer3_time_proportion_" + alg + ".png") 
-
-
-pic_config_exp_layer2("pdf")
+run_config_exp()

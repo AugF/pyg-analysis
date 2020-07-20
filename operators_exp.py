@@ -109,11 +109,9 @@ def run_one_operator():
     print(res)
 
 
-def run_config_exp():
-    dir_out = "config_exp"
-    datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
-    algs = ['gcn', 'ggnn', 'gat', 'gaan']
-    dir_name = "/data/wangzhaokang/wangyunpan/pyg-gnns/config_exp/dir_sqlite"
+def run_config_exp(params):
+    dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
+
     base_path = os.path.join(dir_out, "operators")
     if not os.path.exists(base_path):
         os.makedirs(base_path)
@@ -139,10 +137,10 @@ def run_config_exp():
 if __name__ == '__main__':
     import yaml
     if len(sys.argv) < 2:
-        print("python pics_var.py [yaml_file_path, config_exp]")
+        print("python operators_exp.py [yaml_file_path, config_exp]")
         sys.exit(0)
-    if sys.argv[1] == 'config_exp':
-        run_config_exp()
+    params = yaml.load(open(sys.argv[1]))
+    if 'config_exp' in sys.argv[1]:
+        run_config_exp(params)
     else:
-        params = yaml.load(open(sys.argv[1]))
-        run_operators_exp(params)
+        run_operators_exp(params) 

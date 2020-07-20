@@ -25,7 +25,6 @@ def run_epochs():
         fig.savefig(dir_out + "/exp_absolute_training_time_comparison_" + data + ".png")
 
 
-# 1. stages, layers, operators, edge-cal
 def pic_calculations_gcn_ggnn():
     # for GCN and GGNN
     file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_"

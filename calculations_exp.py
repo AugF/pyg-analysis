@@ -50,11 +50,6 @@ def get_calculations_time(cur, outliers, alg, layer=2):
             edge_time += cost_time
     return [vertex_time, edge_time]
 
-# if len(sys.argv) < 2 or sys.argv[1] not in algs:
-#     print("python calculations_exp.py gcn")
-#     sys.exit(0)
-
-# alg = sys.argv[1]
 
 def run_calculations_exp(params):
     print(params)
@@ -108,11 +103,9 @@ def run_one_file():
         res = get_calculations_time(cur, outliers, alg, 3)
         print(res)
 
-def run_config_exp():
-    dir_out = "config_exp"
-    datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
-    algs = ['gcn', 'ggnn', 'gat', 'gaan']
-    dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/config_exp/dir_sqlite"
+def run_config_exp(params):
+    dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
+
     base_path = os.path.join(dir_out, "calculations")
     if not os.path.exists(base_path):
         os.makedirs(base_path)
@@ -135,14 +128,14 @@ def run_config_exp():
             df[data] = res
         pd.DataFrame(df).to_csv(out_path)
 
-run_config_exp()
+
 if __name__ == '__main__':
     import yaml
     if len(sys.argv) < 2:
-        print("python pics_var.py [yaml_file_path, config_exp]")
+        print("python calculations_exp.py [yaml_file_path, config_exp]")
         sys.exit(0)
-    if sys.argv[1] == 'config_exp':
-        run_config_exp()
+    params = yaml.load(open(sys.argv[1]))
+    if 'config_exp' in sys.argv[1]:
+        run_config_exp(params)
     else:
-        params = yaml.load(open(sys.argv[1]))
         run_calculations_exp(params) 

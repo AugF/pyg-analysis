@@ -15,7 +15,6 @@ dir_out = "config_exp"
 algs = ['gcn', 'ggnn', 'gat', 'gaan']
 
 def pics_epochs_violin():
-    #datasets = []
     dir_out = "config_exp/epochs"
     for data in datasets:
         fig, ax = plt.subplots()
@@ -195,7 +194,7 @@ def pics_memory(file_type="png"):
         for j, c in enumerate(allocated_max.columns):
             allocated_max[c].plot(ax=ax, marker=markers[j], linestyle=lines[j], label=c, rot=45)
         ax.legend()
-        fig.tight_layout() # ��ֹ�ص� 
+        fig.tight_layout() 
         fig.savefig(dir_out + '/memory/exp_memory_usage_stage_' + datasets_maps[data] + '.' + file_type)
         plt.close()
 

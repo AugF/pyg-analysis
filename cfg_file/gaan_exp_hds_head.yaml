@@ -1,9 +1,9 @@
 datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
 algs: ['gaan']
 
-dir_out: hidden_dims_exp/gaan_exp/hds_head_exp
-dir_name: /data/wangzhaokang/wangyunpan/pyg-gnns/hidden_dims_exp/dir_gaan_sqlite
-dir_memory: /data/wangzhaokang/wangyunpan/pyg-gnns/hidden_dims_exp/dir_gaan_json
+dir_out: paper_exp1_super_parameters/gaan_exp/hds_head
+dir_name: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_sqlite
+dir_memory: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json
 
 variables:  [1, 2, 4, 8, 16]
 file_prefix: _
