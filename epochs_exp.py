@@ -86,15 +86,15 @@ def run_epochs_exp(params):
 
 def run_one_file():
     import yaml
-    base_path = ""
-    params = yaml.load(open('cfg_file/gaan_exp_hds_d.yaml'))
+    params = yaml.load(open('cfg_file/degrees_exp.yaml'))
     dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
     variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
-
-    alg, data, var = 'gaan', 'pubmed', 256
+    # file_prefix, file_suffix = '', ''
+    alg, data, var = 'gaan', 'graph', 25
     base_path = dir_out + "/epochs"
     outlier_file = base_path + '/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
     file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
+    print(file_path)
     if os.path.exists(file_path):
         cur = sqlite3.connect(file_path).cursor()
         print(file_path)
@@ -132,7 +132,6 @@ def run_config_exp(params):
         pd.DataFrame(df).to_csv(csv_path)
 
 if __name__ == '__main__':
-    run_one_file()
     import yaml
     if len(sys.argv) < 2:
         print("python epochs_exp.py [yaml_file_path, config_exp]")

@@ -3,7 +3,7 @@ import os, json
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from utils import algorithms, datasets, datasets_maps
+from utils import algorithms, datasets_maps
 plt.style.use("ggplot")
 plt.rcParams["font.size"] = 12
 
@@ -12,8 +12,8 @@ def pics_memory(file_type="png"):
     dir_out = "paper_exp3_memory"
     time_labels = ['Data\nLoad', 'Warm\nUp', 'Forward\nLayer0', 'Forward\nLayer1', 'Loss', 'Backward',
                    'Eval\nLayer0', 'Eval\nLayer1']
-    datasets = ['amazon-computers']
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
+    datasets = ['amazon-photo']
     for i, data in enumerate(datasets):
         allocated_max = {}
         for alg in algs:

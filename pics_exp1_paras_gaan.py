@@ -134,3 +134,5 @@ def run_memory_gaan(file_type="png"):
 
 run_memory_gaan()
 run_memory_gaan("pdf")
+pic_calculations_gaan()
+pic_calculations_gaan("pdf")

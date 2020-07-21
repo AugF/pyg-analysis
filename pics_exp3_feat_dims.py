@@ -14,7 +14,6 @@ def run_memory_factors_dense_feats_dims(file_type="png"):
     log_y = True    
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
     datasets = ['com-amazon']
-    
     variables = [16, 32, 64, 128, 256, 512]
     xticklabels = variables
 
