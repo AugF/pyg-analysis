@@ -143,7 +143,7 @@ def pics_minibatch_time(file_type="png"):
             
             legend_colors = [Line2D([0], [0], color=c, lw=4) for c in colors]
             legend_hatchs = [Patch(facecolor='white', edgecolor='r', hatch='////'), Patch(facecolor='white',edgecolor='r', hatch='....'), Patch(facecolor='white', edgecolor='r', hatch='xxxx')]
-            ax.legend(legend_colors + legend_hatchs, [algorithms[i] for i in algs] + ['Training', 'Data Transfering', 'Sampling'], ncol=2)
+            ax.legend(legend_colors + legend_hatchs, [algorithms[i] for i in algs] + ['Training', 'Data Transferring', 'Sampling'], ncol=2)
 
             # ax.bar([-1], [-1], hatch='///', label='Training')
 

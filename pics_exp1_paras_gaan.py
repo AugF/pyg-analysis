@@ -132,7 +132,7 @@ def run_memory_gaan(file_type="png"):
         fig.savefig(dir_out + "/" + file_out + alg + "." + file_type)
         plt.close()
 
-run_memory_gaan()
-run_memory_gaan("pdf")
-pic_calculations_gaan()
-pic_calculations_gaan("pdf")
+# run_memory_gaan()
+# run_memory_gaan("pdf")
+# pic_calculations_gaan()
+# pic_calculations_gaan("pdf")

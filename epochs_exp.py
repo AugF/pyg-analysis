@@ -20,7 +20,6 @@ def get_epoch_time(cur, outlier_file):
     tables = {x: i for i, x in enumerate(epoch_times)}
 
     epoch_times.sort()
-    print(epoch_times)
     n = len(epoch_times)
     x, y = (n + 1) * 0.25, (n + 1) * 0.75
     tx, ty = math.floor(x), math.floor(y)
@@ -45,7 +44,6 @@ def get_epoch_time(cur, outlier_file):
         if x < min_val or x > max_val:
             outliers.append(tables[x])
 
-    print(outlier_file)
     with open(outlier_file, 'w') as f:
         for i in outliers:
             f.write(str(i) + ' ')
@@ -63,14 +61,10 @@ def run_epochs_exp(params):
 
     for data in datasets:
         for alg in algs:
-            csv_path = base_path + '/' + alg + '_' + data + '.csv'
-            if os.path.exists(csv_path): # 断点续传
-               continue
-            df = {}
             for var in variables:
                 outlier_file = base_path + '/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
                 file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
-                if not os.path.exists(file_path):
+                if not os.path.exists(file_path) or os.path.exists(outlier_file):
                     continue
                 cur = sqlite3.connect(file_path).cursor()
                 print(file_path)
@@ -80,9 +74,6 @@ def run_epochs_exp(params):
                 if res == None:
                     print("res is None")
                     continue
-                df[var] = res
-            pd.DataFrame(df).to_csv(csv_path)
-
 
 def run_one_file():
     import yaml
@@ -132,6 +123,7 @@ def run_config_exp(params):
         pd.DataFrame(df).to_csv(csv_path)
 
 if __name__ == '__main__':
+    run_one_file()
     import yaml
     if len(sys.argv) < 2:
         print("python epochs_exp.py [yaml_file_path, config_exp]")
