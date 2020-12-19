@@ -4,15 +4,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from utils import algorithms, datasets
 plt.style.use("ggplot")
-plt.rcParams["font.size"] = 12
+plt.rcParams["font.size"] = 8
 dir_in = "paper_exp2_time_break/config_exp/epochs"
 dir_out = "paper_exp1_super_parameters"
 algs = ['gcn', 'ggnn', 'gat', 'gaan']
 
 def pics_epochs_violin(file_type="png"):
     for data in datasets:
-        fig, ax = plt.subplots()
-        ax.set_ylabel("Training Time / Epoch (ms)")
+        fig, ax = plt.subplots(figsize=(7/3, 7/3))
+        ax.set_ylabel("Training Time\nper Epoch (ms)")
         ax.set_xlabel("Algorithm")
         df = pd.read_csv(dir_in + '/' + data + '.csv', index_col=0)
         columns = [algorithms[i] for i in df.columns]

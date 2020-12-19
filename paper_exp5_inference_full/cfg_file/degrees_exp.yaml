@@ -1,0 +1,14 @@
+datasets: ['graph']
+algs: ['gcn', 'ggnn', 'gat', 'gaan']
+
+dir_out: /home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp5_inference_full/degrees_exp
+dir_name: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite
+dir_memory: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_json
+
+variables: [3, 6, 10, 15, 20, 25, 30, 50]
+file_prefix: '_50k_'
+file_suffix: ''
+xlabel: Average Vertex Degree
+log_y: false
+layer: 2
+infer_flag: true

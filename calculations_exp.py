@@ -9,7 +9,7 @@ from utils import get_real_time, get_int, all_labels, survey, algorithms, datase
 plt.style.use("ggplot")
 plt.rcParams["font.size"] = 12
 
-def get_calculations_time(cur, outliers, alg, layer=2):
+def get_calculations_time(cur, outliers, alg, layer=2, infer_flag=False):
     labels = all_labels[alg]
     vertex_time, edge_time = 0, 0
     for label in labels:
@@ -18,30 +18,34 @@ def get_calculations_time(cur, outliers, alg, layer=2):
         cost_time = 0
         for i in range(50):
             if i in outliers: continue
-            # epoch_time = forward time + backward time + eval time
-            # 1. 获取forward time和eval time
-            for j in range(2 * layer):
-                time = get_real_time(res[2 * layer * i + j], cur)[0]
-                cost_time += time
-            # 2. 基于forward的标签对应的seq获取backward time
-            for j in range(layer):
-                # 思路：首先得到label的时间段[st, ed]; 然后寻找该时间段中所有的seq, 然后找对应的backward中的seq
-                # 2.1 寻找该时间段中所有的seq
-                seq_sql = "select text from nvtx_events where start >= {} and end <= {} and text like '%seq%'"
-                seq_res = cur.execute(seq_sql.format(res[2 * layer * i + j][0], res[2 * layer * i + j][1])).fetchall()
+            if infer_flag: # todo: check
+                for j in range(layer):
+                    cost_time += get_real_time(res[layer * i + j], cur)[0]
+            else:
+                # epoch_time = forward time + backward time + eval time
+                # 1. 获取forward time和eval time
+                for j in range(2 * layer):
+                    time = get_real_time(res[2 * layer * i + j], cur)[0]
+                    cost_time += time
+                # 2. 基于forward的标签对应的seq获取backward time
+                for j in range(layer):
+                    # 思路：首先得到label的时间段[st, ed]; 然后寻找该时间段中所有的seq, 然后找对应的backward中的seq
+                    # 2.1 寻找该时间段中所有的seq
+                    seq_sql = "select text from nvtx_events where start >= {} and end <= {} and text like '%seq%'"
+                    seq_res = cur.execute(seq_sql.format(res[2 * layer * i + j][0], res[2 * layer * i + j][1])).fetchall()
 
-                min_seq, max_seq = get_int(seq_res[0][0]), get_int(seq_res[-1][0])
+                    min_seq, max_seq = get_int(seq_res[0][0]), get_int(seq_res[-1][0])
 
-                seq_backward_sql = "select start, end, text from nvtx_events where text like '%Backward%seq = {0}' or text like '%ScatterMax%seq = {0}'"
-                end_time = cur.execute(seq_backward_sql.format(min_seq)).fetchone()
+                    seq_backward_sql = "select start, end, text from nvtx_events where text like '%Backward%seq = {0}' or text like '%ScatterMax%seq = {0}'"
+                    end_time = cur.execute(seq_backward_sql.format(min_seq)).fetchone()
 
-                start_time = cur.execute(seq_backward_sql.format(max_seq + 1)).fetchone()
-                if start_time:
-                    backward_time = get_real_time((start_time[1], end_time[1], label), cur)[0]
-                else:
-                    start_time = cur.execute(seq_backward_sql.format(max_seq)).fetchone()
-                    backward_time = get_real_time((start_time[0], end_time[1], label), cur)[0]
-                cost_time += backward_time
+                    start_time = cur.execute(seq_backward_sql.format(max_seq + 1)).fetchone()
+                    if start_time:
+                        backward_time = get_real_time((start_time[1], end_time[1], label), cur)[0]
+                    else:
+                        start_time = cur.execute(seq_backward_sql.format(max_seq)).fetchone()
+                        backward_time = get_real_time((start_time[0], end_time[1], label), cur)[0]
+                    cost_time += backward_time
 
         cost_time /= 50 - len(outliers)  # 平均epochs
         if 'vertex' in label:
@@ -54,7 +58,7 @@ def get_calculations_time(cur, outliers, alg, layer=2):
 def run_calculations_exp(params):
     print(params)
     dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
-    variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
+    variables, file_prefix, file_suffix, infer_flag = params['variables'], params['file_prefix'], params['file_suffix'], params['infer_flag']
 
     layer_var_flag = params['dir_out'] == 'layer_exp'
     base_path = os.path.join(dir_out, "calculations")
@@ -79,7 +83,7 @@ def run_calculations_exp(params):
                 if layer_var_flag:
                     layer = var
                 else: layer = params['layer']
-                res = get_calculations_time(cur, outliers, alg, layer=layer) # layer实验特有
+                res = get_calculations_time(cur, outliers, alg, layer=layer, infer_flag=infer_flag) # layer实验特有
                 df[var] = res
             pd.DataFrame(df).to_csv(out_path)
 
@@ -104,6 +108,7 @@ def run_one_file():
 
 def run_config_exp(params):
     dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
+    infer_flag = params['infer_flag']
 
     base_path = os.path.join(dir_out, "calculations")
     if not os.path.exists(base_path):
@@ -123,7 +128,7 @@ def run_config_exp(params):
             print(data, alg)
             print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
             outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
-            res = get_calculations_time(cur, outliers, alg, 2)
+            res = get_calculations_time(cur, outliers, alg, 2, infer_flag=infer_flag)
             df[data] = res
         pd.DataFrame(df).to_csv(out_path)
 

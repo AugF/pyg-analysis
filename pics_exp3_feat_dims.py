@@ -70,5 +70,75 @@ def run_memory_factors_dense_feats_dims(file_type="png"):
         ax.legend()
         fig.savefig(base_path + "/" + file_out + data + "." + file_type)
 
-run_memory_factors_dense_feats_dims(file_type="png")
-run_memory_factors_dense_feats_dims(file_type="pdf")
+
+def run_inference_full_memory_feats_dims(file_type="png"):
+    file_out="exp_inference_full_memory_expansion_ratio_input_feature_dimension_"
+    log_y = True    
+    algs = ['gcn', 'ggnn', 'gat', 'gaan']
+    datasets = ['com-amazon']
+    variables = [16, 32, 64, 128, 256, 512]
+    xticklabels = variables
+
+    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_feat_dims_json"
+    base_path = "paper_exp5_inference_full"
+    
+    file_prefix, file_suffix = '_', ''
+    
+    for data in datasets:
+        df_ratio = {}
+        df_peak = {}
+        for alg in algs:
+            df_ratio[alg] = []
+            df_peak[alg] = []
+            for var in variables:
+                file_path = dir_memory + '/config0_' + alg + '_' + data  + file_prefix + str(var) + file_suffix + '.json'
+                if not os.path.exists(file_path):
+                    df_ratio[alg].append(np.nan)
+                    df_peak[alg].append(np.nan)
+                    continue
+                with open(file_path) as f:
+                    res = json.load(f)
+                    print(file_path)
+                    data_memory = res['data load'][0][0]
+                    max_memory = 0
+                    for k in res.keys():
+                        max_memory = max(max_memory, np.array(res[k]).mean(axis=0)[1])
+                    
+                    print("data memory", data_memory)
+                    print("max memory", max_memory / data_memory)
+                    df_ratio[alg].append(max_memory / data_memory) # 这里记录allocated_bytes.all.peak
+                    df_peak[alg].append(max_memory / (1024 * 1024 * 1024))           
+                    
+        fig, ax = plt.subplots()
+        ax.set_ylabel("Peak Memory Usage (GB)")
+        ax.set_xlabel("Input Feature Dimension")
+        
+        df_peak = pd.DataFrame(df_peak)
+        markers = 'oD^sdp'
+        for i, c in enumerate(df_peak.columns):
+            ax.plot(xticklabels, df_peak[c], marker=markers[i], label=algorithms[c])
+        ax.legend()
+        fig.savefig(base_path + "/" + file_out + data + "_peak_memory." + file_type)
+                    
+        fig, ax = plt.subplots()
+        ax.set_ylabel("Expansion Ratio")
+        ax.set_xlabel("Input Feature Dimension")
+        ax.set_xticklabels([0] + xticklabels)
+        df_ratio = pd.DataFrame(df_ratio)
+        if log_y:
+            ax.set_yscale("symlog", basey=2)
+         
+        locations = [-1.5, -0.5, 0.5, 1.5]
+        x = np.arange(len(variables))
+        width = 0.2
+        rects = []
+        colors = plt.get_cmap('Paired')(np.linspace(0.15, 0.85, len(locations)))
+        
+        i = 0
+        for (col, c) in zip(df_ratio.columns, colors):
+            rects.append(ax.bar(x + locations[i] * width, df_ratio[col], width, label=algorithms[algs[i]], color=c))
+            i += 1
+        ax.legend(ncol=4)
+        fig.savefig(base_path + "/" + file_out + data + "_expansion_ratio." + file_type)
+
+run_inference_full_memory_feats_dims(file_type="png")

@@ -7,14 +7,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from utils import survey, algorithms, variables, datasets_maps
 plt.style.use("ggplot")
-plt.rcParams["font.size"] = 12
+plt.rcParams["font.size"] = 8
 plt.rcParams['text.latex.preamble']=[r"\usepackage{amsmath}"]
+xlabel = r"Dimension of Hidden Vectors ($dim(\mathbf{h}^1_x)$)"
 
 def pic_calculations_gcn_ggnn():
     # for GCN and GGNN
     file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_"
     xticklabels = ['16', '32', '64', '128', '256', '512', '1024', '2048']
-    xlabel = "Hidden Dimension"
     algs = ['gcn', 'ggnn']
     labels = ['Vertex Calculation', 'Edge Calculation']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']

@@ -79,6 +79,12 @@ def get_real_time(x, cur): # 对应到cuda的获取真实时间
 
 
 def survey(labels, data, category_names, ax=None, color_dark2=False): # stages, layers, steps，算子可以通用
+    # labels: 这里是纵轴的坐标; 
+    # data: 数据[[], []] len(data[1])=len(category_names); 
+    # category_names: 比例的种类
+    
+    print("data", type(data))
+    # print("labels", labels, "data", data, "category_names", category_names)
     for i, c in enumerate(category_names):
         if c[0] == '_':
             category_names[i] = c[1:]
@@ -131,9 +137,9 @@ def autolabel(rects, ax, memory_ratio_flag=False):
         #           textcoords="offset points",
         #            ha='center', va='bottom')
         if memory_ratio_flag:
-            ax.text(rect.get_x() , height + 1, int(height), fontsize=8)
+            ax.text(rect.get_x() , height + 1, f"{height:.4f}", fontsize=5)
         else:
-            ax.text(rect.get_x() , height + 0.1, int(height), fontsize=4.5)
+            ax.text(rect.get_x() , height + 0.1, f"{height:.4f}", fontsize=4.5)
     return ax
 
 

@@ -55,7 +55,7 @@ for alg in algs:
 
 file_out = "exp_small_graph_train_time."
 xlabel = "Number of Vertices"
-ylabel = 'Training Time per Batch (ms)'
+ylabel = 'Training Time per Epoch (ms)'
 
 fig, ax = plt.subplots()
 ax.set_xlabel(xlabel)

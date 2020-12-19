@@ -1,0 +1,99 @@
+../calculations_exp.py:141: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  params = yaml.load(open(sys.argv[1]))
+../calculations_exp.py:82: UserWarning: genfromtxt: Empty input file: "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp5_inference_full/degrees_exp/epochs/gcn_graph_50k_3_outliers.txt"
+  outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+../calculations_exp.py:82: UserWarning: genfromtxt: Empty input file: "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp5_inference_full/degrees_exp/epochs/gaan_graph_50k_25_outliers.txt"
+  outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+../calculations_exp.py:82: UserWarning: genfromtxt: Empty input file: "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp5_inference_full/degrees_exp/epochs/gaan_graph_50k_30_outliers.txt"
+  outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
+{'datasets': ['graph'], 'algs': ['gcn', 'ggnn', 'gat', 'gaan'], 'dir_out': '/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp5_inference_full/degrees_exp', 'dir_name': '/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite', 'dir_memory': '/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_json', 'variables': [3, 6, 10, 15, 20, 25, 30, 50], 'file_prefix': '_50k_', 'file_suffix': '', 'xlabel': 'Average Vertex Degree', 'log_y': False, 'layer': 2, 'infer_flag': True}
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gcn_graph_50k_3.sqlite
+graph gcn
+2020-12-15 23:31:40
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gcn_graph_50k_6.sqlite
+graph gcn
+2020-12-15 23:31:41
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gcn_graph_50k_10.sqlite
+graph gcn
+2020-12-15 23:31:41
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gcn_graph_50k_15.sqlite
+graph gcn
+2020-12-15 23:31:42
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gcn_graph_50k_20.sqlite
+graph gcn
+2020-12-15 23:31:42
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gcn_graph_50k_25.sqlite
+graph gcn
+2020-12-15 23:31:43
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gcn_graph_50k_30.sqlite
+graph gcn
+2020-12-15 23:31:43
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gcn_graph_50k_50.sqlite
+graph gcn
+2020-12-15 23:31:44
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_ggnn_graph_50k_3.sqlite
+graph ggnn
+2020-12-15 23:31:44
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_ggnn_graph_50k_6.sqlite
+graph ggnn
+2020-12-15 23:31:45
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_ggnn_graph_50k_10.sqlite
+graph ggnn
+2020-12-15 23:31:46
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_ggnn_graph_50k_15.sqlite
+graph ggnn
+2020-12-15 23:31:47
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_ggnn_graph_50k_20.sqlite
+graph ggnn
+2020-12-15 23:31:47
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_ggnn_graph_50k_25.sqlite
+graph ggnn
+2020-12-15 23:31:48
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_ggnn_graph_50k_30.sqlite
+graph ggnn
+2020-12-15 23:31:49
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gat_graph_50k_3.sqlite
+graph gat
+2020-12-15 23:31:50
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gat_graph_50k_6.sqlite
+graph gat
+2020-12-15 23:31:57
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gat_graph_50k_10.sqlite
+graph gat
+2020-12-15 23:32:04
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gat_graph_50k_15.sqlite
+graph gat
+2020-12-15 23:32:12
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gat_graph_50k_20.sqlite
+graph gat
+2020-12-15 23:32:24
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gat_graph_50k_25.sqlite
+graph gat
+2020-12-15 23:32:35
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gat_graph_50k_30.sqlite
+graph gat
+2020-12-15 23:32:47
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gat_graph_50k_50.sqlite
+graph gat
+2020-12-15 23:32:59
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gaan_graph_50k_3.sqlite
+graph gaan
+2020-12-15 23:33:11
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gaan_graph_50k_6.sqlite
+graph gaan
+2020-12-15 23:34:08
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gaan_graph_50k_10.sqlite
+graph gaan
+2020-12-15 23:35:49
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gaan_graph_50k_15.sqlite
+graph gaan
+2020-12-15 23:38:35
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gaan_graph_50k_20.sqlite
+graph gaan
+2020-12-15 23:43:27
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gaan_graph_50k_25.sqlite
+graph gaan
+2020-12-15 23:50:42
+/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_degrees_sqlite/config0_gaan_graph_50k_30.sqlite
+graph gaan
+2020-12-16 00:01:24

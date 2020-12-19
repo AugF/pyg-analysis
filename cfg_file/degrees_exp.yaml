@@ -11,3 +11,4 @@ file_suffix: ''
 xlabel: Average Vertex Degree
 log_y: false
 layer: 2
+infer_flag: false

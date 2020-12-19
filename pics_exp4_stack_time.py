@@ -15,7 +15,7 @@ plt.rcParams["font.size"] = 12
 def pics_minibatch_time(file_type="png"):
     dir_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp4_relative_sampling/batch_train_time_stack"
     dir_out = "paper_exp4_relative_sampling"
-    file_out = "exp_sampling_relative_batch_size_train_time_stack_"
+    file_out = "exp_sampling_relative_batch_size_train_time_stack"
     
     ylabel = "Training Time per Batch (ms)"
     xlabel = "Relative Batch Size (%)"
@@ -36,7 +36,8 @@ def pics_minibatch_time(file_type="png"):
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
     
     for mode in ['cluster', 'graphsage']:
-        for data in ["amazon-computers", "flickr"]:
+        # for data in ["amazon-computers", "flickr"]:
+        for data in graphsage_batchs.keys():
             df_train = {}
             df_sampling = {}
             df_to = {}
@@ -159,5 +160,82 @@ def pics_minibatch_time(file_type="png"):
             fig.savefig(dir_out + '/' + file_out + mode + "_" + data + "." + file_type)
             plt.close()
 
-pics_minibatch_time(file_type="png")
-pics_minibatch_time(file_type="pdf")
+
+def pics_inference_sampling_minibatch_time(file_type="png"):
+    dir_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp7_inference_sampling/inference_sampling_time"
+    dir_out = "paper_exp6_inference_sampling"
+    file_out = "exp_inference_sampling_relative_batch_size_train_time_stack"
+    
+    ylabel = "Training Time per Batch (ms)"
+    xlabel = "Datasets"
+    
+    xticklabels = [datasets_maps[i] for i in datasets]
+
+    algs = ['gcn', 'ggnn', 'gat', 'gaan']
+
+    df_train = {}
+    df_sampling = {}
+    df_to = {}
+    for alg in algs:
+        df_train[alg] = []
+        df_sampling[alg] = []
+        df_to[alg] = []
+        for data in datasets:
+            file_path = dir_path + '/' + alg + '_' + data + ".log"
+            if not os.path.exists(file_path):
+                df_sampling[alg].append(np.nan)
+                df_to[alg].append(np.nan)
+                df_train[alg].append(np.nan)
+                continue
+            # print(file_path)
+            sampling_time, to_time, train_time = 0.0, 0.0, 0.0
+            with open(file_path) as f:
+                for line in f:
+                    match_line = re.match(r"avg_batch_train_time: (.*), avg_batch_sampling_time:(.*), avg_batch_to_time: (.*)", line)
+                    if match_line:
+                        train_time += float(match_line.group(1))
+                        sampling_time += float(match_line.group(2))
+                        to_time += float(match_line.group(3))
+            if train_time == 0.0:
+                df_train[alg].append(np.nan)
+                df_sampling[alg].append(np.nan)
+                df_to[alg].append(np.nan)
+            else:
+                df_train[alg].append(train_time * 1000)
+                df_to[alg].append(to_time * 1000)
+                df_sampling[alg].append(sampling_time * 1000)
+
+    # fig: 画inference sampling的图像
+    fig, ax = plt.subplots()
+    ax.set_ylabel(ylabel)
+    ax.set_xlabel(xlabel)
+    ax.set_xticklabels([''] + xticklabels)
+        
+    pd.DataFrame(df_train).to_csv(dir_out + "/" + file_out + "_train_time.csv")
+    pd.DataFrame(df_to).to_csv(dir_out + "/" + file_out + "_to_time.csv")
+    pd.DataFrame(df_sampling).to_csv(dir_out + "/" + file_out + "_sampling_time.csv")
+    
+    locations = [-1.5, -0.5, 0.5, 1.5]
+    x = np.arange(len(datasets))
+    width = 0.2
+    colors = plt.get_cmap('Paired')(np.linspace(0.15, 0.85, len(locations)))
+
+    rects = []
+    i = 0
+    for alg in algs:
+        tmp_train, tmp_to, tmp_sampling = df_train[alg], df_to[alg], df_sampling[alg]
+        rects.append(ax.bar(x + locations[i] * width, tmp_train, width, color=colors[i], edgecolor='black', hatch="////"))
+        rects.append(ax.bar(x + locations[i] * width, tmp_to, width, color=colors[i], edgecolor='black', bottom=tmp_train, hatch='....'))
+        tmp = [tmp_train[j] + tmp_to[j] for j in range(len(tmp_train))]
+        rects.append(ax.bar(x + locations[i] * width, tmp_sampling, width, color=colors[i], edgecolor='black', bottom=tmp, hatch='xxxx'))
+        i += 1
+
+    legend_colors = [Line2D([0], [0], color=c, lw=4) for c in colors]
+    legend_hatchs = [Patch(facecolor='white', edgecolor='r', hatch='////'), Patch(facecolor='white',edgecolor='r', hatch='....'), Patch(facecolor='white', edgecolor='r', hatch='xxxx')]
+    ax.legend(legend_colors + legend_hatchs, [algorithms[i] for i in algs] + ['Training', 'Data Transferring', 'Sampling'], ncol=2)
+    
+    fig.savefig(dir_out + '/' + file_out +  "." + file_type)
+    plt.close()
+
+
+pics_inference_sampling_minibatch_time(file_type="png")

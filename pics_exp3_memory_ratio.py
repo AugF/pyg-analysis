@@ -14,9 +14,6 @@ def run_memory_ratio_config_single(file_type="png"):
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
     dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_config_json"
     dir_out = "paper_exp3_memory"
-    base_path = os.path.join(dir_out, "config_memory")
-    if not os.path.exists(base_path):
-        os.makedirs(base_path)
     
     df = []
     for alg in algs:
@@ -67,5 +64,57 @@ def run_memory_ratio_config_single(file_type="png"):
     fig.savefig(dir_out + "/" + file_out +  "." + file_type)
     plt.close()
 
+
+def run_inference_full_memory_ratio(file_type="png"):
+    file_out="exp_inference_full_memory_expansion_ratio"
+    
+    algs = ['gcn', 'ggnn', 'gat', 'gaan']
+    datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
+    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_config_json"
+    dir_out = "paper_exp5_inference_full"
+    
+    # 不同的算法，不同的数据集画不同的图
+    df = []
+    for alg in algs:
+        results = []
+        for data in datasets:
+            file_path = dir_memory + '/config0_' + alg + '_' + data + '.json'
+            if not os.path.exists(file_path):
+                results.append(np.nan)
+                continue
+            with open(file_path) as f:
+                res = json.load(f)
+                data_memory = res['data load'][0][0]
+                max_memory = 0
+                for k in res.keys():
+                    max_memory = max(max_memory, np.array(res[k]).mean(axis=0)[1])
+                
+                print("data memory", data_memory)
+                results.append(max_memory / data_memory) # max memory / data loader current 
+        df.append(results.copy())
+    
+    labels = [datasets_maps[d] for d in datasets]
+    locations = [-1.5, -0.5, 0.5, 1.5]
+    x = np.arange(len(labels))
+    width = 0.2
+    rects = []
+    colors = plt.get_cmap('Paired')(np.linspace(0.15, 0.85, len(locations)))
+    fig, ax = plt.subplots()
+    i = 0
+    for (l, c) in zip(locations, colors):
+        rects.append(ax.bar(x + l * width, df[i], width, label=algorithms[algs[i]], color=c))
+        i += 1
+    ax.set_ylabel("Expansion Ratio")
+    ax.set_xlabel("Dataset")
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+
+    for r in rects:
+        ax = autolabel(r, ax, memory_ratio_flag=True)
+    ax.legend(ncol=2)
+    fig.savefig(dir_out + "/" + file_out +  "." + file_type)
+    plt.close()
+    
+
 run_memory_ratio_config_single(file_type="png")
-run_memory_ratio_config_single(file_type="pdf")
+run_inference_full_memory_ratio(file_type="png")

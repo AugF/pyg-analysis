@@ -75,6 +75,7 @@ def run_epochs_exp(params):
                     print("res is None")
                     continue
 
+
 def run_one_file():
     import yaml
     params = yaml.load(open('cfg_file/degrees_exp.yaml'))
@@ -123,7 +124,6 @@ def run_config_exp(params):
         pd.DataFrame(df).to_csv(csv_path)
 
 if __name__ == '__main__':
-    run_one_file()
     import yaml
     if len(sys.argv) < 2:
         print("python epochs_exp.py [yaml_file_path, config_exp]")

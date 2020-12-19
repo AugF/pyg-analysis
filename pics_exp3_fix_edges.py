@@ -82,5 +82,66 @@ def run_memory_fix_edge(file_type="png"):
     ax.legend()
     fig.savefig(base_path + "/" + file_out + "expansion_ratio." + file_type)
 
-run_memory_fix_edge(file_type="png")
-run_memory_fix_edge(file_type="pdf")
+
+def run_inference_full_memory_fix_edge(file_type="png"):
+    file_out="exp_inference_full_memory_expansion_ratio_input_graph_number_of_vertices_fixed_edge_"
+    log_y = False    
+    algs = ['gcn', 'ggnn', 'gat', 'gaan']
+    datasets = ['graph']
+    
+    xticklabels = [1000, 5000, 10000, 20000, 30000, 40000, 50000]
+    variables = ['1k', '5k', '10k', '20k', '30k', '40k', '50k']
+    
+    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_fix_edges_json"
+    base_path = "paper_exp5_inference_full"
+    xlabel = "Number of Vertices"
+
+    file_prefix, file_suffix = '_', '_500k'
+    
+    df_peak = {}
+    df_ratio = {}
+    for alg in algs:
+        df_peak[alg] = []
+        df_ratio[alg] = []
+        for data in datasets:
+            for var in variables:
+                file_path = dir_memory + '/config0_' + alg + '_' + data  + file_prefix + str(var) + file_suffix + '.json'
+                print(file_path)
+                if not os.path.exists(file_path):
+                    df_peak[alg].append(np.nan)
+                    df_ratio[alg].append(np.nan)
+                    continue
+                with open(file_path) as f:
+                    res = json.load(f)
+                    data_memory = res['data load'][0][0]
+                    print(file_path)
+                    max_memory = 0
+                    for k in res.keys():
+                        max_memory = max(max_memory, np.array(res[k]).mean(axis=0)[1])
+                    
+                    print("data memory", data_memory)
+                    df_ratio[alg].append(max_memory / data_memory) # 这里记录allocated_bytes.all.peak
+                    df_peak[alg].append(max_memory / (1024 * 1024 * 1024))
+    
+    fig, ax = plt.subplots()
+    ax.set_ylabel("Peak Memory Usage (GB)")
+    ax.set_xlabel(xlabel)
+    
+    df_peak = pd.DataFrame(df_peak)
+    markers = 'oD^sdp'
+    for i, c in enumerate(df_peak.columns):
+        ax.plot(xticklabels, df_peak[c], marker=markers[i], label=algorithms[c])
+    ax.legend()
+    fig.savefig(base_path + "/" + file_out + "peak_memory." + file_type)
+    
+    fig, ax = plt.subplots()
+    ax.set_ylabel("Expansion Ratio")
+    ax.set_xlabel(xlabel)
+    df_ratio = pd.DataFrame(df_ratio)
+    markers = 'oD^sdp'
+    for i, c in enumerate(df_ratio.columns):
+        ax.plot(xticklabels, df_ratio[c], marker=markers[i], label=algorithms[c])
+    ax.legend()
+    fig.savefig(base_path + "/" + file_out + "expansion_ratio." + file_type)
+
+run_inference_full_memory_fix_edge(file_type="png")

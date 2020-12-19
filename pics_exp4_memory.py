@@ -17,7 +17,7 @@ def pics_minibatch_memory_bar(file_type="png"):
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
     
     dir_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp4_relative_sampling/batch_memory/"
-    base_path = "paper_exp4_relative_sampling"
+    dir_out = "paper_exp4_relative_sampling"
     xlabel = "Relative Batch Size (%)"
 
     cluster_batchs = [15, 45, 90, 150, 375, 750]
@@ -122,7 +122,7 @@ def pics_minibatch_memory_bar(file_type="png"):
                 ax.bar(x + locations[i] * width, [df_peak[alg][d] for d in enabels_indexs], width, label=algorithms[alg], color=colors[i])
             ax.set_xticklabels([0] + labels)
             ax.legend()
-            fig.savefig(base_path + "/" + file_out + mode + '_' + data + "_peak_memory." + file_type)
+            fig.savefig(dir_out + "/" + file_out + mode + '_' + data + "_peak_memory." + file_type)
         
             fig, ax = plt.subplots()
             ax.set_ylabel("Expansion Ratio")
@@ -134,9 +134,66 @@ def pics_minibatch_memory_bar(file_type="png"):
                 ax.bar(x + locations[i] * width, [df_ratio[alg][d] for d in enabels_indexs], width, label=algorithms[alg], color=colors[i])
             ax.set_xticklabels([0] + labels)
             ax.legend()
-            fig.savefig(base_path + "/" + file_out + mode + '_' + data +  "_expansion_ratio." + file_type)
+            fig.savefig(dir_out + "/" + file_out + mode + '_' + data +  "_expansion_ratio." + file_type)
             
             plt.close()
             
-pics_minibatch_memory_bar(file_type="png")
-pics_minibatch_memory_bar(file_type="pdf")
+
+def pics_inference_sampling_memory(file_type="png"):
+    file_out="exp_inference_sampling_memory_usage_relative_batch_size"
+    dir_in = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp7_inference_sampling/inference_sampling_memory"
+    dir_out = "paper_exp6_inference_sampling"
+    xlabel = "Datasets"
+    
+    algs = ['gcn', 'ggnn', 'gat', 'gaan']
+    datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
+    
+    df_peak_memory, df_memory_ratio = {}, {}
+    for alg in algs:
+        df_peak_memory[alg], df_memory_ratio[alg] = [], []
+        for data in datasets:
+            file_path = dir_in + '/' + alg + '_' + data + '.json'
+            print(file_path)
+            if not os.path.exists(file_path):
+                continue
+            with open(file_path) as f:
+                res = json.load(f) 
+                data_memory = res['data load'][0][0]
+                max_memory = 0
+                for k in res.keys():
+                    max_memory = max(max_memory, np.array(res[k]).mean(axis=0)[1])
+                df_memory_ratio[alg].append(max_memory / data_memory)
+                max_memory /= 1024 * 1024 * 1024 # GB
+                df_peak_memory[alg].append(max_memory)
+    
+    # 指定bar的location
+    locations = [-1.5, -0.5, 0.5, 1.5]
+    x = np.arange(len(datasets))
+    width = 0.2
+    colors = plt.get_cmap('Paired')(np.linspace(0.15, 0.85, len(locations)))
+    
+    # fig1: inference sampling阶段的peak memory的图像
+    fig, ax = plt.subplots()
+    ax.set_ylabel("Peak Memory Usage (MB)")
+    ax.set_xlabel(xlabel)
+
+    for i, alg in enumerate(algs):
+        ax.bar(x + locations[i] * width, df_peak_memory[alg], width, label=algorithms[alg], color=colors[i])
+    ax.set_xticklabels([''] + [datasets_maps[x] for x in datasets]) 
+    ax.legend()
+    fig.savefig(dir_out + "/" + file_out + "_peak_memory." + file_type)
+
+    # fig2: inference sampling阶段的memory ratio的图像
+    fig, ax = plt.subplots()
+    ax.set_ylabel("Expansion Ratio")
+    ax.set_xlabel(xlabel)
+
+    for i, alg in enumerate(algs):
+        ax.bar(x + locations[i] * width, df_memory_ratio[alg], width, label=algorithms[alg], color=colors[i])
+    ax.set_xticklabels([''] + [datasets_maps[x] for x in datasets])
+    ax.legend()
+    fig.savefig(dir_out + "/" + file_out + "_expansion_ratio." + file_type)
+    
+    plt.close()
+
+pics_inference_sampling_memory(file_type="png")
