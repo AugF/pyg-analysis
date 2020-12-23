@@ -166,8 +166,8 @@ def pics_inference_sampling_minibatch_time(file_type="png"):
     dir_out = "paper_exp6_inference_sampling"
     file_out = "exp_inference_sampling_relative_batch_size_train_time_stack"
     
-    ylabel = "Training Time per Batch (ms)"
-    xlabel = "Datasets"
+    ylabel = "Inference Time per Batch (ms)"
+    xlabel = "Dataset"
     
     xticklabels = [datasets_maps[i] for i in datasets]
 
@@ -188,7 +188,7 @@ def pics_inference_sampling_minibatch_time(file_type="png"):
                 df_train[alg].append(np.nan)
                 continue
             # print(file_path)
-            sampling_time, to_time, train_time = 0.0, 0.0, 0.0
+            sampling_time, to_time, train_time, cnt = 0.0, 0.0, 0.0, 0
             with open(file_path) as f:
                 for line in f:
                     match_line = re.match(r"avg_batch_train_time: (.*), avg_batch_sampling_time:(.*), avg_batch_to_time: (.*)", line)
@@ -196,14 +196,15 @@ def pics_inference_sampling_minibatch_time(file_type="png"):
                         train_time += float(match_line.group(1))
                         sampling_time += float(match_line.group(2))
                         to_time += float(match_line.group(3))
+                        cnt += 1
             if train_time == 0.0:
                 df_train[alg].append(np.nan)
                 df_sampling[alg].append(np.nan)
                 df_to[alg].append(np.nan)
             else:
-                df_train[alg].append(train_time * 1000)
-                df_to[alg].append(to_time * 1000)
-                df_sampling[alg].append(sampling_time * 1000)
+                df_train[alg].append(train_time / cnt * 1000)
+                df_to[alg].append(to_time / cnt * 1000)
+                df_sampling[alg].append(sampling_time / cnt * 1000)
 
     # fig: 画inference sampling的图像
     fig, ax = plt.subplots()
@@ -211,9 +212,9 @@ def pics_inference_sampling_minibatch_time(file_type="png"):
     ax.set_xlabel(xlabel)
     ax.set_xticklabels([''] + xticklabels)
         
-    pd.DataFrame(df_train).to_csv(dir_out + "/" + file_out + "_train_time.csv")
-    pd.DataFrame(df_to).to_csv(dir_out + "/" + file_out + "_to_time.csv")
-    pd.DataFrame(df_sampling).to_csv(dir_out + "/" + file_out + "_sampling_time.csv")
+    pd.DataFrame(df_train, index=datasets).to_csv(dir_out + "/" + file_out + "_train_time.csv")
+    pd.DataFrame(df_to, index=datasets).to_csv(dir_out + "/" + file_out + "_to_time.csv")
+    pd.DataFrame(df_sampling, index=datasets).to_csv(dir_out + "/" + file_out + "_sampling_time.csv")
     
     locations = [-1.5, -0.5, 0.5, 1.5]
     x = np.arange(len(datasets))
@@ -232,10 +233,11 @@ def pics_inference_sampling_minibatch_time(file_type="png"):
 
     legend_colors = [Line2D([0], [0], color=c, lw=4) for c in colors]
     legend_hatchs = [Patch(facecolor='white', edgecolor='r', hatch='////'), Patch(facecolor='white',edgecolor='r', hatch='....'), Patch(facecolor='white', edgecolor='r', hatch='xxxx')]
-    ax.legend(legend_colors + legend_hatchs, [algorithms[i] for i in algs] + ['Training', 'Data Transferring', 'Sampling'], ncol=2)
+    ax.legend(legend_colors + legend_hatchs, [algorithms[i] for i in algs] + ['Inference on GPU', 'Data Transferring', 'Sampling'], ncol=2)
     
     fig.savefig(dir_out + '/' + file_out +  "." + file_type)
     plt.close()
 
 
 pics_inference_sampling_minibatch_time(file_type="png")
+pics_inference_sampling_minibatch_time(file_type="pdf")

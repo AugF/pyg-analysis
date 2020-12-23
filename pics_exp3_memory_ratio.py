@@ -117,4 +117,6 @@ def run_inference_full_memory_ratio(file_type="png"):
     
 
 run_memory_ratio_config_single(file_type="png")
+run_memory_ratio_config_single(file_type="pdf")
 run_inference_full_memory_ratio(file_type="png")
+run_inference_full_memory_ratio(file_type="pdf")

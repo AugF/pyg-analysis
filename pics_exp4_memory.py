@@ -143,7 +143,7 @@ def pics_inference_sampling_memory(file_type="png"):
     file_out="exp_inference_sampling_memory_usage_relative_batch_size"
     dir_in = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp7_inference_sampling/inference_sampling_memory"
     dir_out = "paper_exp6_inference_sampling"
-    xlabel = "Datasets"
+    xlabel = "Dataset"
     
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
@@ -197,3 +197,4 @@ def pics_inference_sampling_memory(file_type="png"):
     plt.close()
 
 pics_inference_sampling_memory(file_type="png")
+pics_inference_sampling_memory(file_type="pdf")

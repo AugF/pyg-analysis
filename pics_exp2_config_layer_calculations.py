@@ -20,4 +20,5 @@ def pic_config_exp_layer_proportion(dir_work="paper_exp6_inference_full", file_o
         fig.savefig(dir_work + "/" + file_out + alg + "." + file_type) 
 
 pic_config_exp_layer_proportion(dir_work="paper_exp5_inference_full", file_out="exp_inference_full_layer_time_proportion_", file_type="png")
+pic_config_exp_layer_proportion(dir_work="paper_exp5_inference_full", file_out="exp_inference_full_layer_time_proportion_", file_type="pdf")
 # pic_config_exp_layer_proportion("pdf")

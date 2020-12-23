@@ -61,3 +61,4 @@ def pics_operators_bar(dir_work="paper_exp2_time_break", file_out="exp_top_basic
         plt.close()
         
 pics_operators_bar(dir_work="paper_exp5_inference_full", file_out="exp_inference_full_top_basic_ops_", file_type="png")
+pics_operators_bar(dir_work="paper_exp5_inference_full", file_out="exp_inference_full_top_basic_ops_", file_type="pdf")

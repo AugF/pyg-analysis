@@ -18,7 +18,10 @@ def pic_calculations_avg_degree(dir_work="paper_exp2_time_break", file_prefix = 
         df = pd.read_csv(dir_path + '/' + alg + '_graph.csv', index_col=0).T
         
         ax.set_xlabel(xlabel)
-        ax.set_ylabel("Training Time / Epoch (ms)")
+        if 'inference' in dir_work:
+            ax.set_ylabel("Inference Time / Epoch (ms)")
+        else:
+            ax.set_ylabel("Training Time / Epoch (ms)")
         xticks = xticklabels[:len(df.index)]
         line1, = ax.plot(xticks, df[0].values, 'ob', label=labels[0], linestyle='-')
         line2, = ax.plot(xticks, df[1].values, 'Dg', label=labels[1], linestyle='-')
@@ -33,4 +36,5 @@ def pic_calculations_avg_degree(dir_work="paper_exp2_time_break", file_prefix = 
         plt.close()
 
 pic_calculations_avg_degree(dir_work="paper_exp5_inference_full", file_prefix = "exp_inference_full_avg_degree_on_vertex_edge_cal_time_", file_type="png")
+pic_calculations_avg_degree(dir_work="paper_exp5_inference_full", file_prefix = "exp_inference_full_avg_degree_on_vertex_edge_cal_time_", file_type="pdf")
 # pic_calculations_avg_degree(file_type="pdf")

@@ -100,4 +100,4 @@ def pics_inference_full_memory(file_type="png"):
 
 
 pics_inference_full_memory(file_type="png")
-# pics_inference_full_memory(file_type="pdf")
+pics_inference_full_memory(file_type="pdf")

@@ -34,7 +34,7 @@ dicts = {
         'stages': ['Forward', 'Backward', 'Eval'],
         'layers': ['Layer0', 'Layer1', 'Loss', 'Other'],
         'calculations': ['Vertex Calculation', 'Edge Calculation'],
-        'edge_cal': ['Collect', 'Message', 'Aggregate', 'Update']
+        'edge_cal': ['Collection', 'Messaging', 'Aggregation', 'Updating']
     }
 # 这里将config实验除外，因为只涉及到两个参数
 # hds_heads_exp 参数
@@ -137,7 +137,7 @@ def autolabel(rects, ax, memory_ratio_flag=False):
         #           textcoords="offset points",
         #            ha='center', va='bottom')
         if memory_ratio_flag:
-            ax.text(rect.get_x() , height + 1, f"{height:.4f}", fontsize=5)
+            ax.text(rect.get_x() , height + 1, f"{height:.1f}", fontsize=8)
         else:
             ax.text(rect.get_x() , height + 0.1, f"{height:.4f}", fontsize=4.5)
     return ax

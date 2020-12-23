@@ -21,4 +21,6 @@ def pic_others_propogation(label, file_name, file_type, dir_work="paper_exp2_tim
         fig.savefig(dir_work + "/"+ file_name + alg + "." + file_type) 
         
 pic_others_propogation('edge_cal', 'exp_inference_full_edge_calc_decomposition_', "png", dir_work="paper_exp5_inference_full")
-# pic_others_propogation('edge_cal', 'exp_edge_calc_decomposition_', "pdf")
+pic_others_propogation('edge_cal', 'exp_inference_full_edge_calc_decomposition_', "pdf", dir_work="paper_exp5_inference_full")
+# pic_others_propogation('edge_cal', 'exp_edge_calc_decomposition_', "png", dir_work="paper_exp2_time_break")
+# pic_others_propogation('edge_cal', 'exp_edge_calc_decomposition_', "pdf", dir_work="paper_exp2_time_break")

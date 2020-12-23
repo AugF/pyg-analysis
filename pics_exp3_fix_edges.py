@@ -145,3 +145,4 @@ def run_inference_full_memory_fix_edge(file_type="png"):
     fig.savefig(base_path + "/" + file_out + "expansion_ratio." + file_type)
 
 run_inference_full_memory_fix_edge(file_type="png")
+run_inference_full_memory_fix_edge(file_type="pdf")

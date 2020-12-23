@@ -7,11 +7,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from utils import survey, algorithms, variables, autolabel, datasets_maps
 plt.style.use("ggplot")
-plt.rcParams["font.size"] = 12
 plt.rcParams['text.latex.preamble']=[r"\usepackage{amsmath}"]
-
-
-def pic_calculations_gat():
+xlabel = [r"$d_{head}$ (#Head=4)", r"#Head ($d_{head}$=32)"]
+             
+def pic_calculations_gat(file_type="png"):
+    plt.rcParams["font.size"] = 12
     labels = ['Vertex Calculation', 'Edge Calculation']
     algs = ['gat']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
@@ -19,16 +19,14 @@ def pic_calculations_gat():
 
     file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_"
     xticklabels = [['8', '16', '32', '64', '128', '256'], ['1', '2', '4', '8', '16']]
-    xlabel = {'gat': [r"$d_{head}$ (#Head=4)", r"#Head ($d_{head}$=32)"],
-              'gaan': [r"$d_{v}$ and $d_{a}$ (#Head=4)", r"#Head ($d_{v}$=32, $d_{a}$=32)"] 
-             }
-    dir_out = ["hds_head_dims_exp", "hds_heads_exp"]
-    base_path = "hidden_dims_exp"
+    dir_in = "paper_exp1_super_parameters"
+    dir_subs = ["hds_head_dims_exp", "hds_heads_exp"]
+    dir_out = "paper_exp1_super_parameters/paras_fig"
+    
     for alg in algs:
-        plt.figure(figsize=(12, 9.6))
-        fig = plt.figure(1)
+        fig, axes = plt.subplots(2, 2, figsize=(7, 7), sharey=True, tight_layout=True)
         for k in range(2): # 表示两种情况
-            dir_path = base_path + '/gat_exp/' + dir_out[k] + '/calculations'
+            dir_path = dir_in + '/hidden_dims_exp/' + dir_subs[k] + '/calculations'
             df = {}
             df[0] = {}
             df[1] = {}
@@ -46,25 +44,25 @@ def pic_calculations_gat():
 
             df[0] = pd.DataFrame(df[0])
             df[1] = pd.DataFrame(df[1])
-            ax1 = plt.subplot(2, 2, 2 * k + 1)
-            ax2 = plt.subplot(2, 2, 2 * k + 2, sharey=ax1)
-            for i, ax in enumerate([ax1, ax2]):
-                ax.set_title(labels[i])
-                if log_y:
-                    ax.set_yscale("symlog", basey=2)
-                ax.set_ylabel('Training Time / Epoch (ms)')
-                ax.set_xlabel(xlabel[alg][k])
+            for i in range(2):
+                ax = axes[i][k]
+                ax.set_title(labels[i], fontsize=12)
+                ax.set_yscale("symlog", basey=2)
+                if k == 0:
+                    ax.set_ylabel('Training Time / Epoch (ms)', fontsize=12)
+                ax.set_xlabel(xlabel[k], fontsize=12)
                 ax.set_xticks(list(range(len(xticklabels[k]))))
-                ax.set_xticklabels(xticklabels[k])
+                ax.set_xticklabels(xticklabels[k], fontsize=10)
                 markers = 'oD^sdp'
                 for j, c in enumerate(df[i].columns):
-                    df[i][c].plot(ax=ax, marker=markers[j], label=datasets_maps[c], rot=0)
+                    ax.plot(df[i].index, df[i][c], marker=markers[j], label=datasets_maps[c])
                 ax.legend()
         fig.tight_layout() # 防止重叠
-        fig.savefig(base_path + "/" + file_prefix + alg + ".pdf")
+        fig.savefig(dir_out + "/" + file_prefix + alg + "." + file_type)
         plt.close()
         
-def run_memory_gat():
+def run_memory_gat(file_type):
+    plt.rcParams["font.size"] = 12
     file_out="exp_hyperparameter_on_memory_usage_"
     algs = ['gat']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
@@ -73,20 +71,13 @@ def run_memory_gat():
     xticklabels = [['8', '16', '32', '64', '128', '256'], ['1', '2', '4', '8', '16']]
     file_prefix = ['_4_', '_']
     file_suffix = ['', '_32']
-    xlabel = {'gat': [r"$d_{head}$ (#Head=4)", r"#Head ($d_{head}$=32)"],
-              'gaan': [r"$d_{v}$ and #$d_{a}$ (#Head=4)", r"#Head ($d_{v}$=32, $d_{a}$=32)"] 
-             }
     
-    dir_memory = "/data/wangzhaokang/wangyunpan/pyg-gnns/hidden_dims_exp/dir_head_json"
-    dir_out = "hidden_dims_exp"
-    dir_path = ['hds_head_dims_exp', 'hds_heads_exp']
+    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gat_json"
+    dir_out = "paper_exp1_super_parameters/paras_fig"
+    
     for alg in algs:
-        plt.figure(figsize=(12, 4.8))
-        fig = plt.figure(1)
+        fig, axes = plt.subplots(1, 2, figsize=(7, 7/2), sharey=True, tight_layout=True)
         for k in range(2):
-            base_path = os.path.join(dir_out, 'gat_exp', dir_path[k], "memory")
-            if not os.path.exists(base_path):
-                os.makedirs(base_path)
             df = {}
             for data in datasets:
                 df[data] = []
@@ -114,19 +105,22 @@ def run_memory_gat():
                 if df[data] == [None] * (len(xticklabels[k])):
                     del df[data]
             df = pd.DataFrame(df)
-            ax = plt.subplot(1, 2, k + 1)
-            # ax.set_title("GPU Memory Usage")
-            if log_y:
-                ax.set_yscale("symlog", basey=2)
-            ax.set_ylabel("Training Memory Usage (MB)")
-            ax.set_xlabel(xlabel[alg][k])
+            ax = axes[k]
+            ax.set_yscale("symlog", basey=2)
+            if k == 0:
+                ax.set_ylabel("Training Memory Usage (MB)")
+            ax.set_xlabel(xlabel[k])
             ax.set_xticks(list(range(len(xticklabels[k]))))
             ax.set_xticklabels([str(i) for i in xticklabels[k]])
             markers = 'oD^sdp'
             for i, c in enumerate(df.columns):
-                df[c].plot(ax=ax, marker=markers[i], label=datasets_maps[c], rot=0)
+                ax.plot(df.index, df[c], marker=markers[i], label=datasets_maps[c])
             ax.legend()
-            df.to_csv(base_path + '/' + alg + ".csv")
-        fig.tight_layout() 
-        fig.savefig(dir_out + "/" + file_out + alg + ".pdf")
+        fig.savefig(dir_out + "/" + file_out + alg + "." + file_type)
         plt.close()
+        
+
+pic_calculations_gat(file_type="png")
+pic_calculations_gat(file_type="pdf")
+run_memory_gat(file_type="png")
+run_memory_gat(file_type="pdf")

@@ -146,3 +146,4 @@ def run_inference_full_memory_degrees(file_type="png"):
 
 
 run_inference_full_memory_degrees(file_type="png")
+run_inference_full_memory_degrees(file_type="pdf")

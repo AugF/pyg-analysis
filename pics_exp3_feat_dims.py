@@ -142,3 +142,4 @@ def run_inference_full_memory_feats_dims(file_type="png"):
         fig.savefig(base_path + "/" + file_out + data + "_expansion_ratio." + file_type)
 
 run_inference_full_memory_feats_dims(file_type="png")
+run_inference_full_memory_feats_dims(file_type="pdf")

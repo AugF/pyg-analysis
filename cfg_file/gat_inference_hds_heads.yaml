@@ -1,0 +1,14 @@
+datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
+algs: ['gat']
+
+dir_out: paper_exp1_super_parameters/gat_inference/hds_heads_exp
+dir_name: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_sqlite
+dir_memory: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_json
+
+variables: [1, 2, 4, 8, 16]
+file_prefix: _
+file_suffix: _32
+xlabel: r"$d_a, d_v, d_m$(#Head=4, $h^1_{in}$=64)"
+log_y: true
+infer_flag: true
+layer: 2
