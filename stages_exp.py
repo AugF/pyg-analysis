@@ -7,10 +7,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from utils import get_real_time, get_int, survey, algorithms, datasets_maps, datasets, dicts
 plt.style.use("ggplot")
-plt.rcParams["font.size"] = 12
+#plt.rcParams["font.size"] = 12
 
-dir_out = "config_exp"
-dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/config_exp/dir_sqlite"
+
+dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_config_sqlite"
+dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp2_time_break/config_exp"
 base_path = os.path.join(dir_out, "stages")
 if not os.path.exists(base_path):
     os.makedirs(base_path)
@@ -32,7 +33,7 @@ def get_stage_time(cur, outliers):
     return stages_times
 
 def run_config_exp():
-    for alg in ['gaan']:
+    for alg in ['gcn', 'ggnn', 'gat', 'gaan']:
         df = {}
         for data in datasets:
             outlier_file = dir_out + '/epochs/' + alg + '_' + data + '_outliers.txt'

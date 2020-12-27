@@ -1,7 +1,7 @@
 datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
 algs: ['gcn', 'ggnn']
 
-dir_out: paper_exp1_super_parameters/gcn_ggnn_inference/hds_exp
+dir_out: paper_exp1_super_parameters/gcn_ggnn_inference_exp/hds_exp
 dir_name: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gcn_ggnn_inference_sqlite
 dir_memory: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gcn_ggnn_inference_json
 

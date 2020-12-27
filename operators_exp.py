@@ -78,6 +78,7 @@ def get_operators_time(cur, outliers):
         cuda_times = {}  # 基本算子在cuda上运行的时间
         times = 0
         for k in operators_times.keys():
+            print("key", k)
             cuda_times[k] = 0
             for x in operators_times[k]:
                 cuda_times[k] += get_real_time(x, cur)[0]

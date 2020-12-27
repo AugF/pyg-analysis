@@ -7,10 +7,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from utils import survey, algorithms, variables, datasets_maps, datasets
 plt.style.use("ggplot")
-plt.rcParams["font.size"] = 12
 
-def pics_operators_bar(dir_work="paper_exp2_time_break", file_out="exp_top_basic_ops_", file_type="png"):
+def pics_operators_bar(dir_out="paper_exp2_time_break", 
+                       dir_work="paper_exp2_time_break", file_out="exp_top_basic_ops_", file_type="png"):
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
+    # plt.rcParams["font.size"] = 12
     for i, alg in enumerate(algs):
         dir_path = dir_work + '/config_exp/operators/' + alg + '_'
         all_percent_ops = {}  #
@@ -51,14 +52,21 @@ def pics_operators_bar(dir_work="paper_exp2_time_break", file_out="exp_top_basic
         max_values = df.values.max(axis=1) - mean_values
         min_values = mean_values - df.values.min(axis=1)
         
-        fig, ax = plt.subplots()
-        ax.set_xlabel("Basic Operators")
-        ax.set_ylabel("Proportion (%)")
+        fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+        ax.set_xlabel("Basic Operators", fontsize=16)
+        ax.set_ylabel("Proportion (%)", fontsize=16)
         plt.bar(columns, mean_values, yerr=[min_values, max_values])
-        plt.xticks(rotation=20)
-        fig.tight_layout()
-        fig.savefig(dir_work + '/' + file_out + alg + '.' + file_type)
+        plt.xticks(rotation=20, fontsize=12)
+        plt.yticks(fontsize=12)
+        # fig.tight_layout()
+        fig.savefig(dir_out + '/' + file_out + alg + '.' + file_type)
         plt.close()
         
-pics_operators_bar(dir_work="paper_exp5_inference_full", file_out="exp_inference_full_top_basic_ops_", file_type="png")
-pics_operators_bar(dir_work="paper_exp5_inference_full", file_out="exp_inference_full_top_basic_ops_", file_type="pdf")
+pics_operators_bar(dir_out="exp_supplement", dir_work="paper_exp5_inference_full", 
+                   file_out="exp_inference_full_top_basic_ops_", file_type="png")
+pics_operators_bar(dir_out="exp_supplement", dir_work="paper_exp5_inference_full", 
+                   file_out="exp_inference_full_top_basic_ops_", file_type="pdf")
+pics_operators_bar(dir_out="exp_supplement", dir_work="paper_exp2_time_break", 
+                   file_out="exp_top_basic_ops_", file_type="png")
+pics_operators_bar(dir_out="exp_supplement", dir_work="paper_exp2_time_break", 
+                   file_out="exp_top_basic_ops_", file_type="pdf")

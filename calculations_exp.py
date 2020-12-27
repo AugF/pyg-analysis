@@ -33,7 +33,6 @@ def get_calculations_time(cur, outliers, alg, layer=2, infer_flag=False):
                     # 2.1 寻找该时间段中所有的seq
                     seq_sql = "select text from nvtx_events where start >= {} and end <= {} and text like '%seq%'"
                     seq_res = cur.execute(seq_sql.format(res[2 * layer * i + j][0], res[2 * layer * i + j][1])).fetchall()
-
                     min_seq, max_seq = get_int(seq_res[0][0]), get_int(seq_res[-1][0])
 
                     seq_backward_sql = "select start, end, text from nvtx_events where text like '%Backward%seq = {0}' or text like '%ScatterMax%seq = {0}'"

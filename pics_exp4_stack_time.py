@@ -161,10 +161,10 @@ def pics_minibatch_time(file_type="png"):
             plt.close()
 
 
-def pics_inference_sampling_minibatch_time(file_type="png"):
-    dir_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp7_inference_sampling/inference_sampling_time"
-    dir_out = "paper_exp6_inference_sampling"
-    file_out = "exp_inference_sampling_relative_batch_size_train_time_stack"
+def pics_inference_sampling_minibatch_time(dir_work="inference_sampling_time", file_suffix="", file_type="png"):
+    dir_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp7_inference_sampling/" + dir_work
+    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
+    file_out = "exp_inference_sampling_fix_batch_size_train_time_stack_" + file_suffix
     
     ylabel = "Inference Time per Batch (ms)"
     xlabel = "Dataset"
@@ -207,15 +207,16 @@ def pics_inference_sampling_minibatch_time(file_type="png"):
                 df_sampling[alg].append(sampling_time / cnt * 1000)
 
     # fig: 画inference sampling的图像
-    fig, ax = plt.subplots()
-    ax.set_ylabel(ylabel)
-    ax.set_xlabel(xlabel)
+    fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+    ax.set_ylabel(ylabel, fontsize=16)
+    ax.set_xlabel(xlabel, fontsize=16)
+    ax.set_ylim(0, 120)
     ax.set_xticklabels([''] + xticklabels)
-        
+    plt.xticks(fontsize=16)
     pd.DataFrame(df_train, index=datasets).to_csv(dir_out + "/" + file_out + "_train_time.csv")
     pd.DataFrame(df_to, index=datasets).to_csv(dir_out + "/" + file_out + "_to_time.csv")
     pd.DataFrame(df_sampling, index=datasets).to_csv(dir_out + "/" + file_out + "_sampling_time.csv")
-    
+    plt.yticks(fontsize=16)
     locations = [-1.5, -0.5, 0.5, 1.5]
     x = np.arange(len(datasets))
     width = 0.2
@@ -233,11 +234,13 @@ def pics_inference_sampling_minibatch_time(file_type="png"):
 
     legend_colors = [Line2D([0], [0], color=c, lw=4) for c in colors]
     legend_hatchs = [Patch(facecolor='white', edgecolor='r', hatch='////'), Patch(facecolor='white',edgecolor='r', hatch='....'), Patch(facecolor='white', edgecolor='r', hatch='xxxx')]
-    ax.legend(legend_colors + legend_hatchs, [algorithms[i] for i in algs] + ['Inference on GPU', 'Data Transferring', 'Sampling'], ncol=2)
+    ax.legend(legend_colors + legend_hatchs, [algorithms[i] for i in algs] + ['Inference on GPU', 'Data Transferring', 'Sampling'], ncol=2, loc="upper left", fontsize=16)
     
     fig.savefig(dir_out + '/' + file_out +  "." + file_type)
     plt.close()
 
 
-pics_inference_sampling_minibatch_time(file_type="png")
-pics_inference_sampling_minibatch_time(file_type="pdf")
+pics_inference_sampling_minibatch_time(dir_work="inference_sampling_time_2048", file_suffix="2048", file_type="png")
+pics_inference_sampling_minibatch_time(dir_work="inference_sampling_time_2048", file_suffix="2048", file_type="pdf")
+pics_inference_sampling_minibatch_time(dir_work="inference_sampling_time", file_suffix="1024", file_type="png")
+pics_inference_sampling_minibatch_time(dir_work="inference_sampling_time", file_suffix="1024", file_type="pdf")

@@ -9,7 +9,7 @@ from utils import survey, algorithms, variables, autolabel, datasets_maps
 plt.style.use("ggplot")
 plt.rcParams["font.size"] = 12
 
-def run_memory_degrees(file_type="png"):
+def run_memory_degrees(file_type="png", dir_save="./"):
     file_out="exp_memory_expansion_ratio_input_graph_number_of_edges_"
     log_y = False    
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
@@ -61,29 +61,33 @@ def run_memory_degrees(file_type="png"):
                     df_ratio[alg].append(max(all_data[2:, 1]) / all_data[0, 0]) # 这里记录allocated_bytes.all.peak
                     df_current[alg].append(all_data[0, 0])
     
-    fig, ax = plt.subplots()
-    ax.set_ylabel("Peak Memory Usage (GB)")
-    ax.set_xlabel(xlabel)
+    fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+    ax.set_ylabel("Peak Memory Usage (GB)", fontsize=16)
+    ax.set_xlabel(xlabel, fontsize=16)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
     
     df_peak = pd.DataFrame(df_peak)
     markers = 'oD^sdp'
     for i, c in enumerate(df_peak.columns):
         ax.plot(xticklabels, df_peak[c], marker=markers[i], label=algorithms[c])
-    ax.legend()
-    fig.savefig(base_path + "/" + file_out + "peak_memory." + file_type)
+    ax.legend(fontsize=12)
+    fig.savefig(dir_save + "/" + file_out + "peak_memory." + file_type)
     
-    fig, ax = plt.subplots()
-    ax.set_ylabel("Expansion Ratio")
-    ax.set_xlabel(xlabel)
+    fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+    ax.set_ylabel("Expansion Ratio", fontsize=16)
+    ax.set_xlabel(xlabel, fontsize=16)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
     df_ratio = pd.DataFrame(df_ratio)
     markers = 'oD^sdp'
     for i, c in enumerate(df_ratio.columns):
         ax.plot(xticklabels, df_ratio[c], marker=markers[i], label=algorithms[c])
-    ax.legend()
-    fig.savefig(base_path + "/" + file_out + "expansion_ratio." + file_type)
+    ax.legend(fontsize=12)
+    fig.savefig(dir_save + "/" + file_out + "expansion_ratio." + file_type)
 
 
-def run_inference_full_memory_degrees(file_type="png"):
+def run_inference_full_memory_degrees(file_type="png", dir_save="paper_exp5_inference_full"):
     file_out="exp_inference_full_memory_expansion_ratio_input_graph_number_of_edges_"
     log_y = False    
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
@@ -123,27 +127,32 @@ def run_inference_full_memory_degrees(file_type="png"):
                     df_ratio[alg].append(max_memory / data_memory) # 这里记录allocated_bytes.all.peak
                     df_peak[alg].append(max_memory / (1024 * 1024 * 1024))
     
-    fig, ax = plt.subplots()
-    ax.set_ylabel("Peak Memory Usage (GB)")
-    ax.set_xlabel(xlabel)
-    
+    fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+    ax.set_ylabel("Peak Memory Usage (GB)", fontsize=16)
+    ax.set_xlabel(xlabel, fontsize=16)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
     df_peak = pd.DataFrame(df_peak)
     markers = 'oD^sdp'
     for i, c in enumerate(df_peak.columns):
         ax.plot(xticklabels, df_peak[c], marker=markers[i], label=algorithms[c])
-    ax.legend()
-    fig.savefig(base_path + "/" + file_out + "peak_memory." + file_type)
+    ax.legend(fontsize=12)
+    fig.savefig(dir_save + "/" + file_out + "peak_memory." + file_type)
     
-    fig, ax = plt.subplots()
-    ax.set_ylabel("Expansion Ratio")
-    ax.set_xlabel(xlabel)
+    fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+    ax.set_ylabel("Expansion Ratio", fontsize=16)
+    ax.set_xlabel(xlabel, fontsize=16)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
     df_ratio = pd.DataFrame(df_ratio)
     markers = 'oD^sdp'
     for i, c in enumerate(df_ratio.columns):
         ax.plot(xticklabels, df_ratio[c], marker=markers[i], label=algorithms[c])
-    ax.legend()
-    fig.savefig(base_path + "/" + file_out + "expansion_ratio." + file_type)
+    ax.legend(fontsize=12)
+    fig.savefig(dir_save + "/" + file_out + "expansion_ratio." + file_type)
 
 
-run_inference_full_memory_degrees(file_type="png")
-run_inference_full_memory_degrees(file_type="pdf")
+run_memory_degrees(file_type="png", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")
+run_memory_degrees(file_type="pdf", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")
+run_inference_full_memory_degrees(file_type="png", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")
+run_inference_full_memory_degrees(file_type="pdf", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")

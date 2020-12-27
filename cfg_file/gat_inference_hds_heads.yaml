@@ -1,7 +1,7 @@
 datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
 algs: ['gat']
 
-dir_out: paper_exp1_super_parameters/gat_inference/hds_heads_exp
+dir_out: paper_exp1_super_parameters/gat_inference_exp/hds_heads_exp
 dir_name: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_sqlite
 dir_memory: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_json
 

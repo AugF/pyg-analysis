@@ -19,7 +19,7 @@ def run_memory_fix_edge(file_type="png"):
     variables = ['1k', '5k', '10k', '20k', '30k', '40k', '50k']
     
     dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp3_memory/dir_fix_edges_json"
-    base_path = "paper_exp3_memory"
+    base_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
     xlabel = "Number of Vertices"
 
     file_prefix, file_suffix = '_', '_500k'
@@ -61,25 +61,30 @@ def run_memory_fix_edge(file_type="png"):
                     df_ratio[alg].append(max(all_data[2:, 1]) / all_data[0, 0]) # 这里记录allocated_bytes.all.peak
                     df_current[alg].append(all_data[0, 0])
     
-    fig, ax = plt.subplots()
-    ax.set_ylabel("Peak Memory Usage (GB)")
-    ax.set_xlabel(xlabel)
-    
+    fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+    ax.set_ylabel("Peak Memory Usage (GB)", fontsize=16)
+    ax.set_xlabel(xlabel, fontsize=16)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+
     df_peak = pd.DataFrame(df_peak)
     markers = 'oD^sdp'
     for i, c in enumerate(df_peak.columns):
         ax.plot(xticklabels, df_peak[c], marker=markers[i], label=algorithms[c])
-    ax.legend()
+    ax.legend(fontsize=12)
     fig.savefig(base_path + "/" + file_out + "peak_memory." + file_type)
     
-    fig, ax = plt.subplots()
-    ax.set_ylabel("Expansion Ratio")
-    ax.set_xlabel(xlabel)
+    fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+    ax.set_ylabel("Expansion Ratio", fontsize=16)
+    ax.set_xlabel(xlabel, fontsize=16)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    
     df_ratio = pd.DataFrame(df_ratio)
     markers = 'oD^sdp'
     for i, c in enumerate(df_ratio.columns):
         ax.plot(xticklabels, df_ratio[c], marker=markers[i], label=algorithms[c])
-    ax.legend()
+    ax.legend(fontsize=12)
     fig.savefig(base_path + "/" + file_out + "expansion_ratio." + file_type)
 
 
@@ -93,7 +98,7 @@ def run_inference_full_memory_fix_edge(file_type="png"):
     variables = ['1k', '5k', '10k', '20k', '30k', '40k', '50k']
     
     dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_fix_edges_json"
-    base_path = "paper_exp5_inference_full"
+    base_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
     xlabel = "Number of Vertices"
 
     file_prefix, file_suffix = '_', '_500k'
@@ -123,26 +128,32 @@ def run_inference_full_memory_fix_edge(file_type="png"):
                     df_ratio[alg].append(max_memory / data_memory) # 这里记录allocated_bytes.all.peak
                     df_peak[alg].append(max_memory / (1024 * 1024 * 1024))
     
-    fig, ax = plt.subplots()
-    ax.set_ylabel("Peak Memory Usage (GB)")
-    ax.set_xlabel(xlabel)
+    fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+    ax.set_ylabel("Peak Memory Usage (GB)", fontsize=16)
+    ax.set_xlabel(xlabel, fontsize=16)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
     
     df_peak = pd.DataFrame(df_peak)
     markers = 'oD^sdp'
     for i, c in enumerate(df_peak.columns):
         ax.plot(xticklabels, df_peak[c], marker=markers[i], label=algorithms[c])
-    ax.legend()
+    ax.legend(fontsize=12)
     fig.savefig(base_path + "/" + file_out + "peak_memory." + file_type)
     
-    fig, ax = plt.subplots()
-    ax.set_ylabel("Expansion Ratio")
-    ax.set_xlabel(xlabel)
+    fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+    ax.set_ylabel("Expansion Ratio", fontsize=16)
+    ax.set_xlabel(xlabel, fontsize=16)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
     df_ratio = pd.DataFrame(df_ratio)
     markers = 'oD^sdp'
     for i, c in enumerate(df_ratio.columns):
         ax.plot(xticklabels, df_ratio[c], marker=markers[i], label=algorithms[c])
-    ax.legend()
+    ax.legend(fontsize=12)
     fig.savefig(base_path + "/" + file_out + "expansion_ratio." + file_type)
 
+run_memory_fix_edge(file_type="png")
+run_memory_fix_edge(file_type="pdf")
 run_inference_full_memory_fix_edge(file_type="png")
 run_inference_full_memory_fix_edge(file_type="pdf")

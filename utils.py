@@ -83,7 +83,6 @@ def survey(labels, data, category_names, ax=None, color_dark2=False): # stages, 
     # data: 数据[[], []] len(data[1])=len(category_names); 
     # category_names: 比例的种类
     
-    print("data", type(data))
     # print("labels", labels, "data", data, "category_names", category_names)
     for i, c in enumerate(category_names):
         if c[0] == '_':
@@ -98,7 +97,7 @@ def survey(labels, data, category_names, ax=None, color_dark2=False): # stages, 
             np.linspace(0.15, 0.85, data.shape[1]))       
         
     if ax is None:
-        fig, ax = plt.subplots(figsize=(9.2, 5))
+        fig, ax = plt.subplots(figsize=(7, 4.5), tight_layout=True)
     else:
         fig = None
     ax.invert_yaxis()
@@ -117,9 +116,9 @@ def survey(labels, data, category_names, ax=None, color_dark2=False): # stages, 
         text_color = 'white' if r * g * b < 0.5 else 'darkgrey'
         for y, (x, c) in enumerate(zip(xcenters, widths)):
             ax.text(x, y, '%.1f' % c, ha='center', va='center',
-                    color=text_color)
-    ax.legend(ncol=len(category_names), bbox_to_anchor=(0, 1),
-              loc='lower left', fontsize='small')
+                    color=text_color, fontsize=10)
+    ax.legend(ncol=len(category_names), bbox_to_anchor=(-0.1, 1),
+              loc='lower left', fontsize="small")
 
     return fig, ax
 
@@ -143,7 +142,13 @@ def autolabel(rects, ax, memory_ratio_flag=False):
     return ax
 
 
-
+def get_inference_expansion_memory(res):
+    data_memory = res['data load'][0][0]
+    max_memory = 0
+    print(res.keys())
+    for k in res.keys():
+        max_memory = max(max_memory, np.array(res[k]).mean(axis=0)[1])
+    return (max_memory - data_memory) / (1024 * 1024)
 
 
 

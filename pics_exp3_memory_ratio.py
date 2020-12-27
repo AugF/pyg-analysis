@@ -13,7 +13,7 @@ def run_memory_ratio_config_single(file_type="png"):
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
     dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_config_json"
-    dir_out = "paper_exp3_memory"
+    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
     
     df = []
     for alg in algs:
@@ -48,19 +48,22 @@ def run_memory_ratio_config_single(file_type="png"):
     width = 0.2
     rects = []
     colors = plt.get_cmap('Paired')(np.linspace(0.15, 0.85, len(locations)))
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
     i = 0
     for (l, c) in zip(locations, colors):
         rects.append(ax.bar(x + l * width, df[i], width, label=algorithms[algs[i]], color=c))
         i += 1
-    ax.set_ylabel("Ratio")
-    ax.set_xlabel("Dataset")
+    ax.set_ylabel("Expansion Ratio", fontsize=16)
+    ax.set_xlabel("Dataset", fontsize=16)
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
-
+    ax.set_ylim(0, 106)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
+    
     for r in rects:
         ax = autolabel(r, ax, memory_ratio_flag=True)
-    ax.legend(ncol=2)
+    ax.legend(loc="upper right", ncol=2, fontsize=12)
     fig.savefig(dir_out + "/" + file_out +  "." + file_type)
     plt.close()
 
@@ -71,7 +74,7 @@ def run_inference_full_memory_ratio(file_type="png"):
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
     dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_config_json"
-    dir_out = "paper_exp5_inference_full"
+    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
     
     # 不同的算法，不同的数据集画不同的图
     df = []
@@ -99,19 +102,22 @@ def run_inference_full_memory_ratio(file_type="png"):
     width = 0.2
     rects = []
     colors = plt.get_cmap('Paired')(np.linspace(0.15, 0.85, len(locations)))
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
     i = 0
     for (l, c) in zip(locations, colors):
         rects.append(ax.bar(x + l * width, df[i], width, label=algorithms[algs[i]], color=c))
         i += 1
-    ax.set_ylabel("Expansion Ratio")
-    ax.set_xlabel("Dataset")
+    ax.set_ylabel("Expansion Ratio", fontsize=16)
+    ax.set_xlabel("Dataset", fontsize=16)
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
+    ax.set_ylim(0, 106)
+    plt.xticks(fontsize=14)
+    plt.yticks(fontsize=14)
 
     for r in rects:
         ax = autolabel(r, ax, memory_ratio_flag=True)
-    ax.legend(ncol=2)
+    ax.legend(loc="upper right", ncol=2, fontsize=12)
     fig.savefig(dir_out + "/" + file_out +  "." + file_type)
     plt.close()
     

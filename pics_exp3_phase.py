@@ -9,7 +9,7 @@ plt.rcParams["font.size"] = 12
 
 def pics_memory(file_type="png"):
     dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_config_json"
-    dir_out = "paper_exp3_memory"
+    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
     time_labels = ['Data\nLoad', 'Warm\nUp', 'Forward\nLayer0', 'Forward\nLayer1', 'Loss', 'Backward',
                    'Eval\nLayer0', 'Eval\nLayer1']
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
@@ -40,9 +40,12 @@ def pics_memory(file_type="png"):
         allocated_max = pd.DataFrame(allocated_max, index=time_labels)
 
         #ax = plt.subplot(2, 3, i + 1)
-        fig, ax = plt.subplots()
-        ax.set_ylabel("Peak Memory Usage (MB)")
-        ax.set_xlabel("Phase")
+        fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+        ax.set_ylabel("Peak Memory Usage (MB)", fontsize=16)
+        ax.set_xlabel("Phase", fontsize=16)
+        plt.xticks(fontsize=14)
+        plt.yticks(fontsize=14)
+        ax.set_ylim(0, 2500)
         colors = 'rgbm'
         markers = 'oD^s'
         lines = ['-', '--', '-.', ':']
@@ -50,7 +53,7 @@ def pics_memory(file_type="png"):
         ax.set_xticklabels(time_labels)
         for j, c in enumerate(allocated_max.columns):
             allocated_max[c].plot(ax=ax, marker=markers[j], linestyle=lines[j], label=c, rot=45)
-        ax.legend()
+        ax.legend(fontsize=12)
         fig.tight_layout() 
         fig.savefig(dir_out + '/exp_memory_usage_stage_' + datasets_maps[data] + '.' + file_type)
         plt.close()
@@ -58,11 +61,11 @@ def pics_memory(file_type="png"):
 
 def pics_inference_full_memory(file_type="png"):
     dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_config_json"
-    dir_out = "paper_exp5_inference_full"
+    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
     time_labels = ['Data\nLoad', 'Eval\nStart', 'Eval\nLayer0', 'Eval\nLayer1', 'Eval\nEnd']
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
-    for i, data in enumerate(datasets):
+    for i, data in enumerate(["amazon-photo"]):
         allocated_max = {}
         for alg in algs:
             file_path = dir_name + '/config0_' + alg + '_' + data + '.json'
@@ -83,9 +86,12 @@ def pics_inference_full_memory(file_type="png"):
 
         allocated_max = pd.DataFrame(allocated_max, index=time_labels)
 
-        fig, ax = plt.subplots()
-        ax.set_ylabel("Peak Memory Usage (MB)")
-        ax.set_xlabel("Phase")
+        fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+        ax.set_ylabel("Peak Memory Usage (MB)", fontsize=16)
+        ax.set_xlabel("Phase", fontsize=16)
+        ax.set_ylim(0, 2500)
+        plt.xticks(fontsize=14)
+        plt.yticks(fontsize=14)
         colors = 'rgbm'
         markers = 'oD^s'
         lines = ['-', '--', '-.', ':']
@@ -93,11 +99,12 @@ def pics_inference_full_memory(file_type="png"):
         ax.set_xticklabels(time_labels)
         for j, c in enumerate(allocated_max.columns):
             allocated_max[c].plot(ax=ax, marker=markers[j], linestyle=lines[j], label=c, rot=45)
-        ax.legend()
+        ax.legend(fontsize=12)
         fig.tight_layout() 
         fig.savefig(dir_out + '/exp_inference_full_memory_usage_stage_' + datasets_maps[data] + '.' + file_type)
         plt.close()
 
-
+pics_memory(file_type="png")
+pics_memory(file_type="pdf")
 pics_inference_full_memory(file_type="png")
 pics_inference_full_memory(file_type="pdf")
