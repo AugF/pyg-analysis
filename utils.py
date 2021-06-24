@@ -118,7 +118,7 @@ def survey(labels, data, category_names, ax=None, color_dark2=False): # stages, 
             ax.text(x, y, '%.1f' % c, ha='center', va='center',
                     color=text_color, fontsize=10)
     ax.legend(ncol=len(category_names), bbox_to_anchor=(-0.1, 1),
-              loc='lower left', fontsize="small")
+              loc='lower left', fontsize=10)
 
     return fig, ax
 
@@ -129,6 +129,8 @@ def autolabel(rects, ax, memory_ratio_flag=False):
     for rect in rects:
         height = rect.get_height()
         if str(height) == 'nan':
+            print(str(height))
+            ax.text(rect.get_x() + 0.05, 0.41, "Out Of Memory", fontsize=8, rotation=90)
             continue
         #ax.annotate('{}'.format(height),
         #            xy=(rect.get_x() + rect.get_width() / 2, height),
@@ -138,7 +140,9 @@ def autolabel(rects, ax, memory_ratio_flag=False):
         if memory_ratio_flag:
             ax.text(rect.get_x() , height + 1, f"{height:.1f}", fontsize=8)
         else:
-            ax.text(rect.get_x() , height + 0.1, f"{height:.4f}", fontsize=4.5)
+            # ax.text(rect.get_x() , height + 0.1, f"{height:.4f}", fontsize=4.5)
+            ax.text(rect.get_x() + 0.05 , height + 0.01, f"{height:.2f}", fontsize=8, rotation=90)
+
     return ax
 
 

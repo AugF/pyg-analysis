@@ -12,8 +12,8 @@ def run_memory_ratio_config_single(file_type="png"):
     
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
-    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_config_json"
-    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
+    dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp2_time_break/dir_config_json"
+    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp3_memory"
     
     df = []
     for alg in algs:
@@ -123,6 +123,6 @@ def run_inference_full_memory_ratio(file_type="png"):
     
 
 run_memory_ratio_config_single(file_type="png")
-run_memory_ratio_config_single(file_type="pdf")
-run_inference_full_memory_ratio(file_type="png")
-run_inference_full_memory_ratio(file_type="pdf")
+# run_memory_ratio_config_single(file_type="pdf")
+# run_inference_full_memory_ratio(file_type="png")
+# run_inference_full_memory_ratio(file_type="pdf")

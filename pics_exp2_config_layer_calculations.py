@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from utils import survey, algorithms, datasets_maps
-plt.style.use("ggplot")
 # plt.rcParams["font.size"] = 12
 
 def pic_config_exp_layer_proportion(dir_out="paper_exp6_inference_full", dir_work="paper_exp6_inference_full", file_out="exp_layer_time_proportion_", file_type="png"):

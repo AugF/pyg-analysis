@@ -1,0 +1,122 @@
+import os
+import json
+import sys
+import yaml
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from utils import survey, algorithms, variables, autolabel, datasets_maps, get_inference_expansion_memory
+
+from matplotlib.font_manager import _rebuild
+_rebuild() 
+config = {
+    "font.family":'serif',
+    "mathtext.fontset":'stix',
+    "font.serif": ['SimHei'],
+}
+plt.rcParams.update(config)
+
+base_size = 14
+plt.rcParams['font.size'] = base_size
+xlabel = [r"隐藏向量维度" + r" $dim(\mathbf{h}^1_x)$" + "\n" + "(#Head=4, $d_a=d_v=d_m$=32)", r"$d_a, d_v, d_m$" + "\n" + r"(#Head=4, $dim(\mathbf{h}^1_x)$=64)",
+          r"#Head" + "\n" + r"($dim(\mathbf{h}^1_x)$=64, $d_a=d_v=d_m$=32)"]
+
+
+def pic_calculations_gaan(file_type="png", infer_flag=False,
+                          file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_",
+                          dir_in = "paper_exp1_super_parameters", 
+                          dir_cal = '/gaan_exp/',
+                          dir_out = "exp3_thesis_figs/paras"
+                          ):
+    labels = ['点计算', '边计算']
+    datasets = ['amazon-photo', 'pubmed', 'amazon-computers',
+                'coauthor-physics', 'flickr', 'com-amazon']
+
+    xticklabels = [['16', '32', '64', '128', '256', '512', '1024', '2048'], [
+        '8', '16', '32', '64', '128', '256'], ['1', '2', '4', '8', '16']]
+    dir_paths = ["hds", "hds_d", "hds_head"]
+
+    for k in range(3):  # 表示两种情况
+        dir_path = dir_in + dir_cal + dir_paths[k] + '/calculations'
+        df = {}
+        df[0] = {}
+        df[1] = {}
+        for data in datasets:
+            file_path = dir_path + '/gaan_' + data + '.csv'  # 这里只与alg和data相关
+            if not os.path.exists(file_path):
+                continue
+            df_t = pd.read_csv(file_path, index_col=0).T
+            if df_t.empty:
+                # continue
+                df[0][data] = [np.nan] * len(xticklabels[k])
+                df[1][data] = [np.nan] * len(xticklabels[k])
+            else:
+                df[0][data] = df_t[0].values.tolist() + [np.nan] * \
+                    (len(xticklabels[k]) - len(df_t[0].values))
+                df[1][data] = df_t[1].values.tolist() + [np.nan] * \
+                    (len(xticklabels[k]) - len(df_t[1].values))
+
+        df[0] = pd.DataFrame(df[0])
+        df[1] = pd.DataFrame(df[1])
+        for i, x in enumerate(['vertex', 'edge']):
+            fig, ax = plt.subplots(figsize=(7/2, 7/2), tight_layout=True)
+            ax.set_title(labels[i], fontsize=base_size + 2)
+            ax.set_yscale("symlog", basey=2)
+            if infer_flag:
+                ax.set_ylabel("每轮推理时间 (ms)", fontsize=base_size+2)
+            else:
+                ax.set_ylabel("每轮训练时间 (ms)", fontsize=base_size+2)
+            ax.set_xlabel(xlabel[k], fontsize=base_size+2)
+            ax.set_xticks(list(range(len(xticklabels[k]))))
+            ax.set_xticklabels(xticklabels[k], fontsize=base_size, rotation=30)
+            markers = 'oD^sdp'
+            for j, c in enumerate(df[i].columns):
+                ax.plot(df[i].index, df[i][c], marker=markers[j], 
+                        markersize=7, label=datasets_maps[c])
+            # if i == 0 and k == 1:
+            ax.legend(ncol=2)
+            fig.savefig(dir_out + '/' + file_prefix + "gaan_" + dir_paths[k] + "_" + x + "." + file_type, dpi=400)
+        plt.close()
+
+
+def run_memory_gaan(file_type="png", infer_flag=False,
+                    file_out = "exp_hyperparameter_on_memory_usage_",
+                    dir_out = "exp3_thesis_figs/paras"):
+    datasets = ['amazon-photo', 'pubmed', 'amazon-computers',
+                'coauthor-physics', 'flickr', 'com-amazon']
+    base_size = 14
+    plt.rcParams["font.size"] = base_size
+    log_y = True
+
+    xticklabels = [['16', '32', '64', '128', '256', '512', '1024', '2048'], [
+        '8', '16', '32', '64', '128', '256'], ['1', '2', '4', '8', '16']]
+    
+    dir_paths = ["hds", "hds_d", "hds_head"]
+
+    file_prefix = ['_4_32_', '_4_', '_']
+    file_suffix = ['', '_64', '_32_64']
+
+    for k in range(3):
+        df = pd.read_csv("paper_exp1_super_parameters/memory/" + file_out + "gaan_" + dir_paths[k] + ".csv", index_col=0)
+        fig, ax = plt.subplots(figsize=(7/2, 7/2), tight_layout=True)
+        if log_y:
+            ax.set_yscale("symlog", basey=2)
+        if infer_flag:
+            ax.set_ylabel("推理阶段内存使用 (MB)", fontsize=base_size+2)
+        else:
+            ax.set_ylabel("训练阶段内存使用 (MB)", fontsize=base_size+2)
+        ax.set_xlabel(xlabel[k], fontsize=base_size+2)
+        ax.set_xticks(list(range(len(xticklabels[k]))))
+        ax.set_xticklabels([str(i) for i in xticklabels[k]], fontsize=8, rotation=30)
+        markers = 'oD^sdp'
+        for i, c in enumerate(df.columns):
+            ax.plot(df.index, df[c], marker=markers[i], markersize=7, label=datasets_maps[c])
+        ax.legend()
+        fig.savefig(dir_out + "/" + file_out + "gaan_" + dir_paths[k] + "." + file_type, dpi=400)
+        plt.close()
+
+
+if __name__ == "__main__":
+    run_memory_gaan()
+    pic_calculations_gaan()
+

@@ -151,5 +151,5 @@ def run_inference_full_memory_feats_dims(file_type="png"):
 
 # run_memory_factors_dense_feats_dims(file_type="png")
 # run_memory_factors_dense_feats_dims(file_type="pdf")
-run_inference_full_memory_feats_dims(file_type="png")
-run_inference_full_memory_feats_dims(file_type="pdf")
+# run_inference_full_memory_feats_dims(file_type="png")
+# run_inference_full_memory_feats_dims(file_type="pdf")

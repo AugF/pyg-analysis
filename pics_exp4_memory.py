@@ -17,8 +17,8 @@ def pics_minibatch_memory_bar(file_type="png"):
     file_out = "exp_sampling_memory_usage_relative_batch_size_"
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
 
-    dir_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp4_relative_sampling/batch_memory/"
-    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
+    dir_path = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp4_relative_sampling/batch_memory/"
+    dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp4_relative_sampling"
     xlabel = "Relative Batch Size (%)"
 
     cluster_batchs = [15, 45, 90, 150, 375, 750]
@@ -51,6 +51,7 @@ def pics_minibatch_memory_bar(file_type="png"):
                             df_peak[alg].append(np.nan)
                             continue
                         with open(file_path) as f:
+                            print(file_path)
                             res = json.load(f)
                             dataload_end = np.array(res['forward_start'][0])
                             warmup_end = np.array(
@@ -86,7 +87,7 @@ def pics_minibatch_memory_bar(file_type="png"):
                             continue
                         with open(file_path) as f:
                             res = json.load(f)
-                            # print(file_path)
+                            print(file_path)
                             model_load = np.array(res['model load'][0])
                             warmup_end = np.array(res['warmup end'][0])
                             batch_start = np.array(
@@ -105,7 +106,7 @@ def pics_minibatch_memory_bar(file_type="png"):
                             all_data /= (1024 * 1024)
                             df_peak[alg].append(max(all_data[2:, 1]))
 
-                # print(data_memory)
+                print(data_memory)
                 df_ratio[alg] = [x / data_memory for x in df_peak[alg]]
 
             # 得到有效index, 去除无效index
@@ -129,10 +130,10 @@ def pics_minibatch_memory_bar(file_type="png"):
                 np.linspace(0.15, 0.85, len(locations)))
 
             fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
-            ax.set_ylabel("Peak Memory Usage (MB)", fontsize=16)
-            ax.set_xlabel(xlabel, fontsize=16)
-            plt.xticks(fontsize=14)
-            plt.yticks(fontsize=14)
+            ax.set_ylabel("Peak Memory Usage (MB)", fontsize=18)
+            ax.set_xlabel(xlabel, fontsize=18)
+            plt.xticks(fontsize=16)
+            plt.yticks(fontsize=16)
             # if log_y:
             #     ax.set_yscale("symlog", basey=2)
 
@@ -140,24 +141,24 @@ def pics_minibatch_memory_bar(file_type="png"):
                 ax.bar(x + locations[i] * width, [df_peak[alg][d]
                                                   for d in enabels_indexs], width, label=algorithms[alg], color=colors[i])
             ax.set_xticklabels([0] + labels)
-            ax.legend(fontsize=12)
+            ax.legend(fontsize=16)
             fig.savefig(dir_out + "/" + file_out + mode + '_' +
                         data + "_peak_memory." + file_type)
 
-            fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
-            ax.set_ylabel("Expansion Ratio", fontsize=16)
-            # if log_y:
-            #     ax.set_yscale("symlog", basey=2)
-            ax.set_xlabel(xlabel, fontsize=16)
-            plt.xticks(fontsize=14)
-            plt.yticks(fontsize=14)
-            for i, alg in enumerate(algs):
-                ax.bar(x + locations[i] * width, [df_ratio[alg][d]
-                                                  for d in enabels_indexs], width, label=algorithms[alg], color=colors[i])
-            ax.set_xticklabels([0] + labels)
-            ax.legend(fontsize=12)
-            fig.savefig(dir_out + "/" + file_out + mode + '_' +
-                        data + "_expansion_ratio." + file_type)
+            # fig, ax = plt.subplots(figsize=(7, 5), tight_layout=True)
+            # ax.set_ylabel("Expansion Ratio", fontsize=16)
+            # # if log_y:
+            # #     ax.set_yscale("symlog", basey=2)
+            # ax.set_xlabel(xlabel, fontsize=16)
+            # plt.xticks(fontsize=14)
+            # plt.yticks(fontsize=14)
+            # for i, alg in enumerate(algs):
+            #     ax.bar(x + locations[i] * width, [df_ratio[alg][d]
+            #                                       for d in enabels_indexs], width, label=algorithms[alg], color=colors[i])
+            # ax.set_xticklabels([0] + labels)
+            # ax.legend(fontsize=12)
+            # fig.savefig(dir_out + "/" + file_out + mode + '_' +
+            #             data + "_expansion_ratio." + file_type)
 
             plt.close()
 
@@ -232,11 +233,11 @@ def pics_inference_sampling_memory(dir_work="inference_sampling_memory", file_su
 
 pics_minibatch_memory_bar(file_type="png")
 pics_minibatch_memory_bar(file_type="pdf")
-pics_inference_sampling_memory(
-    dir_work="inference_sampling_memory_2048", file_suffix="2048", file_type="png")
-pics_inference_sampling_memory(
-    dir_work="inference_sampling_memory_2048", file_suffix="2048", file_type="pdf")
-pics_inference_sampling_memory(
-    dir_work="inference_sampling_memory", file_suffix="1024", file_type="png")
-pics_inference_sampling_memory(
-    dir_work="inference_sampling_memory", file_suffix="1024", file_type="pdf")
+# pics_inference_sampling_memory(
+#     dir_work="inference_sampling_memory_2048", file_suffix="2048", file_type="png")
+# pics_inference_sampling_memory(
+#     dir_work="inference_sampling_memory_2048", file_suffix="2048", file_type="pdf")
+# pics_inference_sampling_memory(
+#     dir_work="inference_sampling_memory", file_suffix="1024", file_type="png")
+# pics_inference_sampling_memory(
+#     dir_work="inference_sampling_memory", file_suffix="1024", file_type="pdf")

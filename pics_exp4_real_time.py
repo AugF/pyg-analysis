@@ -69,5 +69,4 @@ for i, alg in enumerate(algs):
 ax.legend()
 plt.tight_layout()
 fig.savefig("paper_exp4_relative_sampling/" + file_out + "png")
-fig.savefig("paper_exp4_relative_sampling/" + file_out + "pdf")
 

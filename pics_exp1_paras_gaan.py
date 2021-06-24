@@ -6,21 +6,28 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from utils import survey, algorithms, variables, autolabel, datasets_maps, get_inference_expansion_memory
-plt.style.use("ggplot")
-plt.rcParams["font.size"] = 8
-plt.rcParams['text.latex.preamble'] = [r"\usepackage{amsmath}"]
+from matplotlib.font_manager import _rebuild
+_rebuild() 
 
-xlabel = [r"Dimension of Hidden Vectors" + r" $dim(\mathbf{h}^1_x)$" + "\n" + "(#Head=4, $d_a=d_v=d_m$=32)", r"$d_a, d_v, d_m$" + "\n" + r"(#Head=4, $dim(\mathbf{h}^1_x)$=64)",
-          r"#Head" + "\n" + r"($dim(\mathbf{h}^1_x)$=64, $d_a=d_v=d_m$=32)"]
+# plt.style.use("classic")
+plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
+plt.rcParams['text.latex.preamble'] = [r"\usepackage{amsmath}"]
+linestyles = ['solid', 'dotted', 'dashed', 'dashdot', (0, (5, 5)), (0, (3, 1, 1, 1))]
+base_size = 10
+plt.rcParams["font.size"] = base_size
+
+xlabel = ["隐藏向量的维度" + r" $dim(\mathbf{h}^1_x)$" + "\n" + "(#Head=4, $d_a=d_v=d_m$=32)", r"$d_a, d_v, d_m$" + "\n" + r"(#Head=4, $dim(\mathbf{h}^1_x)$=64)",
+          r"#Head" + "\n" + r"($dim(\mathbf{h}^1_x)$=64," + r"$d_a=d_v=d_m$=32)"]
 
 
 def pic_calculations_gaan(file_type="png", infer_flag=False,
                           file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_",
                           dir_in = "paper_exp1_super_parameters", 
                           dir_cal = '/gaan_exp/',
-                          dir_out = "paper_exp1_super_parameters/paras_fig"
+                          dir_out = "paper_exp1_super_parameters/paper_figs"
                           ):
-    labels = ['Vertex Calculation', 'Edge Calculation']
+    labels = ['点计算', '边计算']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers',
                 'coauthor-physics', 'flickr', 'com-amazon']
 
@@ -53,19 +60,22 @@ def pic_calculations_gaan(file_type="png", infer_flag=False,
         df[1] = pd.DataFrame(df[1])
         for i in [0, 1]:
             ax = axs[i][k]
-            ax.set_title(labels[i], fontsize=10)
+            ax.set_title(labels[i], fontsize=base_size + 2)
             ax.set_yscale("symlog", basey=2)
             if k == 0:
-                ax.set_ylabel(f"{'Inference' if infer_flag else 'Training'} Time / Epoch (ms)", fontsize=10)
-            ax.set_xlabel(xlabel[k], fontsize=10)
+                if not infer_flag:
+                    ax.set_ylabel('平均每轮训练时间 (毫秒)', fontsize=base_size + 2)
+                else:
+                    ax.set_ylabel('平均每轮推理时间 (毫秒)', fontsize=base_size + 2)              
+            ax.set_xlabel(xlabel[k], fontsize=base_size + 2)
             ax.set_xticks(list(range(len(xticklabels[k]))))
-            ax.set_xticklabels(xticklabels[k], fontsize=8, rotation=30)
+            ax.set_xticklabels(xticklabels[k], fontsize=base_size, rotation=30)
             markers = 'oD^sdp'
             for j, c in enumerate(df[i].columns):
                 ax.plot(df[i].index, df[i][c], marker=markers[j],
-                        markersize=4, label=datasets_maps[c])
+                        markersize=5, label=datasets_maps[c])
             if i == 0 and k == 1:
-                ax.legend()
+                ax.legend(ncol=2)
         fig.savefig(dir_out + '/' + file_prefix + "gaan." + file_type)
         plt.close()
 
@@ -125,23 +135,32 @@ def run_memory_gaan(file_type="png", infer_flag=False,
             if df[data] == [None] * (len(xticklabels[k])):
                 del df[data]
         df = pd.DataFrame(df)
+        df.to_csv("paper_exp1_super_parameters/memory/" + file_out + "gaan_" + dir_paths[k] + ".csv")
         ax = axes[k]
         if log_y:
             ax.set_yscale("symlog", basey=2)
         if k == 0:
-            ax.set_ylabel(f"{'Inference' if infer_flag else 'Training'} Memory Usage (MB)", fontsize=10)
-        ax.set_xlabel(xlabel[k], fontsize=10)
+            if not infer_flag:
+                ax.set_ylabel('训练内存使用 (MB)', fontsize=base_size + 2)
+            else:
+                ax.set_ylabel('推理内存使用 (MB)', fontsize=base_size + 2) 
+        ax.set_xlabel(xlabel[k], fontsize=base_size + 2)
         ax.set_xticks(list(range(len(xticklabels[k]))))
-        ax.set_xticklabels([str(i) for i in xticklabels[k]], fontsize=8, rotation=30)
+        ax.set_xticklabels([str(i) for i in xticklabels[k]], fontsize=base_size, rotation=30)
         markers = 'oD^sdp'
         for i, c in enumerate(df.columns):
-            ax.plot(df.index, df[c], marker=markers[i], markersize=4, label=datasets_maps[c])
-        ax.legend()
+            ax.plot(df.index, df[c], marker=markers[i], markersize=7, label=datasets_maps[c])
+        if k == 0:
+            ax.legend(fontsize='small', loc='upper left')
         fig.savefig(dir_out + "/" + file_out + "gaan." + file_type)
         plt.close()
 
 
 if __name__ == "__main__":
+    # run_memory_gaan()
+    # run_memory_gaan("pdf")
+    # pic_calculations_gaan()
+    # pic_calculations_gaan("pdf")
     # pic_calculations_gaan(file_type="png", infer_flag=False,
     #                       file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_",
     #                       dir_in = "paper_exp1_super_parameters", 
@@ -168,14 +187,14 @@ if __name__ == "__main__":
     #                       )
     run_memory_gaan(file_type="png", infer_flag=False,
                     file_out = "exp_hyperparameter_on_memory_usage_",
-                    dir_out = "paper_exp1_super_parameters/paras_fig", 
-                    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json"
+                    dir_out = "paper_exp1_super_parameters/paper_figs", 
+                    dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json"
                     )
-    run_memory_gaan(file_type="pdf", infer_flag=False,
-                    file_out = "exp_hyperparameter_on_memory_usage_",
-                    dir_out = "paper_exp1_super_parameters/paras_fig", 
-                    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json"
-                    )
+    # run_memory_gaan(file_type="pdf", infer_flag=False,
+    #                 file_out = "exp_hyperparameter_on_memory_usage_",
+    #                 dir_out = "paper_exp1_super_parameters/paras_fig", 
+    #                 dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json"
+    #                 )
     # run_memory_gaan(file_type="png", infer_flag=True,
     #                 file_out = "exp_hyperparameter_on_inference_memory_usage_",
     #                 dir_out = "paper_exp1_super_parameters/inference_paras_fig", 
@@ -186,7 +205,4 @@ if __name__ == "__main__":
     #                 dir_out = "paper_exp1_super_parameters/inference_paras_fig", 
     #                 dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_inference_json"
     #                 )
-# run_memory_gaan()
-# run_memory_gaan("pdf")
-# pic_calculations_gaan()
-# pic_calculations_gaan("pdf")
+

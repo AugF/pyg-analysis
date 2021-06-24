@@ -6,7 +6,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from utils import survey, algorithms, variables, autolabel, datasets_maps
-plt.style.use("ggplot")
+from matplotlib.font_manager import _rebuild
+_rebuild() 
+base_size = 12
+plt.rcParams["font.size"] = base_size
 plt.rcParams["font.size"] = 12
 
 def run_memory_degrees(file_type="png", dir_save="./"):
@@ -20,7 +23,7 @@ def run_memory_degrees(file_type="png", dir_save="./"):
     
     dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp3_memory/dir_degrees_json"
     base_path = "paper_exp3_memory"
-    xlabel = "Average Degree"
+    xlabel = ""
 
     file_prefix, file_suffix = '_10k_', ''
     
@@ -152,7 +155,7 @@ def run_inference_full_memory_degrees(file_type="png", dir_save="paper_exp5_infe
     fig.savefig(dir_save + "/" + file_out + "expansion_ratio." + file_type)
 
 
-run_memory_degrees(file_type="png", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")
-run_memory_degrees(file_type="pdf", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")
-run_inference_full_memory_degrees(file_type="png", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")
-run_inference_full_memory_degrees(file_type="pdf", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")
+run_memory_degrees(file_type="png", dir_save="paper_exp2_time_break/paper_figs")
+# run_memory_degrees(file_type="pdf", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")
+# run_inference_full_memory_degrees(file_type="png", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")
+# run_inference_full_memory_degrees(file_type="pdf", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")

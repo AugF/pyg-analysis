@@ -12,8 +12,8 @@ plt.style.use("ggplot")
 plt.rcParams["font.size"] = 12
 
 def pics_minbatch_graph_size(file_type="png"):
-    dir_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/sampling_exp/batch_graph_info/"
-    dir_out = "sampling_relative_exp/"
+    dir_path = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp4_relative_sampling/batch_graph_info/"
+    dir_out = "exp3_thesis_figs/sampling/"
     file_out = "exp_sampling_minibatch_realtive_graph_info_"
     
     modes = ['cluster', 'graphsage']
@@ -47,6 +47,8 @@ def pics_minbatch_graph_size(file_type="png"):
             df_degrees = {}
             df_nodes = {}
             for data in datasets:
+                if mode == 'cluster' and data =='com-amazon':
+                    continue
                 df_edges[data] = {}
                 df_edges[data]['mean'] = []
                 df_edges[data]['std'] = []
@@ -84,7 +86,7 @@ def pics_minbatch_graph_size(file_type="png"):
             ax1.set_ylabel(ylabels[0])
             
             
-            for i, data in enumerate(datasets):
+            for i, data in enumerate(df_nodes.keys()):
                 ax1.errorbar(variabels, df_nodes[data]['mean'], yerr=df_nodes[data]['std'], label=datasets_maps[data], marker=markers[i])
             ax1.legend()
 
@@ -93,7 +95,7 @@ def pics_minbatch_graph_size(file_type="png"):
             ax2.set_xlabel(xlabel)
             ax2.set_ylabel(ylabels[1])
             
-            for i, data in enumerate(datasets):
+            for i, data in enumerate(df_edges.keys()):
                 ax2.errorbar(variabels, df_edges[data]['mean'], yerr=df_edges[data]['std'], label=datasets_maps[data], marker=markers[i])
             ax2.legend()
 
@@ -102,10 +104,13 @@ def pics_minbatch_graph_size(file_type="png"):
             ax3.set_xlabel(xlabel)
             ax3.set_ylabel(ylabels[2])
             
-            for i, data in enumerate(datasets):
+            for i, data in enumerate(df_degrees.keys()):
                 ax3.errorbar(variabels, df_degrees[data]['mean'], yerr=df_degrees[data]['std'], label=datasets_maps[data], marker=markers[i])
             ax3.legend()
 
             fig.tight_layout()
             fig.savefig(dir_out + file_out + mode + '_' + alg + "." + file_type)
             plt.close()
+
+
+pics_minbatch_graph_size(file_type="png")

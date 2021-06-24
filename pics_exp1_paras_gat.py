@@ -6,8 +6,14 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from utils import survey, algorithms, variables, autolabel, datasets_maps, get_inference_expansion_memory
-plt.style.use("ggplot")
-plt.rcParams['text.latex.preamble']=[r"\usepackage{amsmath}"]
+from matplotlib.font_manager import _rebuild
+_rebuild() 
+
+# plt.style.use("classic")
+plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
+plt.rcParams['text.latex.preamble'] = [r"\usepackage{amsmath}"]
+linestyles = ['solid', 'dotted', 'dashed', 'dashdot', (0, (5, 5)), (0, (3, 1, 1, 1))]
 xlabel = [r"$d_{head}$ (#Head=4)", r"#Head ($d_{head}$=32)"]
              
 def pic_calculations_gat(file_type="png", infer_flag=False,
@@ -16,8 +22,9 @@ def pic_calculations_gat(file_type="png", infer_flag=False,
                          dir_cal = '/hidden_dims_exp/',
                          dir_out = "paper_exp1_super_parameters/paras_fig",
                          ):
-    plt.rcParams["font.size"] = 12
-    labels = ['Vertex Calculation', 'Edge Calculation']
+    base_size = 16
+    plt.rcParams["font.size"] = base_size
+    labels = ['点计算', '边计算']
     algs = ['gat']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
     log_y = True
@@ -48,18 +55,21 @@ def pic_calculations_gat(file_type="png", infer_flag=False,
             df[1] = pd.DataFrame(df[1])
             for i in range(2):
                 ax = axes[i][k]
-                ax.set_title(labels[i], fontsize=12)
+                ax.set_title(labels[i], fontsize=base_size + 2)
                 ax.set_yscale("symlog", basey=2)
                 if k == 0:
-                    ax.set_ylabel(f"{'Inference' if infer_flag else 'Training'} Time / Epoch (ms)", fontsize=12)
-                ax.set_xlabel(xlabel[k], fontsize=12)
+                    if not infer_flag:
+                        ax.set_ylabel('平均每轮训练时间 (毫秒)', fontsize=base_size + 2)
+                    else:
+                        ax.set_ylabel('平均每轮推理时间 (毫秒)', fontsize=base_size + 2)                
+                ax.set_xlabel(xlabel[k], fontsize=base_size + 2)
                 ax.set_xticks(list(range(len(xticklabels[k]))))
-                ax.set_xticklabels(xticklabels[k], fontsize=10)
+                ax.set_xticklabels(xticklabels[k], fontsize=base_size)
                 markers = 'oD^sdp'
                 for j, c in enumerate(df[i].columns):
-                    ax.plot(df[i].index, df[i][c], marker=markers[j], label=datasets_maps[c])
+                    ax.plot(df[i].index, df[i][c], marker=markers[j], label=datasets_maps[c], markersize=8)
                 if i == 1 and k == 0:
-                    ax.legend()
+                    ax.legend(ncol=2, fontsize='small')
         fig.tight_layout() # 防止重叠
         fig.savefig(dir_out + "/" + file_prefix + alg + "." + file_type)
         plt.close()
@@ -67,8 +77,9 @@ def pic_calculations_gat(file_type="png", infer_flag=False,
 def run_memory_gat(file_type, infer_flag=False, 
                    file_out="exp_hyperparameter_on_memory_usage_", 
                    dir_out="paper_exp1_super_parameters/paras_fig", 
-                   dir_memory="/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gat_json"):
-    plt.rcParams["font.size"] = 12
+                   dir_memory="/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gat_json"):
+    base_size = 16
+    plt.rcParams["font.size"] = base_size
     algs = ['gat']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
     log_y = True
@@ -116,31 +127,39 @@ def run_memory_gat(file_type, infer_flag=False,
             ax = axes[k]
             ax.set_yscale("symlog", basey=2)
             if k == 0:
-                ax.set_ylabel(f"{'Inference' if infer_flag else 'Training'} Memory Usage (MB)")
-            ax.set_xlabel(xlabel[k])
+                if not infer_flag:
+                    ax.set_ylabel('训练内存使用 (MB)', fontsize=base_size + 2)
+                else:
+                    ax.set_ylabel('推理内存使用 (MB)', fontsize=base_size + 2)  
+            ax.set_xlabel(xlabel[k], fontsize=base_size + 2)
             ax.set_xticks(list(range(len(xticklabels[k]))))
-            ax.set_xticklabels([str(i) for i in xticklabels[k]])
+            ax.set_xticklabels([str(i) for i in xticklabels[k]], fontsize=base_size)
             markers = 'oD^sdp'
             for i, c in enumerate(df.columns):
-                ax.plot(df.index, df[c], marker=markers[i], label=datasets_maps[c])
-            ax.legend()
+                ax.plot(df.index, df[c], marker=markers[i], markersize=8, label=datasets_maps[c])
+            if k == 0:
+                ax.legend(ncol=2, fontsize='small')
         fig.savefig(dir_out + "/" + file_out + alg + "." + file_type)
         plt.close()
         
 
 if __name__ == "__main__":
-    pic_calculations_gat(file_type="pdf", infer_flag=False,
-                         file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_",
-                         dir_in = "paper_exp1_super_parameters",
-                         dir_cal = '/hidden_dims_exp/',
-                         dir_out = "paper_exp1_super_parameters/paras_fig",
-                         )
-    pic_calculations_gat(file_type="png", infer_flag=False,
-                         file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_",
-                         dir_in = "paper_exp1_super_parameters",
-                         dir_cal = '/hidden_dims_exp/',
-                         dir_out = "paper_exp1_super_parameters/paras_fig",
-                         )
+    # pic_calculations_gat(file_type="png")
+    # pic_calculations_gat(file_type="pdf")
+    run_memory_gat(file_type="png")
+    # run_memory_gat(file_type="pdf")
+    # pic_calculations_gat(file_type="pdf", infer_flag=False,
+    #                      file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_",
+    #                      dir_in = "paper_exp1_super_parameters",
+    #                      dir_cal = '/hidden_dims_exp/',
+    #                      dir_out = "paper_exp1_super_parameters/paras_fig",
+    #                      )
+    # pic_calculations_gat(file_type="png", infer_flag=False,
+    #                      file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_",
+    #                      dir_in = "paper_exp1_super_parameters",
+    #                      dir_cal = '/hidden_dims_exp/',
+    #                      dir_out = "paper_exp1_super_parameters/paras_fig",
+    #                      )
     
     # pic_calculations_gat(file_type="pdf", infer_flag=True,
     #                      file_prefix = "exp_hyperparameter_on_inference_vertex_edge_phase_time_",
@@ -158,12 +177,8 @@ if __name__ == "__main__":
     #                file_out="exp_hyperparameter_on_inference_memory_usage_", 
     #                dir_out="paper_exp1_super_parameters/inference_paras_fig", 
     #                dir_memory="/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_json")   
-    # run_memory_gat("png", infer_flag=True, 
-    #                file_out="exp_hyperparameter_on_inference_memory_usage_", 
-    #                dir_out="paper_exp1_super_parameters/inference_paras_fig", 
-    #                dir_memory="/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_json")   
+    run_memory_gat("png", infer_flag=True, 
+                   file_out="exp_hyperparameter_on_inference_memory_usage_", 
+                   dir_out="paper_exp1_super_parameters", 
+                   dir_memory="/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_json")   
     
-# pic_calculations_gat(file_type="png")
-# pic_calculations_gat(file_type="pdf")
-# run_memory_gat(file_type="png")
-# run_memory_gat(file_type="pdf")
