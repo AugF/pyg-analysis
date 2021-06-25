@@ -15,7 +15,7 @@ from pyg_utils import get_dataset, get_split_by_file, small_datasets, datasets_m
 plt.style.use("ggplot")
 plt.rcParams['text.latex.preamble'] = [r"\usepackage{amsmath}"]
 
-dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp7_inference_sampling"
+dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp6_inference_sampling"
 datasets = ["amazon-photo", "coauthor-physics", "com-amazon"]
 xticklabels = ['1%', '3%', '6%', '10%', '25%', '50%', 'FULL GRAPH']
 cluster_batchs = [15, 45, 90, 150, 375, 750]
@@ -101,7 +101,7 @@ def save_to_csv():
     pd.DataFrame(df_degrees, index=xticklabels).to_csv(dir_out + "/inference_graph_info_avg_degrees.csv")
  
  
-def pics_inference_graph_info(file_name, ylabel, file_class, ymax, dir_save="paper_exp7_inference_sampling"):
+def pics_inference_graph_info(file_name, ylabel, file_class, ymax, dir_save="paper_exp6_inference_sampling"):
     print(file_name)
     df = pd.read_csv(dir_out + "/" + file_name, index_col=0)
     

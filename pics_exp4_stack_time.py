@@ -162,7 +162,7 @@ def pics_minibatch_time(file_type="png"):
 
 
 def pics_inference_sampling_minibatch_time(dir_work="inference_sampling_time", file_suffix="", file_type="png"):
-    dir_path = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp7_inference_sampling/" + dir_work
+    dir_path = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp6_inference_sampling/" + dir_work
     dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/new_exp_supplement"
     file_out = "exp_inference_sampling_fix_batch_size_train_time_stack_" + file_suffix
     
