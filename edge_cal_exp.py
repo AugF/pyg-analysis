@@ -101,26 +101,6 @@ def run_edge_cal_exp(params):
             pd.DataFrame(df).to_csv(out_path)
 
 
-def run_one_file():
-    import yaml
-    params = yaml.load(open('cfg_file/config_exp.yaml'))
-    dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
-    variables, file_prefix, file_suffix = params['variables'], params['file_prefix'], params['file_suffix']
-
-    alg, data, var = 'gat', 'flickr', 16
-    base_path = os.path.join(dir_out, "calculations")
-    csv_path = base_path + '/' + alg + '_' + data + '.csv'
-    outlier_file = dir_out + '/epochs/' + alg + '_' + data + file_prefix + str(var) + file_suffix + '_outliers.txt'
-    file_path = dir_name + '/config0_' + alg + '_' + data + file_prefix + str(var) + file_suffix + '.sqlite'
-    if os.path.exists(file_path):
-        cur = sqlite3.connect(file_path).cursor()
-        print(data, alg)
-        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        outliers = np.genfromtxt(outlier_file, dtype=np.int).reshape(-1)
-        res = get_edge_time(cur, outliers, alg, 3)
-        print(res)
-
-
 def run_config_exp(params):
     dir_name, dir_out, algs, datasets = params['dir_name'], params['dir_out'], params['algs'], params['datasets']
     infer_flag = params['infer_flag']
