@@ -40,7 +40,7 @@ def save_to_csv():
         
         nodes, edges = data.num_nodes, data.num_edges
         if data_name in ['amazon-computers', 'amazon-photo', 'coauthor-physics']:
-            file_path = osp.join('/home/wangzhaokang/wangyunpan/gnns-project/datasets', data_name + "/raw/role.json")
+            file_path = osp.join('/mnt/data/wangzhaokang/wangyunpan/datasets', data_name + "/raw/role.json")
             data.train_mask, data.val_mask, data.test_mask = get_split_by_file(file_path, data.num_nodes)
 
         df_nodes[f'{data_name}_neighbor_sampler'] = []
@@ -149,6 +149,6 @@ def get_avg_degrees_csv():
 if __name__ == "__main__":
     # save_to_csv()
     # pics_inference_graph_info("inference_graph_info_vertices.csv", "Number of Vertices", "vertices", 350000)
-    pics_inference_graph_info("inference_graph_info_edges.csv", "Number of Edges", "edges", 980000, dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp6_inference_sampling")
+    pics_inference_graph_info("inference_graph_info_edges.csv", "Number of Edges", "edges", 980000, dir_save="/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp6_inference_sampling")
     # get_avg_degrees_csv()
-    pics_inference_graph_info("inference_graph_info_avg_degrees.csv", "Average Degree", "avg_degrees", 37, dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp6_inference_sampling")
+    pics_inference_graph_info("inference_graph_info_avg_degrees.csv", "Average Degree", "avg_degrees", 37, dir_save="/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp6_inference_sampling")

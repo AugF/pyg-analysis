@@ -21,7 +21,7 @@ def run_memory_degrees(file_type="png", dir_save="./"):
     variables = [2, 5, 10, 15, 20, 30, 40, 50, 70]
     xticklabels = variables
     
-    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp3_memory/dir_degrees_json"
+    dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp3_memory/dir_degrees_json"
     base_path = "paper_exp3_memory"
     xlabel = ""
 
@@ -99,7 +99,7 @@ def run_inference_full_memory_degrees(file_type="png", dir_save="paper_exp5_infe
     variables = [2, 5, 10, 15, 20, 30, 40, 50, 70]
     xticklabels = variables
     
-    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_degrees_json"
+    dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp8_inference_full/dir_degrees_json"
     base_path = "paper_exp5_inference_full"
     xlabel = "Average Degree"
 
@@ -156,6 +156,6 @@ def run_inference_full_memory_degrees(file_type="png", dir_save="paper_exp5_infe
 
 
 run_memory_degrees(file_type="png", dir_save="paper_exp2_time_break/paper_figs")
-# run_memory_degrees(file_type="pdf", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")
-# run_inference_full_memory_degrees(file_type="png", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")
-# run_inference_full_memory_degrees(file_type="pdf", dir_save="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement")
+# run_memory_degrees(file_type="pdf", dir_save="/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/exp_supplement")
+# run_inference_full_memory_degrees(file_type="png", dir_save="/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/exp_supplement")
+# run_inference_full_memory_degrees(file_type="pdf", dir_save="/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/exp_supplement")

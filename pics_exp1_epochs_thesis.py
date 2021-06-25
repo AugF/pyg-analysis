@@ -21,10 +21,9 @@ color = dict(medians='red')
 def pics_epochs_violin(file_type="png"):
     for data in datasets:
         fig, ax = plt.subplots(figsize=(7/3, 7/3))
-        ax.set_ylabel(u"单轮训练时间 (ms)")
+        ax.set_ylabel("单轮训练时间 (ms)")
         ax.set_xlabel("算法")
         df = pd.read_csv(dir_in + '/' + data + '.csv', index_col=0)
-        print(df)
         columns = [algorithms[i] for i in df.columns]
         df.columns = columns
         df.plot(kind='box', title=data, ax=ax, color=color)

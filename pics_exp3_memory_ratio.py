@@ -13,7 +13,7 @@ def run_memory_ratio_config_single(file_type="png"):
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
     dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp2_time_break/dir_config_json"
-    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp3_memory"
+    dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp3_memory"
     
     df = []
     for alg in algs:
@@ -73,8 +73,8 @@ def run_inference_full_memory_ratio(file_type="png"):
     
     algs = ['gcn', 'ggnn', 'gat', 'gaan']
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
-    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_config_json"
-    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
+    dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp8_inference_full/dir_config_json"
+    dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/new_exp_supplement"
     
     # 不同的算法，不同的数据集画不同的图
     df = []

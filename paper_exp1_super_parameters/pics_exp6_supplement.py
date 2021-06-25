@@ -8,7 +8,7 @@ from calculations_exp import get_calculations_time
 file_names = ["config0_gat_amazon-computers_4_256", "config0_gat_coauthor-physics_4_256",
         "config0_gat_flickr_4_128", "config0_gat_flickr_16_32"]
 
-dir_in = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/exp_supplement"
+dir_in = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/exp_supplement"
 dir_out = "exp_supplement"
 
 df = {}

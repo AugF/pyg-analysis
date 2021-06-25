@@ -2,7 +2,7 @@ datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'fl
 algs: ['gcn', 'ggnn', 'gat', 'gaan']
 
 dir_out: paper_exp2_time_break/config_exp
-dir_name: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_config_sqlite
-dir_memory: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_config_json
+dir_name: /mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp2_time_break/dir_config_sqlite
+dir_memory: /mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp2_time_break/dir_config_json
 
 infer_flag: false

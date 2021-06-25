@@ -10,8 +10,8 @@ plt.style.use("ggplot")
 #plt.rcParams["font.size"] = 12
 
 
-dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_config_sqlite"
-dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp2_time_break/config_exp"
+dir_name = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp2_time_break/dir_config_sqlite"
+dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp2_time_break/config_exp"
 base_path = os.path.join(dir_out, "stages")
 if not os.path.exists(base_path):
     os.makedirs(base_path)

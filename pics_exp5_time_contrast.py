@@ -8,9 +8,9 @@ from utils import algorithms, datasets_maps, datasets, autolabel
 plt.style.use("ggplot")
 plt.rcParams["font.size"] = 12
 
-dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
-dir_training_work = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp2_time_break/config_exp/stages"
-dir_inference_work = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp5_inference_full/config_exp/epochs"
+dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/new_exp_supplement"
+dir_training_work = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp2_time_break/config_exp/stages"
+dir_inference_work = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp5_inference_full/config_exp/epochs"
 datasets = ['amazon-photo', 'pubmed', 'amazon-computers',
                 'coauthor-physics', 'flickr', 'com-amazon']
 algs = ["gcn", "ggnn", "gat", "gaan"]

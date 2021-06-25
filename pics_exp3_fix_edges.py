@@ -18,8 +18,8 @@ def run_memory_fix_edge(file_type="png"):
     xticklabels = [1000, 5000, 10000, 20000, 30000, 40000, 50000]
     variables = ['1k', '5k', '10k', '20k', '30k', '40k', '50k']
     
-    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp3_memory/dir_fix_edges_json"
-    base_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
+    dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp3_memory/dir_fix_edges_json"
+    base_path = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/new_exp_supplement"
     xlabel = "Number of Vertices"
 
     file_prefix, file_suffix = '_', '_500k'
@@ -97,8 +97,8 @@ def run_inference_full_memory_fix_edge(file_type="png"):
     xticklabels = [1000, 5000, 10000, 20000, 30000, 40000, 50000]
     variables = ['1k', '5k', '10k', '20k', '30k', '40k', '50k']
     
-    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_fix_edges_json"
-    base_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
+    dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp8_inference_full/dir_fix_edges_json"
+    base_path = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/new_exp_supplement"
     xlabel = "Number of Vertices"
 
     file_prefix, file_suffix = '_', '_500k'

@@ -2,8 +2,8 @@ datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'fl
 algs: ['gat']
 
 dir_out: paper_exp1_super_parameters/gat_inference_exp/hds_heads_exp
-dir_name: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_sqlite
-dir_memory: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_json
+dir_name: /mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_sqlite
+dir_memory: /mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_json
 
 variables: [1, 2, 4, 8, 16]
 file_prefix: _

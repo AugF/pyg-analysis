@@ -8,8 +8,8 @@ plt.style.use("ggplot")
 plt.rcParams["font.size"] = 12
 
 def pics_memory(file_type="png"):
-    dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp2_time_break/dir_config_json"
-    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
+    dir_name = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp2_time_break/dir_config_json"
+    dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/new_exp_supplement"
     # time_labels = ['Data\nLoad', 'Warm\nUp', 'Forward\nLayer0', 'Forward\nLayer1', 'Loss', 'Backward',
     #                'Eval\nLayer0', 'Eval\nLayer1']
     time_labels = ['数据加载', 'GPU预热', '前向传播Layer0', '前向传播Layer1', '损失计算', '后向传播', '评估Layer0', '评估Layer1']
@@ -61,8 +61,8 @@ def pics_memory(file_type="png"):
 
 
 def pics_inference_full_memory(file_type="png"):
-    dir_name = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_config_json"
-    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
+    dir_name = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp8_inference_full/dir_config_json"
+    dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/new_exp_supplement"
     # time_labels = ['Data\nLoad', 'Eval\nStart', 'Eval\nLayer0', 'Eval\nLayer1', 'Eval\nEnd']
     time_labels = ['数据加载', '推理开始', '推理Layer0', '推理Layer1', '推理结束']
     algs = ['gcn', 'ggnn', 'gat', 'gaan']

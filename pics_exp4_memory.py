@@ -165,8 +165,8 @@ def pics_minibatch_memory_bar(file_type="png"):
 
 def pics_inference_sampling_memory(dir_work="inference_sampling_memory", file_suffix="", file_type="png"):
     file_out = "exp_inference_sampling_fix_batch_size_memory_usage_" + file_suffix
-    dir_in = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp7_inference_sampling/" + dir_work
-    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
+    dir_in = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp7_inference_sampling/" + dir_work
+    dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/new_exp_supplement"
     xlabel = "Dataset"
 
     algs = ['gcn', 'ggnn', 'gat', 'gaan']

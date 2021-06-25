@@ -15,7 +15,7 @@ numbers = [500, 1000, 2000, 4000, 6000, 8000, 10000, 15000]
 algs = ['gcn', 'ggnn', 'gat', 'gaan']
 degrees = 4
 
-dir_path = '/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp4_relative_sampling/small_graph_train_time'
+dir_path = '/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp4_relative_sampling/small_graph_train_time'
 
 n = 50
 x, y = (n + 1) * 0.25, (n + 1) * 0.75

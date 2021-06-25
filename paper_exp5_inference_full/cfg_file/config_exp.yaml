@@ -1,8 +1,8 @@
 datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
 algs: ['gcn', 'ggnn', 'gat', 'gaan']
 
-dir_out: /home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp5_inference_full/config_exp
-dir_name: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_config_sqlite
-dir_memory: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_config_json
+dir_out: /mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp5_inference_full/config_exp
+dir_name: /mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp8_inference_full/dir_config_sqlite
+dir_memory: /mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp8_inference_full/dir_config_json
 
 infer_flag: true

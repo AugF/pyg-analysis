@@ -13,7 +13,7 @@ plt.style.use("ggplot")
 plt.rcParams["font.size"] = 12
 
 def pics_minibatch_time(file_type="png"):
-    dir_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp4_relative_sampling/batch_train_time_stack"
+    dir_path = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp4_relative_sampling/batch_train_time_stack"
     dir_out = "paper_exp4_relative_sampling"
     file_out = "exp_sampling_relative_batch_size_train_time_stack"
     
@@ -162,8 +162,8 @@ def pics_minibatch_time(file_type="png"):
 
 
 def pics_inference_sampling_minibatch_time(dir_work="inference_sampling_time", file_suffix="", file_type="png"):
-    dir_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp7_inference_sampling/" + dir_work
-    dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
+    dir_path = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp7_inference_sampling/" + dir_work
+    dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/new_exp_supplement"
     file_out = "exp_inference_sampling_fix_batch_size_train_time_stack_" + file_suffix
     
     ylabel = "Inference Time per Batch (ms)"

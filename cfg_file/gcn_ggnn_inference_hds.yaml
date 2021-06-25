@@ -2,8 +2,8 @@ datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'fl
 algs: ['gcn', 'ggnn']
 
 dir_out: paper_exp1_super_parameters/gcn_ggnn_inference_exp/hds_exp
-dir_name: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gcn_ggnn_inference_sqlite
-dir_memory: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gcn_ggnn_inference_json
+dir_name: /mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gcn_ggnn_inference_sqlite
+dir_memory: /mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gcn_ggnn_inference_json
 
 variables: [16, 32, 64, 128, 256, 512, 1024, 2048]
 file_prefix: _

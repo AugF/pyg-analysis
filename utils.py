@@ -40,8 +40,8 @@ dicts = {
 # hds_heads_exp 参数
 datasets = ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'flickr', 'com-amazon']
 dir_out = r"hds_heads_exp"
-dir_name = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/hidden_dims_exp/dir_head_sqlite"
-dir_memory = r"/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/hidden_dims_exp/dir_head_json"
+dir_name = r"/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/hidden_dims_exp/dir_head_sqlite"
+dir_memory = r"/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/hidden_dims_exp/dir_head_json"
 variables = [1, 2, 4, 8, 16]
 file_prefix = "_" # default _
 file_suffix = "_32" # defaulti " "

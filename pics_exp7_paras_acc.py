@@ -328,7 +328,7 @@ def pics_max_acc(dir_in, dir_out):
 
 # save_acc_to_csv("./")
 dir_in = '/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp5_paras_acc'
-dir_out = '/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp1_super_parameters'
+dir_out = '/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp1_super_parameters'
 pics_gcn_ggnn(dir_in=dir_in + "/acc_res", dir_out=dir_out + "/acc_figs")
 pics_gat(dir_in=dir_in + "/acc_res", dir_out=dir_out + "/acc_figs")
 pics_gaan(dir_in=dir_in + "/acc_res", dir_out=dir_out + "/acc_figs")

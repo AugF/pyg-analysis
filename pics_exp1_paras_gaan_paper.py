@@ -76,7 +76,7 @@ def pic_calculations_gaan(file_type="png", infer_flag=False,
 def run_memory_gaan(file_type="png", infer_flag=False,
                     file_out = "exp_hyperparameter_on_memory_usage_",
                     dir_out = "paper_exp1_super_parameters/paras_fig", 
-                    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json"
+                    dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json"
                     ):
     datasets = ['amazon-photo', 'pubmed', 'amazon-computers',
                 'coauthor-physics', 'flickr', 'com-amazon']
@@ -176,21 +176,21 @@ if __name__ == "__main__":
     # run_memory_gaan(file_type="png", infer_flag=False,
     #                 file_out = "exp_hyperparameter_on_memory_usage_",
     #                 dir_out = "paper_exp1_super_parameters/paras_fig", 
-    #                 dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json"
+    #                 dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json"
     #                 )
     # run_memory_gaan(file_type="pdf", infer_flag=False,
     #                 file_out = "exp_hyperparameter_on_memory_usage_",
     #                 dir_out = "paper_exp1_super_parameters/paras_fig", 
-    #                 dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json"
+    #                 dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gaan_json"
     #                 )
     # run_memory_gaan(file_type="png", infer_flag=True,
     #                 file_out = "exp_hyperparameter_on_inference_memory_usage_",
     #                 dir_out = "paper_exp1_super_parameters/inference_paras_fig", 
-    #                 dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_inference_json"
+    #                 dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gaan_inference_json"
     #                 )
     # run_memory_gaan(file_type="pdf", infer_flag=True,
     #                 file_out = "exp_hyperparameter_on_inference_memory_usage_",
     #                 dir_out = "paper_exp1_super_parameters/inference_paras_fig", 
-    #                 dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_inference_json"
+    #                 dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gaan_inference_json"
     #                 )
 

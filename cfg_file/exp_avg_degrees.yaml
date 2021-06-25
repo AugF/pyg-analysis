@@ -2,8 +2,8 @@ datasets: ['graph']
 algs: ['gcn', 'ggnn', 'gat', 'gaan']
 
 dir_out: exp_avg_degrees
-dir_name: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/graph_degrees_exp/dir_sqlite
-dir_memory: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/graph_degrees_exp/dir_json
+dir_name: /mnt/data/wangzhaokang/wangyunpan/pyg-gnns/graph_degrees_exp/dir_sqlite
+dir_memory: /mnt/data/wangzhaokang/wangyunpan/pyg-gnns/graph_degrees_exp/dir_json
 
 variables: [3, 6, 10, 15, 20, 25, 30, 50]
 file_prefix: '_50k_'

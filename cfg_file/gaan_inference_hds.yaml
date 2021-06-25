@@ -2,8 +2,8 @@ datasets: ['amazon-photo', 'pubmed', 'amazon-computers', 'coauthor-physics', 'fl
 algs: ['gaan']
 
 dir_out: paper_exp1_super_parameters/gaan_inference_exp/hds
-dir_name: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_inference_sqlite
-dir_memory: /home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gaan_inference_json
+dir_name: /mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gaan_inference_sqlite
+dir_memory: /mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gaan_inference_json
 
 variables: [16, 32, 64, 128, 256, 512, 1024, 2048]
 file_prefix: _4_32_

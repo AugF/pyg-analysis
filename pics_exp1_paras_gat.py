@@ -176,7 +176,7 @@ if __name__ == "__main__":
     # run_memory_gat("pdf", infer_flag=True, 
     #                file_out="exp_hyperparameter_on_inference_memory_usage_", 
     #                dir_out="paper_exp1_super_parameters/inference_paras_fig", 
-    #                dir_memory="/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_json")   
+    #                dir_memory="/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gat_inference_json")   
     run_memory_gat("png", infer_flag=True, 
                    file_out="exp_hyperparameter_on_inference_memory_usage_", 
                    dir_out="paper_exp1_super_parameters", 

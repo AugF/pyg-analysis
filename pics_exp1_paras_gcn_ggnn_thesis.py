@@ -19,7 +19,7 @@ plt.rcParams['text.latex.preamble'] = [r"\usepackage{amsmath}"]
 
 def pic_calculations_gcn_ggnn(file_type, infer_flag=False,
         file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_",
-        dir_in="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp1_super_parameters",
+        dir_in="/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp1_super_parameters",
         dir_cal="/hidden_dims_exp/hds_exp/calculations/",
         dir_out="exp3_thesis_figs/paras"):
     base_size = 14

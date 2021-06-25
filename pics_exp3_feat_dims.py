@@ -17,8 +17,8 @@ def run_memory_factors_dense_feats_dims(file_type="png"):
     variables = [16, 32, 64, 128, 256, 512]
     xticklabels = variables
 
-    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp3_memory/dir_feat_dims_json"
-    base_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/new_exp_supplement"
+    dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp3_memory/dir_feat_dims_json"
+    base_path = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/new_exp_supplement"
     
     file_prefix, file_suffix = '_', ''
     
@@ -81,8 +81,8 @@ def run_inference_full_memory_feats_dims(file_type="png"):
     variables = [16, 32, 64, 128, 256, 512]
     xticklabels = variables
 
-    dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp8_inference_full/dir_feat_dims_json"
-    base_path = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/exp_supplement"
+    dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp8_inference_full/dir_feat_dims_json"
+    base_path = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/exp_supplement"
     
     file_prefix, file_suffix = '_', ''
     

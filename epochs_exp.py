@@ -12,7 +12,6 @@ from utils import get_real_time
 def get_epoch_time(cur, outlier_file):
     sql = "select start, end, text from nvtx_events where text like 'epochs%'"
     res = cur.execute(sql).fetchall()  # 所有epochs的结果
-    print(len(res))
     if len(res) < 50: # 过滤掉运行异常的sqlite文件
         return None
 

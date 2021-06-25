@@ -89,7 +89,7 @@ def save_acc_to_file():
             
 
 def pics_relative_batch_acc():
-    df_full = pd.read_csv("/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp5_paras_acc/acc_res/alg_acc.csv", index_col=0)
+    df_full = pd.read_csv("/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp5_paras_acc/acc_res/alg_acc.csv", index_col=0)
     for mode in modes:
         for data in datasets:
             df = pd.read_csv(dir_out + "/" + mode + "_" + data + ".csv", index_col=0)

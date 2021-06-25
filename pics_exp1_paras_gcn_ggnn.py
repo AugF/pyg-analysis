@@ -18,9 +18,9 @@ linestyles = ['solid', 'dotted', 'dashed', 'dashdot', (0, (5, 5)), (0, (3, 1, 1,
 
 def pic_calculations_gcn_ggnn(file_type, infer_flag=False,
         file_prefix = "exp_hyperparameter_on_vertex_edge_phase_time_",
-        dir_in="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp1_super_parameters",
+        dir_in="/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp1_super_parameters",
         dir_cal="/hidden_dims_exp/hds_exp/calculations/",
-        dir_out="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp1_super_parameters/paras_fig"):
+        dir_out="/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp1_super_parameters/paras_fig"):
     base_size = 14
     plt.rcParams["font.size"] = base_size
     # xlabel = "Dimension of Hidden Vectors\n" + r"($dim(\mathbf{h}^1_x)$)"
@@ -83,7 +83,7 @@ def pic_calculations_gcn_ggnn(file_type, infer_flag=False,
 def run_memory_gcn_ggnn(file_type, infer_flag=False,
         file_out = "exp_hyperparameter_on_memory_usage_",
         dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gcn_ggnn_json",
-        dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp1_super_parameters/paras_fig"):
+        dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp1_super_parameters/paras_fig"):
     params = yaml.load(open("cfg_file/gcn_ggnn_exp_hds.yaml"))
     base_size = 14
     algs, datasets = params['algs'], params['datasets']
@@ -157,21 +157,21 @@ if __name__ == "__main__":
     #run_memory_gcn_ggnn(file_type="pdf")
     # pic_calculations_gcn_ggnn("png", infer_flag=True,
     #     file_prefix = "exp_hyperparameter_on_inference_vertex_edge_phase_time_",
-    #     dir_in="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp1_super_parameters",
+    #     dir_in="/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp1_super_parameters",
     #     dir_cal="/gcn_ggnn_inference_exp/hds_exp/calculations/",
-    #     dir_out="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp1_super_parameters")
+    #     dir_out="/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp1_super_parameters")
     # pic_calculations_gcn_ggnn("pdf", infer_flag=True,
     #     file_prefix = "exp_hyperparameter_on_inference_vertex_edge_phase_time_",
-    #     dir_in="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp1_super_parameters",
+    #     dir_in="/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp1_super_parameters",
     #     dir_cal="/gcn_ggnn_inference_exp/hds_exp/calculations/",
-    #     dir_out="/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp1_super_parameters/inference_paras_fig")
+    #     dir_out="/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp1_super_parameters/inference_paras_fig")
     
     # run_memory_gcn_ggnn("pdf", infer_flag=True,
     #     file_out = "exp_hyperparameter_on_inference_memory_usage_",
-    #     dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gcn_ggnn_inference_json", dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp1_super_parameters/inference_paras_fig")
+    #     dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gcn_ggnn_inference_json", dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp1_super_parameters/inference_paras_fig")
     # run_memory_gcn_ggnn("png", infer_flag=True,
     #     file_out = "exp_hyperparameter_on_inference_memory_usage_",
-    #     dir_memory = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-gnns/paper_exp1_super_parameters/dir_gcn_ggnn_inference_json", dir_out = "/home/wangzhaokang/wangyunpan/gnns-project/pyg-analysis/paper_exp1_super_parameters/inference_paras_fig")
+    #     dir_memory = "/mnt/data/wangzhaokang/wangyunpan/pyg-gnns/paper_exp1_super_parameters/dir_gcn_ggnn_inference_json", dir_out = "/mnt/data/wangzhaokang/wangyunpan/pyg-analysis/paper_exp1_super_parameters/inference_paras_fig")
 
 
 
