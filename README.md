@@ -72,7 +72,7 @@ pics_xxx: 绘图脚本
 
 ### 运行说明
 
-1. 激活环境`conda activate pyg1.5`
+1. 激活环境`conda activate optimize-pygs`
 2. 运行所有绘图文件`bash run_pics_thesis.sh`
 
 ### 算法信息
